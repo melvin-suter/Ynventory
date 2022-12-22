@@ -1,6 +1,7 @@
-name: backend-build
+name: latest-backend-build
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - "master"

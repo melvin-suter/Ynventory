@@ -1,0 +1,41 @@
+name: preview-backend-build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "preview"
+    paths:
+      - src/ynventory.backend/**
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+#    - name: Get Version
+#      id: version
+#      run: |
+#        BACKEND_VERSION=$(grep version src/ynventory.backend/package.json | head -n 1 | awk -F'"' '{print $4}')
+#        echo "::set-output name=BACKEND_VERSION::${BACKEND_VERSION}"     
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      
+#    - name: Build and push
+#      uses: docker/build-push-action@v3
+#      with:
+#        context: ./src/ynventory.backend
+#        file: ./src/ynventory.backend/Dockerfile
+#        push: true
+#        tags: | 
+#          ${{ secrets.DOCKER_HUB_USERNAME }}/ynventory.backend:preview
+#          ${{ secrets.DOCKER_HUB_USERNAME }}/ynventory.backend:${{ steps.version.outputs.BACKEND_VERSION }}
