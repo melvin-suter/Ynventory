@@ -1,6 +1,8 @@
-![Ynventory](images/logo.png)
+![Ynventory](https://github.com/melvin-suter/Ynventory/raw/master/images/logo.png)
 
-https://img.shields.io/docker/pulls/suterdev/ynventory.frontend.svg
+![pulls](https://img.shields.io/docker/pulls/suterdev/ynventory.frontend.svg )
+![frontend-build](https://github.com/melvin-suter/ynventory/actions/workflows/frontend-build.yml/badge.svg)
+![backend-build](https://github.com/melvin-suter/ynventory/actions/workflows/backend-build.yml/badge.svg)
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 

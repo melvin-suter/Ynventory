@@ -1,9 +1,11 @@
-name: ci
+name: frontend-build
 
 on:
   push:
     branches:
       - "master"
+    paths:
+      - src
 
 jobs:
   build-frontend:
