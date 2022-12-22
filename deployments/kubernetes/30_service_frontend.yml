@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ynventory-frontend-service
+spec:
+  selector:
+    app: ynventory-frontend
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+  sessionAffinity: None
+  type: ClusterIP

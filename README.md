@@ -13,6 +13,28 @@ Use the files inside `kubernetes_deployment/` to deploy on Kubernetes
 
 ## Docker
 
+Needed Packages:
+- git
+- docker
+- docker-compose
+
+Run this on your docker host, inside the folder you want to use to store data:
+
+```bash
+# Downlaod Docker Compose
+git clone https://github.com/melvin-suter/Ynventory.git
+mv Ynventory/deployments/docker/* ./
+rm -rf Ynventory/
+
+# Change DB Password (only run once)
+sed -i "s;YNVENTORYPASSWORD;$(date | md5sum | awk '{print $1}');" docker-compose.yml
+
+# Run Compose
+docker-compose up
+```
+
+### Certificates
+
 TBD
 
 ## Cloud Provider
@@ -28,11 +50,11 @@ These are the planed versions to be released.
 - [ ] Creating Collections, Folders, Cards, Decks
 - [ ] Import Delver Files (CSV, .delver, etc. **TBD**)
 - [ ] Deplyoment with Kubernetes
+- [ ] Deployment with Docker Compose
 
 ## Version 1.1.0
 
 - [ ] Mobile Friendly UI
-- [ ] Deployment with Docker Compose
 - [ ] Example Deployments on Hostsers (Hetzner, AWS, etc. **TBD**)
 
 # Contributers

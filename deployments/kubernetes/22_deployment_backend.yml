@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ynventory-backend
+  labels:
+    app: ynventory-backend
+spec:
+  selector:
+    matchLabels:
+      app: ynventory-backend
+  template:
+    metadata:
+      labels:
+        app: ynventory-backend
+    spec:
+      containers:
+        - imagePullPolicy: Always
+          name: container-0
+          image: suterdev/ynventory.backend
+          envFrom:
+            - configMapRef:
+                name: ynventory-config
+          ports:
+          - name: http
+            protocol: TCP
+            containerPort: 80
+      restartPolicy: Always
+  replicas: 1

@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ynventory-postgresql
+  labels:
+    app: ynventory-postgresql
+spec:
+  selector:
+    matchLabels:
+      app: ynventory-postgresql
+  template:
+    metadata:
+      labels:
+        app: ynventory-postgresql
+    spec:
+      volumes:
+      - name: ynventory-postgresql-pvc
+        persistentVolumeClaim:
+          claimName: ynventory-postgresql-pvc
+      containers:
+        - imagePullPolicy: Always
+          name: container-0
+          image: postgres
+          envFrom:
+            - configMapRef:
+                name: ynventory-config
+          ports:
+          - name: psql
+            protocol: TCP
+            containerPort: 5432
+          volumeMounts:
+          - mountPath: /var/lib/postgresql/data
+            name: ynventory-postgresql-pvc
+      restartPolicy: Always
+  replicas: 1
