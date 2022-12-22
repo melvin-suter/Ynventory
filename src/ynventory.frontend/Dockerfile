@@ -1,5 +1,11 @@
+FROM trion/ng-cli as builder
+WORKDIR /app
+COPY package.json package.json
+COPY package-lock.json package-lock.json
+RUN npm ci  --debug 
+COPY . .
+RUN ng build --prod
+
 FROM nginx:alpine
-
-COPY dist/ynventory.frontend /usr/share/nginx/html
-
+COPY --from=builder  /app/dist/ynventory.frontend /usr/share/nginx/html 
 EXPOSE 80
