@@ -14,14 +14,14 @@ BACKEND_VERSION=0.1.0
 #    Backend
 #################
 
-cd ynventory.backend
+# cd ynventory.backend
 
-dotnet publish --os linux --arch x64 -c Release -p:PublishProfile=DefaultContainer
+# dotnet publish --os linux --arch x64 -c Release -p:PublishProfile=DefaultContainer
 
-docker tag mtg_inventory_backend:$BACKEND_VERSION suterdev/ynventory.backend:$BACKEND_VERSION
-docker tag mtg_inventory_backend:$BACKEND_VERSION suterdev/ynventory.backend:latest
-docker push suterdev/ynventory.backend:$BACKEND_VERSION
-docker push suterdev/ynventory.backend:latest
+# docker tag mtg_inventory_backend:$BACKEND_VERSION suterdev/ynventory.backend:$BACKEND_VERSION
+# docker tag mtg_inventory_backend:$BACKEND_VERSION suterdev/ynventory.backend:latest
+# docker push suterdev/ynventory.backend:$BACKEND_VERSION
+# docker push suterdev/ynventory.backend:latest
 
 
 #################
