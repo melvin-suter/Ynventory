@@ -1,0 +1,62 @@
+table.content-table {
+    tr {
+        *:first-child {
+            width: 0px;
+        }
+    }
+}
+
+.search-results {
+    margin-top: 2rem;
+    .search-item {
+        display: flex;
+        
+        align-items: center;
+        
+        border-radius: 15px;
+        box-shadow: 2px 2px 10px 0px #AAA;
+        padding: 1rem 1rem;
+        margin-bottom: 2rem;
+        
+        .image{
+            img {
+                width: 7rem;
+            }
+        }
+
+        .meta {
+            display: flex;
+            align-items: center;
+            margin-left: 1rem;
+            table {
+                tr {
+                    td:first-child {
+                        font-weight: bold;
+                        padding-right: 1rem;
+                        white-space: nowrap;
+                    }
+
+                    td {
+                        padding: 0.2rem ;
+                    }
+                }
+            }
+            .mana-cost{
+                
+                img {
+                    width: 16px;
+                    margin: 0px 0.1rem;
+                }
+            }
+
+            .oracle-text {
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 0.4rem;
+                margin: 0.2rem;
+                min-height: 2rem;
+            }
+        }
+    }
+
+}

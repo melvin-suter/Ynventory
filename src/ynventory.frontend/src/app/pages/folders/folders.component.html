@@ -1,0 +1,18 @@
+<h1>{{ collection?.name }}</h1>
+
+<table class="table table-hover w-100">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Cards</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let fol of folders" [routerLink]="[fol.id]">
+            <td>{{ fol.name }}</td>
+            <td>{{ fol.description }}</td>
+            <td>{{ fol.cardCount }}</td>
+        </tr>
+    </tbody>
+</table>

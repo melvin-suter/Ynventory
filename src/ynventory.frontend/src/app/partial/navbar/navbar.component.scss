@@ -1,0 +1,57 @@
+.navbar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #333;
+    justify-content: start;
+    width: 100%;
+
+    padding:0px !important;
+    margin: 0px;
+
+    .title {
+        color: #fff;
+        padding:1rem;
+        padding-top: 1.5rem;
+        background-color: #444;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0px;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .list {
+        width: 100%;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+
+        .nav-item {
+            width: 100%;
+            padding: 0.5rem 1rem;
+            color: #fff;
+            text-decoration: none;
+
+
+            &.is-active {
+                background: #444;
+            }
+
+            &:hover,
+            &:active {
+                span {
+                    border-bottom: 1px solid #777;
+                    padding: 0rem 0.2rem;
+                }
+                
+            }
+        }
+    }
+}
+
+:host {
+    height: 100%;
+}
