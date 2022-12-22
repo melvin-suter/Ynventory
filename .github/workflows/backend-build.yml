@@ -5,7 +5,7 @@ on:
     branches:
       - "master"
     paths:
-      - src/ynventory.backend
+      - src/ynventory.backend/**
 
 jobs:
   build-backend:
