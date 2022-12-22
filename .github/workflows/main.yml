@@ -25,6 +25,6 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         context: ./src/ynventory.frontend
-        file: Dockerfile
+        file: ./Dockerfile
         push: true
         tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ynventory.frontend:latest
