@@ -1,13 +1,16 @@
 ![Ynventory](https://github.com/melvin-suter/Ynventory/raw/master/images/logo.png)
 
 ![pulls](https://img.shields.io/docker/pulls/suterdev/ynventory.frontend.svg )
-![frontend-build](https://github.com/melvin-suter/ynventory/actions/workflows/frontend-build.yml/badge.svg)
-![backend-build](https://github.com/melvin-suter/ynventory/actions/workflows/backend-build.yml/badge.svg)
+![latest-frontend-build](https://github.com/melvin-suter/ynventory/actions/workflows/latest-frontend-build.yml/badge.svg)
+![latest-backend-build](https://github.com/melvin-suter/ynventory/actions/workflows/latest-backend-build.yml/badge.svg)
+![preview-frontend-build](https://github.com/melvin-suter/ynventory/actions/workflows/preview-frontend-build.yml/badge.svg)
+![preview-backend-build](https://github.com/melvin-suter/ynventory/actions/workflows/preview-backend-build.yml/badge.svg)
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
 ![Example UI](images/screenshot.png)
 
+Demo: [https://ynventory.melvinsuter.ch](https://ynventory.melvinsuter.ch)
 
 # Deplyoment
 
@@ -34,7 +37,7 @@ rm -rf Ynventory/
 sed -i "s;YNVENTORYPASSWORD;$(date | md5sum | awk '{print $1}');" docker-compose.yml
 
 # Run Compose
-docker-compose up
+docker-compose up -d
 ```
 
 ### Certificates
@@ -43,7 +46,11 @@ TBD
 
 ## Cloud Provider
 
-TBD
+### AWS
+
+Start an instance with:
+- t2.micro
+- Rocky Linux 9
 
 # Roadmap
 
