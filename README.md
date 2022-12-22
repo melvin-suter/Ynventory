@@ -9,7 +9,7 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 ## Kubernetes 
 
-Use the files inside `kubernetes_deployment/` to deploy on Kubernetes
+Use the files inside `deployments/kubernetes/` to deploy on Kubernetes
 
 ## Docker
 
