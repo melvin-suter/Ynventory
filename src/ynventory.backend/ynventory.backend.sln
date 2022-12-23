@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ynventory.backend", "ynventory.backend\ynventory.backend.csproj", "{8AC56C46-F63B-4DC2-A607-DB2C04BC3D7D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ynventory.data", "ynventory.data\ynventory.data.csproj", "{599134B1-288A-44EB-9F74-3B3EFABAFAF1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8AC56C46-F63B-4DC2-A607-DB2C04BC3D7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8AC56C46-F63B-4DC2-A607-DB2C04BC3D7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8AC56C46-F63B-4DC2-A607-DB2C04BC3D7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8AC56C46-F63B-4DC2-A607-DB2C04BC3D7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{599134B1-288A-44EB-9F74-3B3EFABAFAF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{599134B1-288A-44EB-9F74-3B3EFABAFAF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{599134B1-288A-44EB-9F74-3B3EFABAFAF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{599134B1-288A-44EB-9F74-3B3EFABAFAF1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {35EE68A3-69E1-41D3-8B55-6AAD66A535FB}
+	EndGlobalSection
+EndGlobal
