@@ -32,11 +32,13 @@ namespace Ynventory.Backend.Controllers
         /// <returns>200 if succesful, or an <see cref="ErrorResponse"/> containing error information otherwise</returns>
         /// <remarks>
         /// Sample request
+        /// 
         ///     POST /authenticate
         ///     {
         ///         "userName": "foo@example.com"
         ///         "password": "hunter12"
         ///     }
+        ///     
         /// </remarks>
         /// <response code="200">The user was succesfully authenticated</response>
         /// <response code="401">The given password was invalid</response>
@@ -44,8 +46,8 @@ namespace Ynventory.Backend.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> Authenticate(AuthenticateRequest request)
         {
             try

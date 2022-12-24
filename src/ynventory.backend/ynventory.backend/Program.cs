@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using Ynventory.Backend.ServiceImplementations.Authentication;
 using Ynventory.Backend.ServiceImplementations.Identity;
 using Ynventory.Backend.ServiceImplementations.Infrastructure;
@@ -30,6 +31,9 @@ builder.Services.AddSwaggerGen(options =>
             Url = new Uri("https://github.com/melvin-suter/Ynventory")
         }
     });
+
+    var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -41,7 +45,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddDbContext<YnventoryDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Application"), 
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Application"),
                       x => x.MigrationsAssembly(typeof(YnventoryDbContext).Assembly.FullName));
     options.UseLazyLoadingProxies();
 });

@@ -1,8 +1,10 @@
-﻿namespace Ynventory.Backend.Contracts.Requests
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Ynventory.Backend.Contracts.Requests
 {
     public class UserChangePasswordRequest
     {
-        public string OldPassword { get; set; } = null!;
-        public string NewPassword { get; set; } = null!; 
+        [Required] public string OldPassword { get; set; } = null!;
+        [Required] public string NewPassword { get; set; } = null!; 
     }
 }
