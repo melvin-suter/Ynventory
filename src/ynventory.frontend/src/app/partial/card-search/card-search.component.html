@@ -1,29 +1,3 @@
-<p-table [value]="cards" 
-[(selection)]="selectedCards">
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width: 3rem">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-            <th><i class="pi pi-hashtag"></i></th>
-            <th>Name</th>
-            <th style="width: 0px;">
-                <p-button label="" icon="pi pi-plus" iconPos="left" (click)="openAddModal()"></p-button>
-            </th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-card>
-        <tr>
-            <td>
-                <p-tableCheckbox [value]="card"></p-tableCheckbox>
-            </td>
-            <td  style="width: 0px;">{{ card.quantity }}</td>
-            <td colspan="2"><a [routerLink]="['/card', card.id]">{{ card.name }}</a></td>
-        </tr>
-    </ng-template>
-</p-table>
-
-
 <p-dialog header="Add Card" [(visible)]="createModalOpen" [style]="{width: '80%', height: '90%'}">
 
 

@@ -17,13 +17,13 @@ export class CardsComponent implements OnInit {
 
   folder?:FolderModel;
   cards:CardModel[] = [];
+  selectedCards:CardModel[] = [];
 
-  searchText:string = "";
-  searchResults:ScryfallCardModel[] = [];
+  showAddModal:boolean = false;
+  showEditModal:boolean = false;
+  showDeleteModal:boolean = false;
 
-  getManaCostList = ScryfallCardModel.getManaCostList;
-
-  createModalOpen:boolean = false;
+  modalData:CardModel = new CardModel();
 
   constructor(private collectionService: CollectionService, private cardService: CardService, private route: ActivatedRoute, private scryfallService:ScryfallService) { 
     this.route.params.subscribe(params => {
@@ -34,17 +34,26 @@ export class CardsComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  
 
-  openAddModal(){
-    this.createModalOpen = true;
+
+  createItem(){
+    this.showAddModal = false;
   }
 
-  searchChanged(){
-    this.scryfallService.searchCard(this.searchText).subscribe((data:any) => {
-      this.searchResults = data.data;
-      console.log(this.searchResults);
-    });
+  openEditModal(){
+    this.modalData = this.selectedCards[0];
+    this.showEditModal = true;
   }
+
+  saveItem(){
+    this.showEditModal = false;
+  }
+
+  deleteItem(){
+    this.showDeleteModal = false;
+  }
+
 
 
 }

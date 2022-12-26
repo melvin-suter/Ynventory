@@ -20,7 +20,7 @@ export class AppLayoutComponent implements OnInit {
 
   isLargeView():boolean{
     let width = window.innerWidth;
-    return width > 720;
+    return width > 920;
   }
 
 }

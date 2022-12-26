@@ -6,3 +6,52 @@
     padding: 0px;
     margin: 0px;
 }
+
+
+::ng-deep {
+
+    .dialog-form {
+
+        .modal-text {
+            text-align: center;
+            padding: 1rem 2rem;
+        }
+
+        .form-group {
+            min-width: 300px;
+            max-width: 90%;
+        }
+
+        .button-group {
+            text-align: right;
+            button {
+                margin-top: 1rem;
+                margin-bottom: 0.5rem;
+                margin-left: 0.5rem;
+            }
+        }
+    }
+
+    .form-group {
+        label {
+            display: block;
+            margin-top: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        input {
+            display: block;
+            width: 100%;
+        }
+    }
+
+    .button-box {
+        button {
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+
+            &:last-child {
+                margin-right: 0px;
+            }
+        }
+    }
+}

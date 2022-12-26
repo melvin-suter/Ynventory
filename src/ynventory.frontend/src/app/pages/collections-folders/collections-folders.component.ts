@@ -16,6 +16,13 @@ export class CollectionsFoldersComponent implements OnInit {
   folders:FolderModel[] = [];
   selectedFolders:FolderModel[] = [];
 
+
+  showAddModal:boolean = false;
+  showEditModal:boolean = false;
+  showDeleteModal:boolean = false;
+
+  modalData:FolderModel = new CollectionModel();
+
   constructor(private collectionService:CollectionService,private route: ActivatedRoute) { 
     this.route.params.subscribe(params => {
       this.collection = collectionService.getCollection(params['colid']);
@@ -25,6 +32,23 @@ export class CollectionsFoldersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  createItem(){
+    this.showAddModal = false;
+  }
+
+  openEditModal(){
+    this.modalData = this.selectedFolders[0];
+    this.showEditModal = true;
+  }
+
+  saveItem(){
+    this.showEditModal = false;
+  }
+
+  deleteItem(){
+    this.showDeleteModal = false;
   }
 
 }

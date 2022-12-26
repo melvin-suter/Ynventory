@@ -9,21 +9,33 @@ export class DashboardComponent implements OnInit {
   data:any;
   constructor() { }
 
+  chartOptions:any = {
+    plugins: {
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }
+
   ngOnInit(): void {
     this.data = {
-      labels: ['A','B','C'],
+      labels: ['White','Red','Green', 'Blue', 'Black'],
       datasets: [
         {
-          data: [300, 50, 100],
+          data: [300, 50, 100, 400, 500],
           backgroundColor: [
-            "#42A5F5",
-            "#66BB6A",
-            "#FFA726"
+            "rgb(248,231,185)",
+            "rgb(211,32,42)",
+            "rgb(0,115,62)",
+            "rgb(14,104,171)",
+            "rgb(21,11,0)"
           ],
           hoverBackgroundColor: [
-            "#64B5F6",
-            "#81C784",
-            "#FFB74D"
+            "rgb(248,231,185)",
+            "rgb(211,32,42)",
+            "rgb(0,115,62)",
+            "rgb(14,104,171)",
+            "rgb(21,11,0)"
           ]
         }
       ]

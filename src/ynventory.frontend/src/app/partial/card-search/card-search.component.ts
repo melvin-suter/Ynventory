@@ -1,40 +1,34 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Form, FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { CardModel } from 'src/app/models/card.model';
+import { FormControl } from '@angular/forms';
+import { debounceTime } from 'rxjs';
 import { ScryfallCardModel } from 'src/app/models/scryfall-card.model';
 import { ScryfallService } from 'src/app/services/scryfall.service';
-import { debounceTime } from 'rxjs';
-
 
 @Component({
-  selector: 'app-card-list',
-  templateUrl: './card-list.component.html',
-  styleUrls: ['./card-list.component.scss']
+  selector: 'app-card-search',
+  templateUrl: './card-search.component.html',
+  styleUrls: ['./card-search.component.scss']
 })
-export class CardListComponent implements OnInit {
-
-  @Input() cards:CardModel[] = [];
-  @Output() cardsChange:EventEmitter<CardModel[]> = new EventEmitter<CardModel[]>();
-  @Input() selectedCards:CardModel[] = [];
-  @Output() selectedCardsChange:EventEmitter<CardModel[]> = new EventEmitter<CardModel[]>();
+export class CardSearchComponent implements OnInit {
   searchText:string = "";
   searchResults:ScryfallCardModel[] = [];
 
   getManaCostList = ScryfallCardModel.getManaCostList;
 
-  createModalOpen:boolean = false;
+  @Input() createModalOpen:boolean = false;
+  @Output() createModalOpenChange = new EventEmitter<boolean>();
   imageShowModal:boolean = false;
   searchControl:FormControl;
   imageShowUrl:string = "";
 
- 
-  constructor( private scryfallService:ScryfallService) { 
+  constructor(private scryfallService:ScryfallService) { 
     this.searchControl = new FormControl();
     this.searchControl.valueChanges.pipe(debounceTime(400)).subscribe((value:string) => this.searchChanged(value));
   }
+
   ngOnInit(): void {
   }
+  
 
   openImageShowModal(url?:string){
     this.imageShowUrl = <string>url;

@@ -21,9 +21,9 @@ import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
  ******************/
 import { NavbarComponent } from './partial/navbar/navbar.component';
 import { ModalComponent } from './partial/modal/modal.component';
-import { CardListComponent } from './partial/card-list/card-list.component';
 import { ImageViewerComponent } from './partial/image-viewer/image-viewer.component';
 import { NavbarItemComponent } from './partial/navbar-item/navbar-item.component';
+import { CardSearchComponent } from './partial/card-search/card-search.component';
 
 
 /******************
@@ -36,6 +36,8 @@ import { DecksComponent } from './pages/decks/decks.component';
 import { DeckComponent } from './pages/deck/deck.component';
 import { CollectionsFoldersComponent } from './pages/collections-folders/collections-folders.component';
 import { CollectionsCardsComponent } from './pages/collections-cards/collections-cards.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { CollectionComponent } from './pages/collection/collection.component';
 
  
 
@@ -50,7 +52,8 @@ import {DialogModule } from 'primeng/dialog';
 import {InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { TabViewModule } from 'primeng/tabview';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
@@ -66,7 +69,6 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     // Partials
     NavbarComponent,
     ModalComponent,
-    CardListComponent,
     ImageViewerComponent,
     NavbarItemComponent,
     
@@ -77,6 +79,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     CollectionsFoldersComponent,
     CollectionsCardsComponent,
     DashboardComponent,
+    CardSearchComponent,
+    CollectionComponent,
 
   ],
   imports: [
@@ -96,7 +100,9 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
     DialogModule,
     InputTextModule,
     CardModule,
-    ChartModule
+    ChartModule,
+    TabViewModule,
+    DropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]
