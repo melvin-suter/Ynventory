@@ -1,4 +1,8 @@
-<a pRipple [routerLink]="route" [routerLinkActive]="['is-active']" class="nav-item">
+<a pRipple [routerLink]="route" [routerLinkActive]="['is-active']" class="nav-item" *ngIf="route != ''">
+    <i class="pi pi-{{ icon }}"></i>
+    <span>{{ label }}</span>
+</a>
+<a pRipple  class="nav-item" *ngIf="route == ''">
     <i class="pi pi-{{ icon }}"></i>
     <span>{{ label }}</span>
 </a>

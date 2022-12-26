@@ -10,6 +10,10 @@
     padding:0px !important;
     margin: 0px;
 
+    .filler {
+        height: 100%;
+    }
+
     .title {
         color: #fff;
         padding:1rem;
@@ -32,6 +36,10 @@
 
         app-navbar-item {
             width: 100%;;
+        }
+
+        &.bottom {
+            margin-bottom:0.5rem;
         }
     }
 }

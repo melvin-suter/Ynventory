@@ -5,4 +5,9 @@
         <app-navbar-item route="collections" label="Collections" icon="box"></app-navbar-item>
         <app-navbar-item route="decks" label="Decks" icon="inbox"></app-navbar-item>
     </div>
+    <div class="filler"></div>
+    <div class="list bottom">
+        <app-navbar-item label="{{ username }}" route="/auth" icon="user" (click)="logout()"></app-navbar-item>
+        <app-navbar-item label="Logout" icon="lock" (click)="logout()"></app-navbar-item>
+    </div>
 </div>

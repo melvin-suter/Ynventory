@@ -38,6 +38,8 @@ import { CollectionsFoldersComponent } from './pages/collections-folders/collect
 import { CollectionsCardsComponent } from './pages/collections-cards/collections-cards.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { CollectionComponent } from './pages/collection/collection.component';
+import { LoginComponent } from './pages/login/login.component';
+import { CardInfoComponent } from './pages/card-info/card-info.component';
 
  
 
@@ -54,7 +56,7 @@ import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { TabViewModule } from 'primeng/tabview';
 import { DropdownModule } from 'primeng/dropdown';
-import { CardInfoComponent } from './pages/card-info/card-info.component';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 @NgModule({
@@ -83,7 +85,7 @@ import { CardInfoComponent } from './pages/card-info/card-info.component';
     CardSearchComponent,
     CollectionComponent,
     CardInfoComponent,
-
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +106,8 @@ import { CardInfoComponent } from './pages/card-info/card-info.component';
     CardModule,
     ChartModule,
     TabViewModule,
-    DropdownModule
+    DropdownModule,
+    CheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
