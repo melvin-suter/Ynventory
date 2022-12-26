@@ -1,45 +1,69 @@
-<p-dialog header="Add Card" [(visible)]="createModalOpen" [style]="{width: '80%', height: '90%'}">
+<p-dialog header="Add Card" [(visible)]="createModalOpen" [style]="{width: '80%', height: '70%'}">
+
+    <ng-container *ngIf="!showAddPage">
+
+        <input pInputText placeholder="Search" type="text" class="searchText" [(ngModel)]="searchText" [formControl]="searchControl" (change)="searchChanged(searchText)"/>
 
 
-    <input pInputText placeholder="Search" type="text" class="searchText" [(ngModel)]="searchText" [formControl]="searchControl" (change)="searchChanged(searchText)"/>
+        <div class="search-results">
 
 
-    <div class="search-results">
-
-
-        <div class="search-item" *ngFor="let card of searchResults">
-            <div class="image">
-                <img src="{{ card.image_uris?.small ? card.image_uris?.small : '/assets/back.jpg'}}" (click)="openImageShowModal(card.image_uris?.large ? card.image_uris?.large : '/assets/back.jpg')"/>
+            <div class="search-item" *ngFor="let card of searchResults">
+                <div class="image">
+                    <img src="{{ card.image_uris?.small ? card.image_uris?.small : '/assets/back.jpg'}}" (click)="openImageShowModal(card.image_uris?.large ? card.image_uris?.large : '/assets/back.jpg')"/>
+                </div>
+                <div class="meta">
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td>Name</td>
+                                <td>{{ card.name }}</td>
+                            </tr>   
+                            <tr>
+                                <td>Mana Cost</td>
+                                <td class="mana-cost">
+                                    <div *ngIf="getManaCostList(card).length > 0">
+                                        <img src="https://svgs.scryfall.io/card-symbols/{{ symbol }}.svg" *ngFor="let symbol of getManaCostList(card)"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Card Text</td>
+                                <td>
+                                    <div class="oracle-text">{{ card.oracle_text }}</div>
+                                </td>
+                            </tr> 
+                        </tbody>
+                    </table>
+                    <button pButton (click)="addItem(card)" class="add-button">Add</button>
+                </div>
             </div>
-            <div class="meta">
-                <table>
-                    <tbody>
-                        <tr>
-                            <td>Name</td>
-                            <td>{{ card.name }}</td>
-                        </tr>   
-                        <tr>
-                            <td>Mana Cost</td>
-                            <td class="mana-cost">
-                                <div *ngIf="getManaCostList(card).length > 0">
-                                    <img src="https://svgs.scryfall.io/card-symbols/{{ symbol }}.svg" *ngFor="let symbol of getManaCostList(card)"/>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Card Text</td>
-                            <td>
-                                <div class="oracle-text">{{ card.oracle_text }}</div>
-                            </td>
-                        </tr> 
-                    </tbody>
-                </table>
-                <button pButton>Add</button>
-            </div>
+
+
         </div>
 
+    </ng-container>
 
-    </div>
+    <ng-container *ngIf="showAddPage">
+        <div class="dialog-form">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" pInputText readonly [(ngModel)]="selectedCard.name"/>
+            </div>
+            <div class="form-group">
+                <label>Quantity</label>
+                <input type="number" pInputText [(ngModel)]="selectedCard.quantity"/>
+            </div>
+            <div class="form-group">
+                <label>Foil</label>
+                <p-dropdown [options]="foilOptions" [(ngModel)]="selectedCard.foil" optionLabel="key"></p-dropdown>
+            </div>
+            <div class="button-group">
+                <button pButton label="Save" class="p-button-success" (click)="closeModal(true)"></button>
+                <button pButton label="Cancel" class="p-button-outlined" (click)="closeModal(false)"></button>
+            </div>
+        </div>
+    </ng-container>
 </p-dialog>
 
 <app-image-viewer [(visible)]="imageShowModal" [(imgUrl)]="imageShowUrl"></app-image-viewer>

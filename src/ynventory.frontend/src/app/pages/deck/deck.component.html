@@ -18,9 +18,6 @@
                     </th>
                     <th><i class="pi pi-hashtag"></i></th>
                     <th>Name</th>
-                    <th style="width: 0px;">
-                        <p-button label="" icon="pi pi-plus" iconPos="left" (click)="showAddModal = true"></p-button>
-                    </th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-card>
@@ -29,7 +26,7 @@
                         <p-tableCheckbox [value]="card"></p-tableCheckbox>
                     </td>
                     <td  style="width: 0px;">{{ card.quantity }}</td>
-                    <td colspan="2"><a [routerLink]="['/card', card.id]">{{ card.name }}</a></td>
+                    <td ><a [routerLink]="['/card', card.id]">{{ card.name }}</a></td>
                 </tr>
             </ng-template>
         </p-table>

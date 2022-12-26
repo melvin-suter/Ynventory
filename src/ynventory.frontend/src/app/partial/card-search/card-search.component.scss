@@ -1,4 +1,7 @@
-
+.add-button {
+    display: flex;
+    justify-content: center;
+}
 .searchText {
     width: 100%;
     text-align: center;
@@ -68,4 +71,10 @@
         }
     }
 
+}
+
+.button-group {
+    position: absolute;
+    bottom: 1rem;
+    right: 1.5rem;
 }

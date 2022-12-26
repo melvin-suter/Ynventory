@@ -54,6 +54,7 @@ import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { TabViewModule } from 'primeng/tabview';
 import { DropdownModule } from 'primeng/dropdown';
+import { CardInfoComponent } from './pages/card-info/card-info.component';
 
 
 @NgModule({
@@ -81,6 +82,7 @@ import { DropdownModule } from 'primeng/dropdown';
     DashboardComponent,
     CardSearchComponent,
     CollectionComponent,
+    CardInfoComponent,
 
   ],
   imports: [

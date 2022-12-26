@@ -3,4 +3,5 @@ export class CardModel {
     name:string = "";
     scryfallID:string = "";
     quantity:number = 0;
+    foil:string = "";
 }
