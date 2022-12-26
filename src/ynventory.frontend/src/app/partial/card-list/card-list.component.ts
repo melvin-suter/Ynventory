@@ -14,8 +14,10 @@ import { debounceTime } from 'rxjs';
 })
 export class CardListComponent implements OnInit {
 
-  @Input() cards?:CardModel[] = [];
+  @Input() cards:CardModel[] = [];
   @Output() cardsChange:EventEmitter<CardModel[]> = new EventEmitter<CardModel[]>();
+  @Input() selectedCards:CardModel[] = [];
+  @Output() selectedCardsChange:EventEmitter<CardModel[]> = new EventEmitter<CardModel[]>();
   searchText:string = "";
   searchResults:ScryfallCardModel[] = [];
 

@@ -10,6 +10,7 @@ import { CollectionService } from 'src/app/services/collection.service';
 export class CollectionsComponent implements OnInit {
 
   collections:CollectionModel[];
+  selectedCollections:CollectionModel[] = [];
 
   constructor(private collectionService:CollectionService) { 
     this.collections = collectionService.getCollections();

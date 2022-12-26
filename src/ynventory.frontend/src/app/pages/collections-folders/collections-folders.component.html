@@ -1,7 +1,8 @@
-<h1>Collections</h1>
+<h1>{{ collection?.name }}</h1>
 
-<p-table [value]="collections" 
-[(selection)]="selectedCollections">
+
+<p-table [value]="folders" 
+[(selection)]="selectedFolders">
     <ng-template pTemplate="header">
         <tr>
             <th style="width: 3rem">
@@ -12,14 +13,14 @@
             <th>Cards</th>
         </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-col>
+    <ng-template pTemplate="body" let-fol>
         <tr>
             <td>
-                <p-tableCheckbox [value]="col"></p-tableCheckbox>
+                <p-tableCheckbox [value]="fol"></p-tableCheckbox>
             </td>
-            <td><a [routerLink]="['/collections', col.id, 'folders']">{{ col.name }}</a></td>
-            <td>{{ col.description }}</td>
-            <td>{{ col.cardCount }}</td>
+            <td><a [routerLink]="[fol.id]">{{ fol.name }}</a></td>
+            <td>{{ fol.description }}</td>
+            <td>{{ fol.cardCount }}</td>
         </tr>
     </ng-template>
 </p-table>

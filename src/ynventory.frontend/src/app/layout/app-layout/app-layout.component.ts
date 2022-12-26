@@ -7,9 +7,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppLayoutComponent implements OnInit {
 
+  sidebarVisible:boolean = false;
+
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  toggleSidebar(){
+    this.sidebarVisible = !this.sidebarVisible;
+  }
+  
+
+  isLargeView():boolean{
+    let width = window.innerWidth;
+    return width > 720;
   }
 
 }

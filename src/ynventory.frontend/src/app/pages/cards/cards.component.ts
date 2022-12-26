@@ -16,7 +16,7 @@ import { ScryfallService } from 'src/app/services/scryfall.service';
 export class CardsComponent implements OnInit {
 
   folder?:FolderModel;
-  cards?:CardModel[];
+  cards:CardModel[] = [];
 
   searchText:string = "";
   searchResults:ScryfallCardModel[] = [];

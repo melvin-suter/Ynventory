@@ -11,6 +11,7 @@ export class DecksComponent implements OnInit {
 
 
   decks:DeckModel[];
+  selectedDecks:DeckModel[] = [];
 
   constructor(private deckService:DeckService) { 
     this.decks = deckService.getDecks();

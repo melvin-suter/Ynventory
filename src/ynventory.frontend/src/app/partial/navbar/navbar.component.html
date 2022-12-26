@@ -1,7 +1,8 @@
 <div class="navbar">
     <h1 class="title"><img src="/assets/logo.png"></h1>
     <div class="list">
-        <a [routerLink]="['/collections']" [routerLinkActive]="['is-active']" class="nav-item"><span>Collections</span></a>
-        <a routerLink="decks" [routerLinkActive]="['is-active']" class="nav-item"><span>Decks</span></a>
+        <app-navbar-item route="home" label="Home" icon="home"></app-navbar-item>
+        <app-navbar-item route="collections" label="Collections" icon="box"></app-navbar-item>
+        <app-navbar-item route="decks" label="Decks" icon="inbox"></app-navbar-item>
     </div>
 </div>

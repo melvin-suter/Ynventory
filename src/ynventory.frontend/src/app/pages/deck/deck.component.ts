@@ -16,7 +16,7 @@ import { ScryfallService } from 'src/app/services/scryfall.service';
 export class DeckComponent implements OnInit {
 
   deck?:DeckModel;
-  cards?:CardModel[];
+  cards:CardModel[] = [];
  
   constructor(private deckService: DeckService, private cardService: CardService, private route: ActivatedRoute, private scryfallService:ScryfallService) { 
     this.route.params.subscribe(params => {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MenuItem, PrimeNGConfig } from 'primeng/api';
 
 @Component({
   selector: 'app-navbar',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(private primengConfig: PrimeNGConfig) { }
 
   ngOnInit(): void {
+    this.primengConfig.ripple = true;
   }
 
 }

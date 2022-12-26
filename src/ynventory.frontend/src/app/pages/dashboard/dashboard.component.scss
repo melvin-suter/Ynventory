@@ -1,0 +1,23 @@
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -0.5rem;
+    margin-left: -0.5rem;
+    margin-top: -0.5rem;
+    height: auto;
+
+    .dashboard-field {
+        flex-grow: 1;
+        flex-basis: 0;
+        padding: 2rem;
+
+        box-shadow: 1px 1px 10px 1px #999;
+        margin: 3rem;
+
+        &.chart {
+            canvas {
+                height: 250px;
+            }
+        }
+    }
+}
