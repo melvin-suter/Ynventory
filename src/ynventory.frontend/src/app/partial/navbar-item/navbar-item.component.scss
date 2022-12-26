@@ -1,0 +1,29 @@
+:host {
+    width: 100%;
+}
+.nav-item {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    //color: var(--primary-color);
+
+
+    &.is-active {
+        background: var(--primary-color);
+        color: var(--primary-color-text);
+    }
+
+    &:hover,
+    &:active {
+        span {
+            border-bottom: 1px solid var(--primary-color);
+            padding: 0rem 0.2rem;
+        }
+    }
+
+    i {
+        float: left;
+    }
+}

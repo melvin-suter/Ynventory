@@ -1,20 +1,23 @@
-table.content-table {
-    tr {
-        *:first-child {
-            width: 0px;
-        }
-    }
+
+.searchText {
+    width: 100%;
+    text-align: center;
 }
 
 .search-results {
     margin-top: 2rem;
+
+    .searchTextLable{
+        z-index: 100;
+    }
+
     .search-item {
         display: flex;
         
         align-items: center;
         
         border-radius: 15px;
-        box-shadow: 2px 2px 10px 0px #AAA;
+        box-shadow: 2px 2px 10px 0px var(--surface-section);
         padding: 1rem 1rem;
         margin-bottom: 2rem;
         
@@ -26,14 +29,18 @@ table.content-table {
 
         .meta {
             display: flex;
-            align-items: center;
+            align-items: stretch;
             margin-left: 1rem;
+            width: 100%;
+            
             table {
+                width: 100%;
                 tr {
                     td:first-child {
                         font-weight: bold;
                         padding-right: 1rem;
                         white-space: nowrap;
+                        width: 0px;
                     }
 
                     td {
@@ -50,11 +57,13 @@ table.content-table {
             }
 
             .oracle-text {
-                border: 1px solid #ccc;
+                //border: 1px solid #ccc;
+                background-color: var(--bluegray-100);
                 border-radius: 5px;
                 padding: 0.4rem;
                 margin: 0.2rem;
                 min-height: 2rem;
+                width: 100%;
             }
         }
     }

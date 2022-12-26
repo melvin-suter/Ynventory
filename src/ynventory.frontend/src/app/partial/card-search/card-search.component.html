@@ -1,37 +1,22 @@
-<table class="table table-hover w-100 content-table">
-    <thead>
-        <tr>
-            <th>Quantity</th>
-            <th>Name</th>
-            <th style="width: 0px;"><button class="btn btn-primary btn-icon" (click)="openAddModal()"><i class="bi bi-plus-lg"></i></button></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let card of cards" [routerLink]="['/card', card.id]">
-            <td>{{ card.quantity }}</td>
-            <td colspan="2">{{ card.name }}</td>
-        </tr>
-    </tbody>
-</table>
+<p-dialog header="Add Card" [(visible)]="createModalOpen" [style]="{width: '80%', height: '90%'}">
 
 
-<app-modal [(visible)]="createModalOpen" yesText="Add" modalClass="modal-xl" [yesHide]="true">
-    <label>Search</label>
-    <input type="text" class="form-control" [(ngModel)]="searchText" [formControl]="searchControl" (change)="searchChanged(searchText)"/>
+    <input pInputText placeholder="Search" type="text" class="searchText" [(ngModel)]="searchText" [formControl]="searchControl" (change)="searchChanged(searchText)"/>
+
 
     <div class="search-results">
 
 
-        <div class="search-item flex-md-row flex-column" *ngFor="let card of searchResults">
+        <div class="search-item" *ngFor="let card of searchResults">
             <div class="image">
                 <img src="{{ card.image_uris?.small ? card.image_uris?.small : '/assets/back.jpg'}}" (click)="openImageShowModal(card.image_uris?.large ? card.image_uris?.large : '/assets/back.jpg')"/>
             </div>
-            <div class="meta w-100 d-flex flex-column">
-                <table class="w-100">
+            <div class="meta">
+                <table>
                     <tbody>
                         <tr>
                             <td>Name</td>
-                            <td class="w-100">{{ card.name }}</td>
+                            <td>{{ card.name }}</td>
                         </tr>   
                         <tr>
                             <td>Mana Cost</td>
@@ -49,12 +34,12 @@
                         </tr> 
                     </tbody>
                 </table>
-                <button class="btn btn-primary btn-sm w-100">Add</button>
+                <button pButton>Add</button>
             </div>
         </div>
 
 
     </div>
-</app-modal>
+</p-dialog>
 
 <app-image-viewer [(visible)]="imageShowModal" [(imgUrl)]="imageShowUrl"></app-image-viewer>

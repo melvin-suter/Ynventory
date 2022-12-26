@@ -1,8 +1,22 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
-@import "~bootstrap-icons/font/bootstrap-icons.css";
+
+@font-face {
+	font-family: "Roboto";
+	src: url("/assets/fonts/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Roboto";
+    font-weight: bold;
+	src: url("/assets/fonts/Roboto-Bold.ttf") format("truetype");
+}
+
+@font-face {
+	font-family: "Roboto";
+    font-weight: lighter;
+	src: url("/assets/fonts/Roboto-Light.ttf") format("truetype");
+}
 
 
 html,body{
@@ -10,10 +24,16 @@ html,body{
     height: 100%; 
     padding: 0px;
     margin: 0px;
+    background-color: var(--surface-ground);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+* {
+    font-family: Roboto, Helvetica, sans-serif;
 }
 
 
-.btn-icon {
-    padding-right: 1.73rem;
-    padding-top: 0.5rem;
-}

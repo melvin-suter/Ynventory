@@ -10,6 +10,13 @@ import { CollectionService } from 'src/app/services/collection.service';
 export class CollectionsComponent implements OnInit {
 
   collections:CollectionModel[];
+  selectedCollections:CollectionModel[] = [];
+
+  showAddModal:boolean = false;
+  showEditModal:boolean = false;
+  showDeleteModal:boolean = false;
+
+  modalData:CollectionModel = new CollectionModel();
 
   constructor(private collectionService:CollectionService) { 
     this.collections = collectionService.getCollections();
@@ -17,6 +24,23 @@ export class CollectionsComponent implements OnInit {
 
 
   ngOnInit(): void {
+  }
+
+  createItem(){
+    this.showAddModal = false;
+  }
+
+  openEditModal(){
+    this.modalData = this.selectedCollections[0];
+    this.showEditModal = true;
+  }
+
+  saveItem(){
+    this.showEditModal = false;
+  }
+
+  deleteItem(){
+    this.showDeleteModal = false;
   }
 
 }

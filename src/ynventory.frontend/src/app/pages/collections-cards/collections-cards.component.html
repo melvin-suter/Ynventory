@@ -1,8 +1,5 @@
-<h1>{{ folder?.name }}</h1>
-
 
 <div class="button-box">
-    <button pButton label="Add" icon="pi pi-plus" (click)="showAddModal = !showAddModal" iconPos="left" ></button>
     <button pButton label="Modify" [disabled]="selectedCards.length != 1" class="p-button-info" icon="pi pi-trash" (click)="openEditModal()" iconPos="left"></button>
     <button pButton label="Delete" [disabled]="selectedCards.length == 0" class="p-button-danger" (click)="showDeleteModal = !showDeleteModal" icon="pi pi-trash" iconPos="left"></button>
 </div>
@@ -24,7 +21,7 @@
                 <p-tableCheckbox [value]="card"></p-tableCheckbox>
             </td>
             <td  style="width: 0px;">{{ card.quantity }}</td>
-            <td><a [routerLink]="['/card', card.id]">{{ card.name }}</a></td>
+            <td ><a [routerLink]="['/card', card.id]">{{ card.name }}</a></td>
         </tr>
     </ng-template>
 </p-table>
@@ -36,6 +33,10 @@
         <div class="form-group">
             <label>Name</label>
             <input type="text" pInputText readonly [(ngModel)]="modalData.name"/>
+        </div>
+        <div class="form-group">
+            <label>Folder</label>
+            <p-dropdown [options]="folders" [(ngModel)]="newFolder" optionLabel="name"></p-dropdown>
         </div>
         <div class="form-group">
             <label>quantity</label>
@@ -58,5 +59,3 @@
         </div>
     </div>
 </p-dialog>
-
-<app-card-search [(createModalOpen)]="showAddModal"></app-card-search>
