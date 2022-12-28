@@ -2,7 +2,6 @@
 using Ynventory.Backend.Contracts.Requests;
 using Ynventory.Backend.Contracts.Responses;
 using Ynventory.Backend.Exceptions;
-using Ynventory.Backend.Services.Authentication;
 using Ynventory.Backend.Services.Identity;
 using Ynventory.Data;
 using Ynventory.Data.Models;
@@ -42,7 +41,7 @@ namespace Ynventory.Backend.ServiceImplementations.Identity
         {
             if (await _context.Users.AnyAsync(x => x.Email.Equals(request.UserName, StringComparison.Ordinal)))
             {
-                throw new UserAlreadyExistsException();
+                throw new UserAlreadyExistsException(request.UserName);
             }
 
             var user = new User

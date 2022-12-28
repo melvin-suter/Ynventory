@@ -2,10 +2,13 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text.Json;
 using Ynventory.Backend.ServiceImplementations.Authentication;
+using Ynventory.Backend.ServiceImplementations.Data;
 using Ynventory.Backend.ServiceImplementations.Identity;
 using Ynventory.Backend.ServiceImplementations.Infrastructure;
 using Ynventory.Backend.Services.Authentication;
+using Ynventory.Backend.Services.Data;
 using Ynventory.Backend.Services.Identity;
 using Ynventory.Backend.Services.Infrastructure;
 using Ynventory.Data;
@@ -14,7 +17,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -50,18 +58,18 @@ builder.Services.AddDbContext<YnventoryDbContext>(options =>
     options.UseLazyLoadingProxies();
 });
 
+//Add application services
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IAuthenticateService, AuthenticateService>();
 builder.Services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+builder.Services.AddTransient<ICollectionService, CollectionService>();
+builder.Services.AddTransient<IScryfallClient, ScryfallClient>();
+builder.Services.AddTransient<ICardMetadataService, CardMetadataService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 using (var scope = app.Services.CreateScope())
 {

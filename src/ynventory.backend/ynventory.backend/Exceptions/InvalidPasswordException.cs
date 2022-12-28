@@ -2,9 +2,9 @@
 
 namespace Ynventory.Backend.Exceptions
 {
-    public class InvalidPasswordException : Exception
+    public class InvalidPasswordException : YnventoryException
     {
-        public InvalidPasswordException() : base(ResourcesReader.GetErrorMessage("InvalidPassword"))
+        public InvalidPasswordException() : base(ErrorCodes.Authentication.InvalidPassword, "InvalidPassword")
         { 
         }
     }

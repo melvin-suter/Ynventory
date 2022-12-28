@@ -2,8 +2,18 @@
 
 namespace Ynventory.Backend.Exceptions
 {
-    public class UserAlreadyExistsException : Exception
+    public class UserAlreadyExistsException : YnventoryException
     {
-        public UserAlreadyExistsException() : base(ResourcesReader.GetErrorMessage("UserAlreadyExists")) { }
+        public UserAlreadyExistsException(string userName) : base(ErrorCodes.User.UserAlreadyExists, "UserAlreadyExists", userName) 
+        { 
+            UserName = userName;
+        }
+
+        public string UserName { get; set; }
+
+        public override IDictionary<string, object?>? Data => new Dictionary<string, object?>()
+        {
+            ["userName"] = UserName
+        };
     }
 }

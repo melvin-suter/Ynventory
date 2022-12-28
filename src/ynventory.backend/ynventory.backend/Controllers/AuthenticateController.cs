@@ -54,14 +54,11 @@ namespace Ynventory.Backend.Controllers
             {
                 await _authenticateService.Authenticate(request.UserName, request.Password);
             }
-            catch (UserNotFoundException ex)
+            catch (YnventoryException ex)
             {
-                return ErrorResponse.NotFound(ErrorCodes.User.UserNotFound, ex.Message).AsResult();
+                return new ErrorResponse(ex).ToResult();
             }
-            catch (InvalidPasswordException ex)
-            {
-                return ErrorResponse.Unauthorized(ErrorCodes.Authentication.InvalidPassword, ex.Message).AsResult();
-            }
+
             var claims = new Claim[]
             {
                 new Claim(ClaimTypes.Name, request.UserName)

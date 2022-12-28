@@ -117,8 +117,24 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Error_EntityAlreadyExists" xml:space="preserve">
+    <value>{0} '{1}' does already exist</value>
+    <comment>{0} = EntityName, {1} = EntityIdentifier</comment>
+  </data>
+  <data name="Error_EntityNotFound" xml:space="preserve">
+    <value>{0} with Id {1} does not exist</value>
+    <comment>{0} = EntityName, {1} = EntityId</comment>
+  </data>
   <data name="Error_InvalidPassword" xml:space="preserve">
     <value>Password is invalid</value>
+  </data>
+  <data name="Error_Scryfall_ApiError" xml:space="preserve">
+    <value>Error calling Scryfall API: {0}</value>
+    <comment>{0} = ErrorDetails</comment>
+  </data>
+  <data name="Error_Scryfall_CardNotFound" xml:space="preserve">
+    <value>Card with id {0} could not be found in the Scryfall API</value>
+    <comment>{0} = CardId</comment>
   </data>
   <data name="Error_UserAlreadyExists" xml:space="preserve">
     <value>User with name {0} does already exist</value>

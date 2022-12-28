@@ -53,9 +53,9 @@ namespace Ynventory.Backend.Controllers
                     user.Id
                 }, user);
             }
-            catch (UserAlreadyExistsException ex)
+            catch (YnventoryException ex)
             {
-                return ErrorResponse.BadRequest(ErrorCodes.User.UserAlreadyExists, ex.Message).AsResult();
+                return new ErrorResponse(ex).ToResult();
             }
         }
 
@@ -81,9 +81,9 @@ namespace Ynventory.Backend.Controllers
             {
                 return Ok(await _userService.GetUser(id));
             }
-            catch (UserNotFoundException ex)
+            catch (YnventoryException ex)
             {
-                return ErrorResponse.NotFound(ErrorCodes.User.UserNotFound, ex.Message).AsResult();
+                return new ErrorResponse(ex).ToResult();
             }
         }
 
@@ -117,13 +117,9 @@ namespace Ynventory.Backend.Controllers
                 await _userService.ChangePassword(id, request);
                 return Ok();
             }
-            catch (UserNotFoundException ex)
+            catch (YnventoryException ex)
             {
-                return ErrorResponse.NotFound(ErrorCodes.User.UserNotFound, ex.Message).AsResult();
-            }
-            catch (InvalidPasswordException ex)
-            {
-                return ErrorResponse.Unauthorized(ErrorCodes.Authentication.InvalidPassword, ex.Message).AsResult();
+                return new ErrorResponse(ex).ToResult();
             }
         }
 

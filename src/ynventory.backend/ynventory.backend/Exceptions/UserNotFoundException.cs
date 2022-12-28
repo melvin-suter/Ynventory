@@ -2,17 +2,17 @@
 
 namespace Ynventory.Backend.Exceptions
 {
-    public class UserNotFoundException : Exception
+    public class UserNotFoundException : YnventoryException
     {
-        private const string USER_NAME_NOT_FOUND = "UserNameNotFound";
-        private const string USER_ID_NOT_FOUND = "UserIdNotFound";
+        private const string UserNameNotFound = "UserNameNotFound";
+        private const string UserIdNotFound = "UserIdNotFound";
 
-        public UserNotFoundException(string userName) : base(FormatMessage(userName))
+        public UserNotFoundException(string userName) : base(ErrorCodes.User.UserNotFound, UserNameNotFound, userName)
         {
             UserName = userName;
         }
 
-        public UserNotFoundException(int userId) : base(FormatMessage(userId))
+        public UserNotFoundException(int userId) : base(ErrorCodes.User.UserNotFound, UserIdNotFound, userId)
         {
             UserId = userId;
         }
@@ -20,14 +20,23 @@ namespace Ynventory.Backend.Exceptions
         public string? UserName { get; set; }
         public int UserId { get; set; } = -1;
 
-        private static string FormatMessage(string userName)
+        public override IDictionary<string, object?>? Data
         {
-            return ResourcesReader.GetErrorMessage(USER_NAME_NOT_FOUND, userName);
-        }
+            get
+            {
+                var result = new Dictionary<string, object?>();
+                if (UserName is not null)
+                {
+                    result["userName"] = UserName;
+                }
 
-        private static string FormatMessage(int userId)
-        {
-            return ResourcesReader.GetErrorMessage(USER_ID_NOT_FOUND, userId);
+                if (UserId >= 0)
+                {
+                    result["userId"] = UserId;
+                }
+
+                return result;
+            }
         }
     }
 }
