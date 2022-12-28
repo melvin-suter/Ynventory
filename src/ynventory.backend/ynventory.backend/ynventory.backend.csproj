@@ -9,6 +9,7 @@
     <RootNamespace>Ynventory.Backend</RootNamespace>
 	<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	<NoWarn>$(NoWarn);1591</NoWarn>
+	<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,12 +22,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ynventory.data\ynventory.data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\ErrorMessages.resx">
-      <Generator></Generator>
-    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

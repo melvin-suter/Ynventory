@@ -21,10 +21,12 @@ namespace Ynventory.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.UseIdentityColumns();
+
             modelBuilder.Entity<Collection>(builder =>
             {
-                builder.HasKey(x => x.Id)
-                       .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).UseIdentityAlwaysColumn();
 
                 builder.HasMany(x => x.Folders)
                        .WithOne(x => x.Collection)
@@ -35,8 +37,8 @@ namespace Ynventory.Data
 
             modelBuilder.Entity<Folder>(builder =>
             {
-                builder.HasKey(x => x.Id)
-                       .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).UseIdentityAlwaysColumn();
 
                 builder.HasMany(x => x.Cards)
                        .WithOne(x => x.Folder)
@@ -51,8 +53,8 @@ namespace Ynventory.Data
 
             modelBuilder.Entity<FolderCard>(builder =>
             {
-                builder.HasKey(x => x.Id)
-                       .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).UseIdentityAlwaysColumn();
 
                 builder.HasOne(x => x.Metadata)
                        .WithMany()
@@ -66,8 +68,8 @@ namespace Ynventory.Data
 
             modelBuilder.Entity<Deck>(builder =>
             {
-                builder.HasKey(x => x.Id)
-                       .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).UseIdentityAlwaysColumn();
 
                 builder.HasMany(x => x.Cards)
                        .WithMany(x => x.Decks);
@@ -96,8 +98,8 @@ namespace Ynventory.Data
 
             modelBuilder.Entity<CardColor>(builder =>
             {
-                builder.HasKey(x => x.Id)
-                       .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).UseIdentityAlwaysColumn();
 
                 builder.HasOne(x => x.Metadata)
                         .WithMany(x => x.Colors)
@@ -109,8 +111,8 @@ namespace Ynventory.Data
 
             modelBuilder.Entity<CardColorIdentity>(builder =>
             {
-                builder.HasKey(x => x.Id)
-                       .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).UseIdentityAlwaysColumn();
 
                 builder.HasOne(x => x.Metadata)
                        .WithMany(x => x.ColorIdentity)
@@ -121,8 +123,8 @@ namespace Ynventory.Data
 
             modelBuilder.Entity<CardKeyword>(builder =>
             {
-                builder.HasKey(x => x.Id)
-                       .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).UseIdentityAlwaysColumn();
 
                 builder.HasOne(x => x.Metadata)
                        .WithMany(x => x.Keywords)
@@ -133,8 +135,8 @@ namespace Ynventory.Data
 
             modelBuilder.Entity<User>(builder =>
             {
-                builder.HasKey(x => x.Id)
-                       .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).UseIdentityAlwaysColumn();
 
                 builder.ToTable("Users");
             });

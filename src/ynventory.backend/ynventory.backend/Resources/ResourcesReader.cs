@@ -6,7 +6,7 @@ namespace Ynventory.Backend.Resources
     public static class ResourcesReader
     {
         private const string RESOURCE_PATH = "Resources/";
-        private const string ERROR_MESSAGES_RESOURCE_FILE_NAME = "ErrorMessages.resx";
+        private static readonly string ErrorMessagesResources = typeof(ErrorMessages).FullName!;
 
         public static string GetErrorMessage(string key, params object?[] args)
         {
@@ -16,12 +16,12 @@ namespace Ynventory.Backend.Resources
         public static string GetErrorMessage(string key, CultureInfo culture, params object?[] args)
         {
             var resourceKey = $"Error_{key}";
-            return ReadMessage(ERROR_MESSAGES_RESOURCE_FILE_NAME, resourceKey, culture, args);
+            return ReadMessage(ErrorMessagesResources, resourceKey, culture, args);
         }
 
         private static string ReadMessage(string file, string key, CultureInfo culture, params object?[] args)
         {
-            var manager = ResourceManager.CreateFileBasedResourceManager(file, RESOURCE_PATH, null);
+            var manager = new ResourceManager(file, typeof(ErrorMessages).Assembly);
 
             var value = manager.GetString(key, culture);
             if (value is null)

@@ -27,6 +27,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 metadata = new CardMetadata
                 {
                     Id = scryfallMetadata.Id,
+                    Name = scryfallMetadata.Name,
                     Lang = scryfallMetadata.Lang,
                     Layout = scryfallMetadata.Layout,
                     ImageUrlSmall = scryfallMetadata.ImageUrlSmall,

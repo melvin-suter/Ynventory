@@ -19,18 +19,18 @@ namespace Ynventory.Backend.ServiceImplementations.Data
             _cardMetadataService = cardMetadataService;
         }
 
-        public async Task<CollectionResponse> CreateCollection(CollectionCreateRequest createRequest)
+        public async Task<CollectionResponse> CreateCollection(CollectionCreateRequest request)
         {
-            var exists = await _context.Collections.AnyAsync(x => x.Name.Equals(createRequest.Name, StringComparison.Ordinal));
+            var exists = await _context.Collections.AnyAsync(x => x.Name == request.Name);
             if (exists)
             {
-                throw new CollectionAlreadyExistsException(createRequest.Name);
+                throw new CollectionAlreadyExistsException(request.Name);
             }
 
             var collection = new Collection
             {
-                Name = createRequest.Name,
-                Description = createRequest.Description,
+                Name = request.Name,
+                Description = request.Description,
             };
 
             _context.Collections.Add(collection);
@@ -57,25 +57,25 @@ namespace Ynventory.Backend.ServiceImplementations.Data
             return ToResponse(collection);
         }
 
-        public async Task<CollectionResponse> UpdateCollection(CollectionUpdateRequest updateRequest)
+        public async Task<CollectionResponse> UpdateCollection(CollectionUpdateRequest request)
         {
-            var collection = await _context.Collections.FindAsync(updateRequest.Id);
+            var collection = await _context.Collections.FindAsync(request.Id);
             if (collection is null)
             {
-                throw new CollectionNotFoundException(updateRequest.Id);
+                throw new CollectionNotFoundException(request.Id);
             }
 
-            if (!updateRequest.Name.Equals(collection.Name, StringComparison.Ordinal))
+            if (request.Name != request.Name)
             {
-                var exists = await _context.Collections.AnyAsync(x => x.Name.Equals(updateRequest.Name, StringComparison.Ordinal));
+                var exists = await _context.Collections.AnyAsync(x => x.Name == request.Name);
                 if (exists)
                 {
-                    throw new CollectionAlreadyExistsException(updateRequest.Name);
+                    throw new CollectionAlreadyExistsException(request.Name);
                 }
             }
 
-            collection.Name = updateRequest.Name;
-            collection.Description = updateRequest.Description;
+            collection.Name = request.Name;
+            collection.Description = request.Description;
 
             await _context.SaveChangesAsync();
 
@@ -104,7 +104,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var exists = collection.Folders.Any(x => x.Name.Equals(request.Name));
+            var exists = collection.Folders.Any(x => x.Name == request.Name);
             if (exists)
             {
                 throw new FolderAlreadyExistsException(request.Name);
@@ -142,7 +142,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id.Equals(folderId));
+            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
             if (folder is null)
             {
                 throw new FolderNotFoundException(folderId);
@@ -159,15 +159,15 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id.Equals(request.Id));
+            var folder = collection.Folders.FirstOrDefault(x => x.Id == request.Id);
             if (folder is null)
             {
                 throw new FolderNotFoundException(request.Id);
             }
 
-            if (!folder.Name.Equals(request.Name, StringComparison.Ordinal))
+            if (folder.Name != request.Name)
             {
-                var exists = collection.Folders.Any(x => x.Name.Equals(request.Name, StringComparison.Ordinal));
+                var exists = collection.Folders.Any(x => x.Name == request.Name);
                 if (exists)
                 {
                     throw new FolderAlreadyExistsException(request.Name);
@@ -190,7 +190,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id.Equals(folderId));
+            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
             if (folder is null)
             {
                 throw new FolderNotFoundException(folderId);
@@ -209,7 +209,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id.Equals(folderId));
+            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
             if (folder is null)
             {
                 throw new FolderNotFoundException(folderId);
@@ -240,7 +240,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id.Equals(folderId));
+            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
             if (folder is null)
             {
                 throw new FolderNotFoundException(folderId);
@@ -257,13 +257,13 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id.Equals(folderId));
+            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
             if (folder is null)
             {
                 throw new FolderNotFoundException(folderId);
             }
 
-            var card = folder.Cards.FirstOrDefault(x => x.Id.Equals(cardId));
+            var card = folder.Cards.FirstOrDefault(x => x.Id == cardId);
             if (card is null)
             {
                 throw new CardNotFoundException(cardId);
@@ -280,13 +280,13 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id.Equals(folderId));
+            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
             if (folder is null)
             {
                 throw new FolderNotFoundException(folderId);
             }
 
-            var card = folder.Cards.FirstOrDefault(x => x.Id.Equals(request.Id));
+            var card = folder.Cards.FirstOrDefault(x => x.Id == request.Id);
             if (card is null)
             {
                 throw new CardNotFoundException(request.Id);
@@ -296,7 +296,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
             await _cardMetadataService.GetCardMetadata(request.CardMetadataId);
 
             //If it's the same metadataId, update the card metadata on the database
-            if (request.CardMetadataId.Equals(card.CardMetadataId))
+            if (request.CardMetadataId == card.CardMetadataId)
             {
                 await _cardMetadataService.UpdateCardMetadata(request.CardMetadataId);
             }
@@ -318,13 +318,13 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id.Equals(folderId));
+            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
             if (folder is null)
             {
                 throw new FolderNotFoundException(folderId);
             }
 
-            var card = folder.Cards.FirstOrDefault(x => x.Id.Equals(cardId));
+            var card = folder.Cards.FirstOrDefault(x => x.Id == cardId);
             if (card is null)
             {
                 throw new CardNotFoundException(cardId);
@@ -341,7 +341,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 Id = collection.Id,
                 Name = collection.Name,
                 Description = collection.Description,
-                CardCount = collection.Folders.Sum(x => x.Cards.Sum(x => x.Quantity))
+                CardCount = collection.Folders?.Sum(x => x.Cards?.Sum(x => x.Quantity) ?? 0) ?? 0
             };
         }
 
@@ -352,7 +352,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 Id = folder.Id,
                 Name = folder.Name,
                 Description = folder.Description,
-                CardCount = folder.Cards.Sum(x => x.Quantity),
+                CardCount = folder.Cards?.Sum(x => x.Quantity) ?? 0,
             };
         }
 

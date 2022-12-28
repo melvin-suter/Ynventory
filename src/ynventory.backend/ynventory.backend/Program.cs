@@ -11,6 +11,7 @@ using Ynventory.Backend.Services.Authentication;
 using Ynventory.Backend.Services.Data;
 using Ynventory.Backend.Services.Identity;
 using Ynventory.Backend.Services.Infrastructure;
+using Ynventory.Backend.Util;
 using Ynventory.Data;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,9 @@ builder.Services.AddControllers().AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+    options.JsonSerializerOptions.Converters.Add(new JsonEnumConverterFactory());
 });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

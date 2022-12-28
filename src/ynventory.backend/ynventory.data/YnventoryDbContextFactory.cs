@@ -8,7 +8,7 @@ namespace Ynventory.Data
         public YnventoryDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<YnventoryDbContext>();
-            optionsBuilder.UseSqlite("Data Source=ynventory");
+            optionsBuilder.UseNpgsql("Data Source=ynventory; Username=ynventory; Password=password");
             return new YnventoryDbContext(optionsBuilder.Options);
         }
     }

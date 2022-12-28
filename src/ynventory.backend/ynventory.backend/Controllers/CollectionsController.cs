@@ -41,14 +41,14 @@ namespace Ynventory.Backend.Controllers
         /// <response code="201">The collection was successfuly created</response>
         /// <response code="400">The collection with the given name already exists</response>
         [HttpPost]
-        [ProducesDefaultResponseType(typeof(CollectionResponse))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CollectionResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> CreateCollection(CollectionCreateRequest request)
         {
             try
             {
                 var collection = await _collectionService.CreateCollection(request);
-                return CreatedAtAction("GetCollection", new { id = collection.Id }, collection);
+                return Created($"/api/collection/{collection.Id}", collection);
             }
             catch (YnventoryException ex)
             {
@@ -70,8 +70,8 @@ namespace Ynventory.Backend.Controllers
         /// <response code="200">The collection was found and returned</response>
         /// <response code="404">The collection was not found</response>
         [HttpGet("{collectionId}")]
-        [ProducesDefaultResponseType(typeof(CollectionResponse))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> GetCollection(int collectionId)
         {
             try
@@ -90,7 +90,7 @@ namespace Ynventory.Backend.Controllers
         /// <returns>A list of all collections</returns>
         /// <response code="200">The list has been created</response>
         [HttpGet]
-        [ProducesDefaultResponseType(typeof(CollectionResponse[]))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionResponse[]))]
         public async Task<IActionResult> GetCollections()
         {
             return Ok(await _collectionService.GetCollections());
@@ -117,8 +117,9 @@ namespace Ynventory.Backend.Controllers
         /// <response code="400">The request is invalid</response>
         /// <response code="404">The collection for the given id was not found</response>
         [HttpPut("{collectionId}")]
-        [ProducesDefaultResponseType(typeof(CollectionResponse))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type =typeof(ErrorResponse))]
         public async Task<IActionResult> UpdateCollection(int collectionId, CollectionUpdateRequest request)
         {
             var response = CheckIdMismatch(collectionId, request.Id);
@@ -151,8 +152,8 @@ namespace Ynventory.Backend.Controllers
         /// <response code="200">The collection was successfully deleted</response>
         /// <response code="404">The collection to the given id does not exist</response>
         [HttpDelete("{collectionId}")]
-        [ProducesDefaultResponseType(typeof(void))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> DeleteCollection(int collectionId)
         {
             try
@@ -186,14 +187,15 @@ namespace Ynventory.Backend.Controllers
         /// <response code="400">A folder with the given name already exists within the collection</response>
         /// <response code="404">The collection was not found</response>
         [HttpPost("{collectionId}/folders")]
-        [ProducesDefaultResponseType(typeof(CollectionFolderResponse))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> CreateFolder(int collectionId, CollectionFolderCreateRequest request)
         {
             try
             {
                 var folder = await _collectionService.CreateFolder(collectionId, request);
-                return CreatedAtAction("GetFolder", new { collectionId, folderId = folder.Id }, folder);
+                return Created($"/api/collections/{collectionId}/folders/{folder.Id}", folder);
             }
             catch (YnventoryException ex)
             {
@@ -215,8 +217,8 @@ namespace Ynventory.Backend.Controllers
         /// <response code="200">The folders were retrieved successfully</response>
         /// <response code="404">The collection was not found</response>
         [HttpGet("{collectionId}/folders")]
-        [ProducesDefaultResponseType(typeof(CollectionFolderResponse[]))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> GetFolders(int collectionId)
         {
             try
@@ -244,8 +246,8 @@ namespace Ynventory.Backend.Controllers
         /// <response code="200">The folder was retrieved successfully</response>
         /// <response code="404">Either the collection or folder was not found</response>
         [HttpGet("{collectionId}/folders/{folderId}")]
-        [ProducesDefaultResponseType(typeof(CollectionFolderResponse))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> GetFolder(int collectionId, int folderId)
         {
             try
@@ -280,8 +282,9 @@ namespace Ynventory.Backend.Controllers
         /// <response code="400">The request is invalid</response>
         /// <response code="404">Either the collection or folder was not found</response>
         [HttpPut("{collectionId}/folders/{folderId}")]
-        [ProducesDefaultResponseType(typeof(CollectionFolderResponse))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> GetFolder(int collectionId, int folderId, CollectionFolderUpdateRequest request)
         {
             var response = CheckIdMismatch(folderId, request.Id);
@@ -315,8 +318,8 @@ namespace Ynventory.Backend.Controllers
         /// <response code="200">The folder was successfully deleted</response>
         /// <response code="404">Either the collection or folder was not found</response>
         [HttpDelete("{collectionId}/folders/{folderId}")]
-        [ProducesDefaultResponseType(typeof(void))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> DeleteFolder(int collectionId, int folderId)
         {
             try
@@ -353,14 +356,15 @@ namespace Ynventory.Backend.Controllers
         /// <response code="404">Either the collection or folder was not found</response>
         /// <response code="502">An error occured calling the scryfall API</response>
         [HttpPost("{collectionId}/folders/{folderId}/cards")]
-        [ProducesDefaultResponseType(typeof(CollectionFolderCardResponse))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderCardResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> CreateCard(int collectionId, int folderId, CollectionFolderCardCreateRequest request)
         {
             try
             {
                 var card = await _collectionService.CreateCard(collectionId, folderId, request);
-                return CreatedAtAction("GetCard", new { collectionId, folderId, cardId = card.Id });
+                return Created($"/api/collections/{collectionId}/folders/{folderId}/cards/{card.Id}", card);
             }
             catch (YnventoryException ex)
             {
@@ -383,8 +387,8 @@ namespace Ynventory.Backend.Controllers
         /// <response code="200">The list was successfully retrieved</response>
         /// <response code="404">Either the collection or folder was not found</response>
         [HttpGet("{collectionId}/folders/{folderId}/cards")]
-        [ProducesDefaultResponseType(typeof(CollectionFolderCardResponse[]))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderCardResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> GetCards(int collectionId, int folderId)
         {
             try
@@ -413,8 +417,9 @@ namespace Ynventory.Backend.Controllers
         /// <response code="200">The card was found</response>
         /// <response code="404">Either the collection, folder or card was not found</response>
         [HttpGet("{collectionId}/folders/{folderId}/cards/{cardId}")]
-        [ProducesDefaultResponseType(typeof(CollectionFolderCardResponse))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ActionName("GetCard")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderCardResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> GetCard(int collectionId, int folderId, int cardId)
         {
             try
@@ -452,8 +457,10 @@ namespace Ynventory.Backend.Controllers
         /// <response code="404">Either the collection, folder or card was not found</response>
         /// <response code="502">An error occured calling the scryfall API</response>
         [HttpPut("{collectionId}/folders/{folderId}/cards/{cardId}")]
-        [ProducesDefaultResponseType(typeof(CollectionFolderCardResponse))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderCardResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status502BadGateway, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> UpdateCard(int collectionId, int folderId, int cardId, CollectionFolderCardUpdateRequest request)
         {
             var response = CheckIdMismatch(cardId, request.Id);
@@ -488,8 +495,8 @@ namespace Ynventory.Backend.Controllers
         /// <response code="200">The card was successfully deleted</response>
         /// <response code="404">Either the collection, folder or card was not found</response>
         [HttpDelete("{collectionId}/folders/{folderId}/cards/{cardId}")]
-        [ProducesDefaultResponseType(typeof(void))]
-        [ProducesErrorResponseType(typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderCardResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> DeleteCard(int collectionId, int folderId, int cardId)
         {
             try
@@ -505,7 +512,7 @@ namespace Ynventory.Backend.Controllers
 
         private static IActionResult? CheckIdMismatch(int expected, int actual)
         {
-            if (!actual.Equals(actual))
+            if (actual != expected)
             {
                 var response = new ErrorResponse(ErrorCodes.InvalidRequest, ErrorCodes.StatusCode(ErrorCodes.InvalidRequest), "Id mismatch", new Dictionary<string, object?>
                 {

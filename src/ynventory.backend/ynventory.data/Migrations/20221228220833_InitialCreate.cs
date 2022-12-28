@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
@@ -15,18 +16,18 @@ namespace Ynventory.Data.Migrations
                 name: "CardMetadata",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Lang = table.Column<string>(type: "TEXT", nullable: true),
-                    Layout = table.Column<string>(type: "TEXT", nullable: true),
-                    ImageUrlSmall = table.Column<string>(type: "TEXT", nullable: false),
-                    ImageUrlLarge = table.Column<string>(type: "TEXT", nullable: false),
-                    Type = table.Column<string>(type: "TEXT", nullable: true),
-                    ManaCost = table.Column<string>(type: "TEXT", nullable: true),
-                    OracleText = table.Column<string>(type: "TEXT", nullable: true),
-                    Power = table.Column<int>(type: "INTEGER", nullable: true),
-                    Toughness = table.Column<int>(type: "INTEGER", nullable: true),
-                    ManaCostTotal = table.Column<int>(type: "INTEGER", nullable: true)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Lang = table.Column<string>(type: "text", nullable: true),
+                    Layout = table.Column<string>(type: "text", nullable: true),
+                    ImageUrlSmall = table.Column<string>(type: "text", nullable: false),
+                    ImageUrlLarge = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: true),
+                    ManaCost = table.Column<string>(type: "text", nullable: true),
+                    OracleText = table.Column<string>(type: "text", nullable: true),
+                    Power = table.Column<int>(type: "integer", nullable: true),
+                    Toughness = table.Column<int>(type: "integer", nullable: true),
+                    ManaCostTotal = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -37,10 +38,10 @@ namespace Ynventory.Data.Migrations
                 name: "Collections",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -51,10 +52,10 @@ namespace Ynventory.Data.Migrations
                 name: "Decks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,10 +66,10 @@ namespace Ynventory.Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -79,10 +80,10 @@ namespace Ynventory.Data.Migrations
                 name: "CardColor",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Color = table.Column<string>(type: "TEXT", nullable: false),
-                    CardMetadataId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    Color = table.Column<string>(type: "text", nullable: false),
+                    CardMetadataId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -99,10 +100,10 @@ namespace Ynventory.Data.Migrations
                 name: "CardColorIdentity",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ColorIdentity = table.Column<string>(type: "TEXT", nullable: false),
-                    CardMetadataId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    ColorIdentity = table.Column<string>(type: "text", nullable: false),
+                    CardMetadataId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,10 +120,10 @@ namespace Ynventory.Data.Migrations
                 name: "CardKeyword",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Keyword = table.Column<string>(type: "TEXT", nullable: false),
-                    CardMetadataId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    Keyword = table.Column<string>(type: "text", nullable: false),
+                    CardMetadataId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -139,11 +140,11 @@ namespace Ynventory.Data.Migrations
                 name: "Folders",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: true),
-                    CollectionId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    CollectionId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -160,12 +161,12 @@ namespace Ynventory.Data.Migrations
                 name: "FolderCards",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CardMetadataId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Quantity = table.Column<int>(type: "INTEGER", nullable: false),
-                    FolderId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Finish = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    CardMetadataId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    FolderId = table.Column<int>(type: "integer", nullable: false),
+                    Finish = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -188,8 +189,8 @@ namespace Ynventory.Data.Migrations
                 name: "DeckFolderCard",
                 columns: table => new
                 {
-                    CardsId = table.Column<int>(type: "INTEGER", nullable: false),
-                    DecksId = table.Column<int>(type: "INTEGER", nullable: false)
+                    CardsId = table.Column<int>(type: "integer", nullable: false),
+                    DecksId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
