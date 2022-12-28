@@ -267,7 +267,7 @@ namespace Ynventory.Backend.Util
 
         public override T ReadAsPropertyName(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            return ReadAsPropertyName(ref reader, typeToConvert, options);
+            return ReadAsPropertyNameCore(ref reader, typeToConvert, options);
         }
 
         private unsafe T ReadAsPropertyNameCore(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
