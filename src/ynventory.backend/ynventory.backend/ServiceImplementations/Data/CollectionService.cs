@@ -362,8 +362,29 @@ namespace Ynventory.Backend.ServiceImplementations.Data
             {
                 Id = card.Id,
                 CardFinish = card.Finish,
-                CardMetadataId = card.CardMetadataId,
                 Quantity = card.Quantity,
+                Metadata = ToResponse(card.Metadata)
+            };
+        }
+
+        private static CardMetadataResponse ToResponse(CardMetadata metadata)
+        {
+            return new CardMetadataResponse
+            {
+                Id = metadata.Id,
+                Lang = metadata.Lang,
+                Layout = metadata.Layout,
+                ImageUrlSmall = metadata.ImageUrlSmall,
+                ImageUrlLarge = metadata.ImageUrlLarge,
+                Type = metadata.Type,
+                ManaCost = metadata.ManaCost,
+                OracleText = metadata.OracleText,
+                Power = metadata.Power,
+                Toughness = metadata.Toughness,
+                ManaCostTotal = metadata.ManaCostTotal,
+                Colors = metadata.Colors.Select(x => x.Color).ToArray(),
+                ColorIdentity = metadata.ColorIdentity.Select(x => x.ColorIdentity).ToArray(),
+                Keywords = metadata.Keywords.Select(x => x.Keyword).ToArray(),
             };
         }
     }
