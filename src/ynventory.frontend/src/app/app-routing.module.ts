@@ -1,25 +1,27 @@
-import { Component, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './guards/auth.guard';
-import { AppLayoutComponent } from './layout/app-layout/app-layout.component';
-import { BareComponent } from './layout/bare/bare.component';
-import { CardInfoComponent } from './pages/card-info/card-info.component';
-import { CardsComponent } from './pages/cards/cards.component';
-import { CollectionComponent } from './pages/collection/collection.component';
-import { CollectionsComponent } from './pages/collections/collections.component';
-import { DashboardComponent } from './pages/dashboard/dashboard.component';
-import { DeckComponent } from './pages/deck/deck.component';
-import { DecksComponent } from './pages/decks/decks.component';
-import { LoginComponent } from './pages/login/login.component';
+import { AppLayoutComponent } from './components/layout/app-layout/app-layout.component';
+import { BareComponent } from './components/layout/bare/bare.component';
+import { DashboardComponent } from './components/pages/dashboard/dashboard.component';
+import { DecksListComponent } from './components/decks/decks-list/decks-list.component';
+import { DecksViewComponent } from './components/decks/decks-view/decks-view.component';
+import { LoginComponent } from './components/pages/login/login.component';
+import { CollectionsListComponent } from './components/collections/collections-list/collections-list.component';
+import { CollectionsViewComponent } from './components/collections/collections-view/collections-view.component';
+import { FoldersViewComponent } from './components/folders/folders-view/folders-view.component';
+import { CardsViewComponent } from './components/cards/cards-view/cards-view.component';
+import { CardsListComponent } from './components/cards/cards-list/cards-list.component';
 
 const routes: Routes = [
   { path: '', component: AppLayoutComponent, canActivate: [AuthGuard], children: [
-    {path: 'card/:cardid', component: CardInfoComponent},
-    {path: 'collections/:colid', component: CollectionComponent},
-    {path: 'collections/:colid/folders/:id', component: CardsComponent},
-    {path: 'collections', component: CollectionsComponent},
-    {path: 'decks/:id', component: DeckComponent},
-    {path: 'decks', component: DecksComponent},
+    {path: 'cards', component: CardsListComponent},
+    {path: 'card/:cardid', component: CardsViewComponent},
+    {path: 'collections/:colid', component: CollectionsViewComponent},
+    {path: 'collections/:colid/folders/:id', component: FoldersViewComponent},
+    {path: 'collections', component: CollectionsListComponent},
+    {path: 'decks/:id', component: DecksViewComponent},
+    {path: 'decks', component: DecksListComponent},
     {path: 'home', component: DashboardComponent},
     {path: '', redirectTo: 'home', pathMatch: 'full'}
   ]},

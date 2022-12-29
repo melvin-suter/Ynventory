@@ -14,6 +14,10 @@ export class CardService {
 
   constructor() { }
 
+  public getAllCards():CardModel[]{
+    return this.exampleData;
+  }
+
   public getCards(folderID:number):CardModel[]{
     return this.exampleData;
   }
