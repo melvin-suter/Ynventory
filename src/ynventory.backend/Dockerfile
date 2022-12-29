@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["Ynventory.Backend/Ynventory.Backend.csproj", "Ynventory.Backend/"]
-RUN dotnet restore "Ynventory.Backend/Ynventory.Backend.csproj"
+COPY ["ynventory.backend/ynventory.backend.csproj", "ynventory.backend/"]
+RUN dotnet restore "ynventory.backend/ynventory.backend.csproj"
 COPY . .
-WORKDIR "/src/Ynventory.Backend"
-RUN dotnet build "Ynventory.Backend.csproj" -c Release -o /app/build
+WORKDIR "/src/ynventory.backend"
+RUN dotnet build "ynventory.backend.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Ynventory.Backend.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "ynventory.backend.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Ynventory.Backend.dll"]
+ENTRYPOINT ["dotnet", "ynventory.backend.dll"]
