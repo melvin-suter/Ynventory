@@ -1,0 +1,55 @@
+.layout {
+
+    display: flex;
+    height: 100%;
+    width: 100%;
+   
+
+    .desktop-sidebar{
+        width: 250px;
+        height: 100%;
+    }
+
+    ::ng-deep{
+        .p-sidebar {
+            background-color: var(--surface-900);
+        }
+
+        .p-sidebar-close-icon {
+            color: #fff;
+        }
+    }
+
+    p-sidebar {
+        margin: 0px;
+        padding: 0px;
+        max-width: 90%;
+
+        ::ng-deep {
+            .p-sidebar {
+                max-width: 90%;
+            }
+            
+            .navbar {
+                .title{
+                    padding-top: 0px;
+                    margin-top: 0px;
+                }
+            }
+        }
+    }
+
+    .content {
+        padding: 1rem 2rem;
+        width: 100%;
+
+        overflow: auto;
+    }
+
+    .sidebar-toggle-button {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 200;
+    }
+}

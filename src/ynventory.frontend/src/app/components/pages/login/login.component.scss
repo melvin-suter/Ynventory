@@ -1,0 +1,27 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+
+.logo-container {
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    img {
+        margin: 0.5rem !important;
+        padding: 0px;
+    }
+}
+
+.error-text {
+    color: red;
+    font-weight: bold;
+    padding-top: 0.5rem;
+    padding-bottom: 1rem;
+    text-align: center;
+}

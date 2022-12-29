@@ -19,7 +19,11 @@
 
         .form-group {
             min-width: 300px;
-            max-width: 90%;
+            /*max-width: 90%;*/
+
+            .p-dropdown {
+                width: 100%;
+            }
         }
 
         .button-group {
