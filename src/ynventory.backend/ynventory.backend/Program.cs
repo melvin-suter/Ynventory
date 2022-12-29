@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using System.Reflection;
 using System.Text.Json;
 using Ynventory.Backend.ServiceImplementations.Authentication;
@@ -56,7 +57,17 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddDbContext<YnventoryDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Application"),
+    var section = builder.Configuration.GetSection("EnvironmentVariables");
+
+    var connectionStringBuilder = new NpgsqlConnectionStringBuilder
+    {
+        Host = Environment.GetEnvironmentVariable(section.GetValue<string>("POSTGRES_HOST")!),
+        Database = Environment.GetEnvironmentVariable(section.GetValue<string>("POSTGRES_DB")!),
+        Username = Environment.GetEnvironmentVariable(section.GetValue<string>("POSTGRES_USER")!),
+        Password = Environment.GetEnvironmentVariable(section.GetValue<string>("POSTGRES_PASSWORD")!)
+    };
+
+    options.UseNpgsql(connectionStringBuilder.ConnectionString,
                       x => x.MigrationsAssembly(typeof(YnventoryDbContext).Assembly.FullName));
     options.UseLazyLoadingProxies();
 });
