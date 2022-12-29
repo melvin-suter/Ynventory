@@ -1,0 +1,76 @@
+<h1>Collections</h1>
+
+<div class="button-box">
+    <button pButton label="Add" icon="pi pi-plus" (click)="showAddModal = !showAddModal" iconPos="left" ></button>
+    <button pButton label="Modify" [disabled]="selectedCollections.length != 1" class="p-button-info" icon="pi pi-trash" (click)="openEditModal()" iconPos="left"></button>
+    <button pButton label="Delete" [disabled]="selectedCollections.length == 0" class="p-button-danger" (click)="showDeleteModal = !showDeleteModal" icon="pi pi-trash" iconPos="left"></button>
+</div>
+
+<p-table [value]="collections" 
+[(selection)]="selectedCollections">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Cards</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-col>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="col"></p-tableCheckbox>
+            </td>
+            <td><a [routerLink]="['/collections', col.id]">{{ col.name }}</a></td>
+            <td>{{ col.description }}</td>
+            <td>{{ col.cardCount }}</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<p-dialog header="Add Collection" [(visible)]="showAddModal">
+    <div class="dialog-form">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" pInputText [(ngModel)]="modalData.name"/>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <input type="text" pInputText [(ngModel)]="modalData.description"/>
+        </div>
+        <div class="button-group">
+            <button pButton label="Save" class="p-button-success" (click)="createItem()"></button>
+            <button pButton label="Cancel" class="p-button-outlined" (click)="showAddModal = false"></button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog header="Edit Collection" [(visible)]="showEditModal">
+    <div class="dialog-form">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" pInputText [(ngModel)]="modalData.name"/>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <input type="text" pInputText [(ngModel)]="modalData.description"/>
+        </div>
+        <div class="button-group">
+            <button pButton label="Save" class="p-button-success" (click)="saveItem()"></button>
+            <button pButton label="Cancel" class="p-button-outlined" (click)="showEditModal = false"></button>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog header="Delete Collection" [(visible)]="showDeleteModal">
+    <div class="dialog-form">
+        <div class="modal-text" *ngIf="selectedCollections.length > 1">Delete {{ selectedCollections.length }} Collections?</div>
+        <div class="modal-text" *ngIf="selectedCollections.length == 1">Delete Collection "{{ selectedCollections[0].name }}"?</div>
+        <div class="button-group">
+            <button pButton label="Yes" class="p-button-danger" (click)="deleteItem()"></button>
+            <button pButton label="No" class="p-button-outlined" (click)="showDeleteModal = false"></button>
+        </div>
+    </div>
+</p-dialog>

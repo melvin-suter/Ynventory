@@ -1,0 +1,49 @@
+.navbar {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: var(--surface-900);
+    justify-content: start;
+    width: 100%;
+
+
+    padding:0px !important;
+    margin: 0px;
+
+    .filler {
+        height: 100%;
+    }
+
+    .title {
+        color: #fff;
+        padding:1rem;
+        padding-top: 1.5rem;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 0px;
+        margin-top: 0px;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .list {
+        width: 100%;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+
+        app-navbar-item {
+            width: 100%;;
+        }
+
+        &.bottom {
+            margin-bottom:0.5rem;
+        }
+    }
+}
+
+:host {
+    height: 100%;
+}

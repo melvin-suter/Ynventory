@@ -1,0 +1,22 @@
+<div class="layout">
+    <!-- Mobile Sidebar -->
+    <div *ngIf="!isLargeView()">
+        <p-sidebar [(visible)]="sidebarVisible" (autoZIndex)="true" (baseZIndex)="-1">
+            <app-navbar></app-navbar>
+        </p-sidebar>
+    </div>
+    <!-- Desktop Sidebar -->
+    <div *ngIf="isLargeView()">
+        <div class="desktop-sidebar">
+            <app-navbar></app-navbar>
+        </div>
+    </div>
+    <!-- Content -->
+    <div class="content">
+        <!-- Mobile Sidebar Toggle -->
+        <p-button type="text" class="sidebar-toggle-button" (click)="toggleSidebar()" icon="pi pi-bars" label="" *ngIf="!isLargeView()"></p-button>
+
+        <!-- Content Output -->
+        <router-outlet></router-outlet>
+    </div>
+</div>

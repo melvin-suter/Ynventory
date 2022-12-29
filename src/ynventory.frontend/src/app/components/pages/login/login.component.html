@@ -1,0 +1,31 @@
+<div class="login-page">
+    <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+        <div class="text-center mb-5">
+            <div class="logo-container">
+                <img src="/assets/logo.png" alt="Image" height="50" class="mb-3">
+            </div>
+        </div>
+
+        <div>
+            <label for="username" class="block text-900 font-medium mb-2">Username</label>
+            <input id="username" type="text" placeholder="Username" [(ngModel)]="loginData.username" pInputText class="w-full mb-3 ng-invalid">
+
+            <label for="password" class="block text-900 font-medium mb-2">Password</label>
+            <input id="password" type="password" placeholder="Password" [(ngModel)]="loginData.password" pInputText class="w-full mb-3">
+
+            <div class="error-text" *ngIf="lastTry">
+                Username or Paassword incorrect.
+            </div>
+
+            <!--
+            <div class="flex align-items-center justify-content-between mb-6">
+                <div class="flex align-items-center">
+                    <p-checkbox id="rememberme1" [binary]="true" styleClass="mr-2"></p-checkbox>
+                    <label for="rememberme1" class="text-900">Remember me</label>
+                </div>
+            </div>-->
+
+            <button pButton pRipple label="Login" icon="pi pi-user" (click)="login()" class="w-full"></button>
+        </div>
+    </div>
+</div>
