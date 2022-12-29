@@ -28,6 +28,8 @@ export class CollectionCardsComponent implements OnInit {
   modalData:CardModel = new CardModel();
   newFolder:FolderModel = new FolderModel();
 
+  getImageUrl = CardModel.getImageUrl;
+
   
   constructor(private collectionService: CollectionService, private cardService: CardService, private route: ActivatedRoute, private scryfallService:ScryfallService) { 
     this.route.params.subscribe(params => {

@@ -18,4 +18,5 @@ export class CardsListComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
 }

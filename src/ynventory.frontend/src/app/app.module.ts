@@ -60,6 +60,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CheckboxModule } from 'primeng/checkbox';
 import { CardsListComponent } from './components/cards/cards-list/cards-list.component';
 import { CardsViewComponent } from './components/cards/cards-view/cards-view.component';
+import { CardsTableComponent } from './components/partials/cards-table/cards-table.component';
+import { GridComponent } from './components/partials/grid/grid.component';
 
 
 @NgModule({
@@ -88,6 +90,8 @@ import { CardsViewComponent } from './components/cards/cards-view/cards-view.com
     FoldersViewComponent,
     CardsListComponent,
     CardsViewComponent,
+    CardsTableComponent,
+    GridComponent,
 
 
   ],

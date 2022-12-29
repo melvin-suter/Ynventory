@@ -1,24 +1,3 @@
 <h1>Cards</h1>
 
-
-<p-table [value]="cards" 
-[(selection)]="selectedCards">
-    <ng-template pTemplate="header">
-        <tr>
-            <th style="width: 3rem">
-                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-            </th>
-            <th><i class="pi pi-hashtag"></i></th>
-            <th>Name</th>
-        </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-card>
-        <tr>
-            <td>
-                <p-tableCheckbox [value]="card"></p-tableCheckbox>
-            </td>
-            <td  style="width: 0px;">{{ card.quantity }}</td>
-            <td><a [routerLink]="['/card', card.id]">{{ card.name }}</a></td>
-        </tr>
-    </ng-template>
-</p-table>
+<app-cards-table [(cards)]="cards" [(selectedCards)]="selectedCards"></app-cards-table>

@@ -1,0 +1,27 @@
+
+<p-table [value]="cards" 
+[(selection)]="selectedCards">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width: 3rem">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th colspan="2"><i class="pi pi-hashtag"></i></th>
+            <th>Name</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-card>
+        <tr>
+            <td>
+                <p-tableCheckbox [value]="card"></p-tableCheckbox>
+            </td>
+            <td  style="width: 0px;">{{ card.quantity }}</td>
+            <td style="width: 0px; padding: 0.2rem;">
+                <img style="height: 40px" [src]="getImageUrl(card,'small')" (click)="openImageShowModal(getImageUrl(card,'large'))"/>
+            </td>
+            <td><a [routerLink]="['/card', card.id]">{{ card.name }}</a></td>
+        </tr>
+    </ng-template>
+</p-table>
+
+<app-image-viewer [(visible)]="imageShowModal" [(imgUrl)]="imageShowUrl"></app-image-viewer>
