@@ -34,8 +34,8 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
-        context: ./src/ynventory.backend/ynventory.backend
-        file: ./src/ynventory.backend/ynventory.backend/Dockerfile
+        context: ./src/ynventory.backend
+        file: ./src/ynventory.backend/Dockerfile
         push: true
         tags: | 
           ${{ secrets.DOCKER_HUB_USERNAME }}/ynventory.backend:latest
