@@ -41,18 +41,20 @@ import { DecksListComponent } from './components/decks/decks-list/decks-list.com
 import { DecksViewComponent } from './components/decks/decks-view/decks-view.component';
 
 import { FoldersViewComponent } from './components/folders/folders-view/folders-view.component';
+import { FoldersMigrationComponent } from './components/folders/partials/folders-migration/folders-migration.component';
+import { FoldersCardsListComponent } from './components/folders/partials/folders-cards-list/folders-cards-list.component';
 
  
 
 /******************
    *   Prime
  ******************/
-import {SidebarModule} from 'primeng/sidebar';
-import {ButtonModule} from 'primeng/button';
-import {RippleModule} from 'primeng/ripple';
-import {TableModule } from 'primeng/table';
-import {DialogModule } from 'primeng/dialog';
-import {InputTextModule } from 'primeng/inputtext';
+import { SidebarModule } from 'primeng/sidebar';
+import { ButtonModule } from 'primeng/button';
+import { RippleModule } from 'primeng/ripple';
+import { TableModule } from 'primeng/table';
+import { DialogModule } from 'primeng/dialog';
+import { InputTextModule } from 'primeng/inputtext';
 import { CardModule } from 'primeng/card';
 import { ChartModule } from 'primeng/chart';
 import { TabViewModule } from 'primeng/tabview';
@@ -62,6 +64,9 @@ import { CardsListComponent } from './components/cards/cards-list/cards-list.com
 import { CardsViewComponent } from './components/cards/cards-view/cards-view.component';
 import { CardsTableComponent } from './components/partials/cards-table/cards-table.component';
 import { GridComponent } from './components/partials/grid/grid.component';
+import { AccordionModule } from 'primeng/accordion';
+import { SliderModule } from 'primeng/slider';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
 
 
 @NgModule({
@@ -92,6 +97,8 @@ import { GridComponent } from './components/partials/grid/grid.component';
     CardsViewComponent,
     CardsTableComponent,
     GridComponent,
+    FoldersMigrationComponent,
+    FoldersCardsListComponent,
 
 
   ],
@@ -116,6 +123,9 @@ import { GridComponent } from './components/partials/grid/grid.component';
     TabViewModule,
     DropdownModule,
     CheckboxModule,
+    AccordionModule,
+    SliderModule,
+    OverlayPanelModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

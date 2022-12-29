@@ -13,6 +13,11 @@ export class CardsTableComponent implements OnInit {
   @Input() selectedCards:CardModel[] = [];
   @Output() selectedCardsChange = new EventEmitter<CardModel[]>();
 
+  filter_selectedColors:string[] = [];
+  filter_cmc:number[] = [0,20];
+  filter_fullText:string = "";
+
+
   imageShowModal:boolean = false;
   imageShowUrl:string = "";
 

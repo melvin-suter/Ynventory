@@ -16,19 +16,11 @@ export class FoldersViewComponent implements OnInit {
 
  
   folder?:FolderModel;
-  cards:CardModel[] = [];
-  selectedCards:CardModel[] = [];
+  
 
-  showAddModal:boolean = false;
-  showEditModal:boolean = false;
-  showDeleteModal:boolean = false;
-
-  modalData:CardModel = new CardModel();
-
-  constructor(private collectionService: CollectionService, private cardService: CardService, private route: ActivatedRoute, private scryfallService:ScryfallService) { 
+  constructor(private collectionService: CollectionService, private route: ActivatedRoute) { 
     this.route.params.subscribe(params => {
       this.folder = collectionService.getFolder(params['id']);
-      this.cards = cardService.getCards(params['id']);
     });
   }
 
@@ -36,23 +28,6 @@ export class FoldersViewComponent implements OnInit {
   }
   
 
-
-  createItem(){
-    this.showAddModal = false;
-  }
-
-  openEditModal(){
-    this.modalData = this.selectedCards[0];
-    this.showEditModal = true;
-  }
-
-  saveItem(){
-    this.showEditModal = false;
-  }
-
-  deleteItem(){
-    this.showDeleteModal = false;
-  }
 
 
 }
