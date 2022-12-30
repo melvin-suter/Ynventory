@@ -1,7 +1,7 @@
 <div class="button-box">
-    <button pButton label="Add" icon="pi pi-plus" (click)="showAddModal = !showAddModal" iconPos="left" ></button>
+    <button pButton label="Add" icon="pi pi-plus" (click)="openAddModal()" iconPos="left" ></button>
     <button pButton label="Modify" [disabled]="selectedCards.length != 1" class="p-button-info" icon="pi pi-trash" (click)="openEditModal()" iconPos="left"></button>
-    <button pButton label="Delete" [disabled]="selectedCards.length == 0" class="p-button-danger" (click)="showDeleteModal = !showDeleteModal" icon="pi pi-trash" iconPos="left"></button>
+    <button pButton label="Delete" [disabled]="selectedCards.length == 0" class="p-button-danger" (click)="openDeleteModal()" icon="pi pi-trash" iconPos="left"></button>
 </div>
 
 <app-cards-table [(cards)]="cards" [(selectedCards)]="selectedCards"></app-cards-table>
@@ -35,4 +35,4 @@
     </div>
 </p-dialog>
 
-<app-card-search [(createModalOpen)]="showAddModal"></app-card-search>
+<app-card-search (dialogClosed)="createItem($event)" [(selectedCard)]="modalNewData" [(createModalOpen)]="showAddModal"></app-card-search>

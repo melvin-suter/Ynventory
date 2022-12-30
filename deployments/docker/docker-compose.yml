@@ -18,6 +18,8 @@ services:
     - POSTGRES_DB=ynventory
     - POSTGRES_USER=ynventory
     - POSTGRES_PASSWORD=YNVENTORYPASSWORD
+    ports:
+    - "5192:80"
     depends_on:
     - ynventory-postgresql
     links:

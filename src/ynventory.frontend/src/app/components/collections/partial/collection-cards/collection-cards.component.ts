@@ -33,7 +33,11 @@ export class CollectionCardsComponent implements OnInit {
   
   constructor(private collectionService: CollectionService, private cardService: CardService, private route: ActivatedRoute, private scryfallService:ScryfallService) { 
     this.route.params.subscribe(params => {
-      this.collection = collectionService.getCollection(params['colid']);
+
+      collectionService.getCollection(params['colid']).subscribe( (data:CollectionModel) => {
+        this.collection = data;
+      });
+
       this.folders = collectionService.getCollectionFolders(params['colid']);
       this.cards = cardService.getCards(params['id']);
     });

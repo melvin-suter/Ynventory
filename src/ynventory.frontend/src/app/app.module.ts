@@ -67,7 +67,8 @@ import { GridComponent } from './components/partials/grid/grid.component';
 import { AccordionModule } from 'primeng/accordion';
 import { SliderModule } from 'primeng/slider';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-
+import { TreeModule } from 'primeng/tree';
+import { TreeNode } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -126,6 +127,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     AccordionModule,
     SliderModule,
     OverlayPanelModule,
+    TreeModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

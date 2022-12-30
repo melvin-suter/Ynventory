@@ -22,7 +22,7 @@ export class CardsViewComponent implements OnInit {
   constructor(private cardService:CardService, private scryfallService:ScryfallService, private route:ActivatedRoute) { 
     this.route.params.subscribe(params => {
       this.card = cardService.getCard(params['cardid']);
-      scryfallService.getCard(this.card.scryfallID).subscribe( (item:ScryfallCardModel) => {
+      scryfallService.getCard(this.card.cardMetadataId!).subscribe( (item:ScryfallCardModel) => {
         this.scryfallData = item;
       });
       this.card = cardService.getCard(params['cardid']);

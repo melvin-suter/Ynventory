@@ -15,7 +15,9 @@ export class CollectionsViewComponent implements OnInit {
 
   constructor(private collectionService:CollectionService,private route: ActivatedRoute) { 
     this.route.params.subscribe(params => {
-      this.collection = collectionService.getCollection(params['colid']);
+      collectionService.getCollection(params['colid']).subscribe( (data:CollectionModel) => {
+        this.collection = data;
+      });
     });
 
   }
