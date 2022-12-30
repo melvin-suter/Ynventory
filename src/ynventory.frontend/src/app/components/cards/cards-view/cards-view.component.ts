@@ -13,7 +13,6 @@ import { ScryfallService } from 'src/app/services/scryfall.service';
 export class CardsViewComponent implements OnInit {
 
 
-  card?:CardModel;
   scryfallData?:ScryfallCardModel;
   getManaCostList = ScryfallCardModel.getManaCostList;
   imageShowModal:boolean = false;
@@ -21,11 +20,9 @@ export class CardsViewComponent implements OnInit {
 
   constructor(private cardService:CardService, private scryfallService:ScryfallService, private route:ActivatedRoute) { 
     this.route.params.subscribe(params => {
-      this.card = cardService.getCard(params['cardid']);
-      scryfallService.getCard(this.card.cardMetadataId!).subscribe( (item:ScryfallCardModel) => {
+      scryfallService.getCard(params['cardid']).subscribe( (item:ScryfallCardModel) => {
         this.scryfallData = item;
       });
-      this.card = cardService.getCard(params['cardid']);
     });
   }
 

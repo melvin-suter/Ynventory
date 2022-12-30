@@ -91,6 +91,17 @@
                     font-weight: bold;
                 }
             }
+
+            &.table {
+                .dashboard-value {
+                    padding: 1rem;
+                    padding-bottom: 3rem;
+
+                    table {
+                        width: 100%;
+                    }
+                }
+            }
         }
     }
 }

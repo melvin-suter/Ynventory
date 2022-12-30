@@ -72,7 +72,7 @@
                 <td style="width: 0px; padding: 0.2rem;">
                     <img style="height: 40px" [src]="card.metadata.imageUrlSmall" (click)="openImageShowModal(card.metadata.imageUrlLarge)"/>
                 </td>
-                <td><a [routerLink]="['/card', card.id]">NAME HERE{{ card.metadata.name }}</a></td>
+                <td><a [routerLink]="['/card', card.metadata.id]">NAME HERE{{ card.metadata.name }}</a></td>
             </tr>
         </ng-template>
     </p-table>

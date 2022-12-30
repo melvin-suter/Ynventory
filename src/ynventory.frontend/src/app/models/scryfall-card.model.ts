@@ -15,6 +15,7 @@ export class ScryfallCardModel {
         legacy: "not_legal" | "legal"
         modern: "not_legal" | "legal"
         standard: "not_legal" | "legal"
+        pioneer: "not_legal" | "legal"
     };
     rarity?:"common" |"uncommon" |"rare" |"special" |"mythic" | "bonus";
 
