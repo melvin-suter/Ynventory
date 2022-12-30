@@ -1,13 +1,13 @@
 <div class="button-box">
-    <button pButton label="Add" icon="pi pi-plus" (click)="showAddModal = !showAddModal" iconPos="left" ></button>
-    <button pButton label="Modify" [disabled]="selectedFolders.length != 1" class="p-button-info" icon="pi pi-trash" (click)="openEditModal()" iconPos="left"></button>
-    <button pButton label="Delete" [disabled]="selectedFolders.length == 0" class="p-button-danger" (click)="showDeleteModal = !showDeleteModal" icon="pi pi-trash" iconPos="left"></button>
+    <button pButton label="Add" icon="pi pi-plus" (click)="openAddModal()" iconPos="left" ></button>
+    <button pButton label="Modify" [disabled]="selectedCollectionItems.length != 1" class="p-button-info" icon="pi pi-trash" (click)="openEditModal()" iconPos="left"></button>
+    <button pButton label="Delete" [disabled]="selectedCollectionItems.length == 0" class="p-button-danger" (click)="openDeleteModal()" icon="pi pi-trash" iconPos="left"></button>
 </div>
 
 
 
-<p-table [value]="folders" 
-[(selection)]="selectedFolders">
+<p-table [value]="collectionItems" 
+[(selection)]="selectedCollectionItems">
     <ng-template pTemplate="header">
         <tr>
             <th style="width: 3rem">
@@ -66,8 +66,8 @@
 
 <p-dialog header="Delete Folder" [(visible)]="showDeleteModal">
     <div class="dialog-form">
-        <div class="modal-text" *ngIf="selectedFolders.length > 1">Delete {{ selectedFolders.length }} Folders?</div>
-        <div class="modal-text" *ngIf="selectedFolders.length == 1">Delete Folder "{{ selectedFolders[0].name }}"?</div>
+        <div class="modal-text" *ngIf="selectedCollectionItems.length > 1">Delete {{ selectedCollectionItems.length }} Folders?</div>
+        <div class="modal-text" *ngIf="selectedCollectionItems.length == 1">Delete Folder "{{ selectedCollectionItems[0].name }}"?</div>
         <div class="button-group">
             <button pButton label="Yes" class="p-button-danger" (click)="deleteItem()"></button>
             <button pButton label="No" class="p-button-outlined" (click)="showDeleteModal = false"></button>

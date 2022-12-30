@@ -18,11 +18,24 @@
 
             @media(min-width: 720px){
                 padding: 1rem 3rem;
+
                 &.tile-25 {
                     width: 50%;
                 }
 
                 &.tile-50 {
+                    width: 100%;
+                }
+
+                &.tile-20 {
+                    width: 50%;
+                }
+
+                &.tile-40 {
+                    width: 100%;
+                }
+                
+                &.tile-sm-100 {
                     width: 100%;
                 }
             }
@@ -31,6 +44,14 @@
                 padding: 1rem 3rem;
                 &.tile-25 {
                     width: 25%;
+                }
+
+                &.tile-20 {
+                    width: 20%;
+                }
+
+                &.tile-40 {
+                    width: 40%;
                 }
 
                 &.tile-50 {
@@ -68,6 +89,17 @@
                     align-items: center;
                     height: 100%;
                     font-weight: bold;
+                }
+            }
+
+            &.table {
+                .dashboard-value {
+                    padding: 1rem;
+                    padding-bottom: 3rem;
+
+                    table {
+                        width: 100%;
+                    }
                 }
             }
         }

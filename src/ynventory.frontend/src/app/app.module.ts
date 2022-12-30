@@ -67,7 +67,10 @@ import { GridComponent } from './components/partials/grid/grid.component';
 import { AccordionModule } from 'primeng/accordion';
 import { SliderModule } from 'primeng/slider';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
-
+import { TreeModule } from 'primeng/tree';
+import { TreeNode } from 'primeng/api';
+import { LegalityIconComponent } from './components/partials/legality-icon/legality-icon.component';
+import { CardColorReplacePipe } from './pipes/card-color-replace.pipe';
 
 @NgModule({
   declarations: [
@@ -99,6 +102,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     GridComponent,
     FoldersMigrationComponent,
     FoldersCardsListComponent,
+    LegalityIconComponent,
+    CardColorReplacePipe,
 
 
   ],
@@ -126,6 +131,8 @@ import { OverlayPanelModule } from 'primeng/overlaypanel';
     AccordionModule,
     SliderModule,
     OverlayPanelModule,
+    TreeModule,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

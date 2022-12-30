@@ -24,9 +24,9 @@ export class DeckService {
 
   public getCards(deckID:number):CardModel[]{
     return [
-      {id: 1, name: "Card 1", scryfallID: "scry1", foil:'nonfoil' , quantity: 5},
-      {id: 1, name: "Card 2", scryfallID: "scry1", foil:'nonfoil' , quantity: 5},
-      {id: 1, name: "Card 3", scryfallID: "scry1", foil:'nonfoil' , quantity: 3}
+      {id: 1, name: "Card 1", cardMetadataId: "scry1", foil:'Foil' , quantity: 5},
+      {id: 1, name: "Card 2", cardMetadataId: "scry1", foil:'Foil' , quantity: 5},
+      {id: 1, name: "Card 3", cardMetadataId: "scry1", foil:'Foil' , quantity: 3}
     ]
   }
 

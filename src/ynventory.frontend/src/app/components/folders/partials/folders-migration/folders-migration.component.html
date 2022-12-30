@@ -1,1 +1,22 @@
-<p>folders-migration works!</p>
+<div class="">
+    <p-tree [value]="treeData" selectionMode="single" [(selection)]="selectedItem" (onNodeSelect)="nodeSelected($event)"></p-tree>
+
+</div>
+
+<app-grid >
+
+    <div class="grid-tile tile-40">
+        <div class="card-list">
+            <app-cards-table [(cards)]="left_cards" [(selectedCards)]="left_cardsSelected"></app-cards-table>
+        </div>
+    </div>
+    <div class="grid-tile tile-20 tile-sm-100">
+        <button pButton label="<"></button>
+        <button pButton label=">"></button>
+    </div>
+    <div class="grid-tile tile-40">
+        <div class="card-list">
+            <app-cards-table [(cards)]="right_cards" [(selectedCards)]="right_cardsSelected"></app-cards-table>
+        </div>
+    </div>
+</app-grid>

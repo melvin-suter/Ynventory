@@ -1,4 +1,9 @@
-<p-dialog header="Add Card" [(visible)]="createModalOpen" [style]="{width: '80%', height: '70%'}">
+<p-dialog header="Add Card" 
+    [(visible)]="createModalOpen"
+    [style]="{width: '80%', height: '70%'}" 
+    (closeOnEscape)="true" (dismissableMask)="true"
+    (onHide)="closeModal(false)"
+    >
 
     <ng-container *ngIf="!showAddPage">
 
