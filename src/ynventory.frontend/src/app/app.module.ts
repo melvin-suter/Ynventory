@@ -73,6 +73,7 @@ import { ToastModule } from 'primeng/toast';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FileUploadModule } from 'primeng/fileupload';
+import { BadgeModule } from 'primeng/badge';
 
 // Pipes
 import { CardColorReplacePipe } from './pipes/card-color-replace.pipe';
@@ -150,6 +151,7 @@ import { TasksListComponent } from './components/tasks/tasks-list/tasks-list.com
     InputTextareaModule,
     MultiSelectModule,
     FileUploadModule,
+    BadgeModule,
     
     
   ],

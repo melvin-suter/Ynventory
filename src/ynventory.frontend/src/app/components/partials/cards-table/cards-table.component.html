@@ -65,7 +65,7 @@
                 </th>
                 <th pSortableColumn="quantity" colspan="2"><i class="pi pi-hashtag"></i></th>
                 <th pSortableColumn="metadata.name">Name</th>
-                <th pSortableColumn="foil">Foil</th>
+                <th pSortableColumn="foil" *ngIf="showFoil">Foil</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-card>
@@ -78,7 +78,7 @@
                     <img style="height: 40px;margin-top: 2px;margin-bottom: -2px;" [src]="card.metadata.imageUrlSmall" (click)="openImageShowModal(card.metadata.imageUrlLarge)"/>
                 </td>
                 <td><a [routerLink]="['/card', card.metadata.id]">{{ card.metadata.name }}</a></td>
-                <td>{{ card.cardFinish }}</td>
+                <td *ngIf="showFoil">{{ card.cardFinish }}</td>
             </tr>
         </ng-template>
     </p-table>

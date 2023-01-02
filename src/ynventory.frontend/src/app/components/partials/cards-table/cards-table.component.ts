@@ -15,6 +15,7 @@ export class CardsTableComponent implements OnInit {
   @Input() selectedCards:CardModel[] = [];
   @Output() selectedCardsChange = new EventEmitter<CardModel[]>();
   @Output() selectionChanged = new EventEmitter<CardModel[]>();
+  @Input() showFoil:boolean = true;
 
   public get filteredCards():CardModel[] {
     return this.cards.filter( (card) => {

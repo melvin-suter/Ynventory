@@ -20,6 +20,9 @@ export class TasksListComponent implements OnInit {
   selectedCollectionItem?:CollectionItemModel;
 
   showAddModal:boolean = false;
+  showErrorModal:boolean = false;
+  errorModalTask?:ImportTaskModel;
+
   file?:File;
   fileName:string = "";
   newTask:ImportTaskModel = {
@@ -37,6 +40,11 @@ export class TasksListComponent implements OnInit {
     this.collectionService.getCollectionItems(this.selectedCollection!.id!).subscribe( (data:CollectionItemModel[]) => {
       this.collectionItems = data;
     });
+  }
+
+  openErrorModal(task:ImportTaskModel){
+    this.errorModalTask = task;
+    this.showErrorModal = true;
   }
 
   loadData(){

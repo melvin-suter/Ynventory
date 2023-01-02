@@ -19,16 +19,36 @@
         <tr>
             <td>{{ task.id }}</td>
             <td>{{ task.fileName }}</td>
-            <td>{{ task.taskState }}</td>
+            <td>{{ task.taskState }}
+                <p-badge (click)="openErrorModal(task)" *ngIf="task.errors.length > 0" severity="danger" [value]="task.errors.length"></p-badge>
+            </td>
             <td>{{ task.taskType }}</td>
             <td>{{ task.createdAt }}</td>
             <td>{{ task.finishedAt }}</td>
-
-            
         </tr>
     </ng-template>
 </p-table>
 
+
+
+<p-dialog *ngIf="errorModalTask" header="Errors of {{ errorModalTask.fileName }}" [(visible)]="showErrorModal">
+    <p-table [value]="errorModalTask.errors!">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id">ID</th>
+                <th pSortableColumn="error">Error</th>
+                <th pSortableColumn="errorData">Data</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-error>
+            <tr>
+                <td>{{ error.id }}</td>
+                <td>{{ error.error }}</td>
+                <td>{{ error.errorData }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-dialog>
 
 <p-dialog header="Add Import Task" [(visible)]="showAddModal">
     <div class="dialog-form">

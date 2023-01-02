@@ -11,6 +11,7 @@ import { ScryfallService } from 'src/app/services/scryfall.service';
   styleUrls: ['./card-stats.component.scss']
 })
 export class CardStatsComponent implements OnInit, OnChanges {
+  stats_totalCards:number = 0;
   stats_totalCreatures:number = 0;
   stats_totalLands:number = 0;
   stats_deckLegality = {
@@ -47,7 +48,7 @@ export class CardStatsComponent implements OnInit, OnChanges {
     ]
   };
   stats_chartLevelDistribution = {
-    labels: ['1','2','3', '4', '5'],
+    labels: ['1'],
     datasets: [
       {
         data: [10, 15, 17, 5, 3],
@@ -106,6 +107,7 @@ export class CardStatsComponent implements OnInit, OnChanges {
     // Reset Counters
     this.stats_totalCreatures = 0;
     this.stats_totalLands = 0;
+    this.stats_totalCards = 0;
 
     // Reset Charts
     this.stats_chartColorDistribution.datasets[0].data.forEach( (val:number, index:number) => this.stats_chartColorDistribution.datasets[0].data[index] = 0);
@@ -124,6 +126,7 @@ export class CardStatsComponent implements OnInit, OnChanges {
     // Start Stats calc
     this.cards.forEach( (card:CardModel) => {
       // Counters
+      this.stats_totalCards += Number(card.quantity);
       if(card.metadata?.type.toLowerCase().includes('creature')){
         this.stats_totalCreatures += Number(card.quantity);
       }
@@ -168,7 +171,15 @@ export class CardStatsComponent implements OnInit, OnChanges {
       });
 
     });
+
+    // Reset Mana Cost Labels
+    let maxVal = this.stats_chartLevelDistribution.labels[this.stats_chartLevelDistribution.labels.length - 1];
+    for(let i = 0; i <= Number(maxVal); i++) {
+      this.stats_chartLevelDistribution.labels[i] = String(i);
+    }
+
   }
+
 
 
 }

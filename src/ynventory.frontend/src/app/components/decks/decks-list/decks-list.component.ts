@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DeckModel } from 'src/app/models/deck.model';
+import { DeckService } from 'src/app/services/deck.service';
 
 
 
@@ -18,10 +19,17 @@ export class DecksListComponent implements OnInit {
   showEditModal:boolean = false;
   showDeleteModal:boolean = false;
 
-  modalData:DeckModel = new DeckModel();
+  modalData:DeckModel = {};
 
-  constructor() { 
-    //this.decks = deckService.getDecks();
+  constructor(private deckService:DeckService) { 
+    this.loadData();
+  }
+
+  loadData() {
+    this.deckService.getDecks().subscribe((data:DeckModel[]) => {
+      this.selectedDecks = [];
+      this.decks = data;
+    });
   }
 
   ngOnInit(): void {
@@ -29,7 +37,9 @@ export class DecksListComponent implements OnInit {
 
 
   createItem(){
+    this.deckService.createDeck(this.modalData).subscribe( () => this.loadData());
     this.showAddModal = false;
+    this.modalData = {};
   }
 
   openEditModal(){
@@ -38,10 +48,18 @@ export class DecksListComponent implements OnInit {
   }
 
   saveItem(){
+    this.deckService.updateDeck(this.modalData).subscribe( () => this.loadData());
     this.showEditModal = false;
+    this.modalData = {};
   }
 
   deleteItem(){
+    this.selectedDecks.forEach((deck:DeckModel) => {
+      this.deckService.deleteDeck(deck.id!).subscribe( () => {
+        this.loadData();
+      });
+    });
     this.showDeleteModal = false;
+    this.modalData = {};
   }
 }

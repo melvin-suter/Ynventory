@@ -35,7 +35,7 @@
 <p-dialog header="Delete Card" [(visible)]="showDeleteModal">
     <div class="dialog-form">
         <div class="modal-text" *ngIf="selectedCards.length > 1">Delete {{ selectedCards.length }} Cards?</div>
-        <div class="modal-text" *ngIf="selectedCards.length == 1">Delete Card "{{ selectedCards[0].name }}"?</div>
+        <div class="modal-text" *ngIf="selectedCards.length == 1">Delete Card "{{ selectedCards[0].metadata!.name }}"?</div>
         <div class="button-group">
             <button pButton label="Yes" class="p-button-danger" (click)="deleteItem()"></button>
             <button pButton label="No" class="p-button-outlined" (click)="showDeleteModal = false"></button>
