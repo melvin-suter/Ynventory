@@ -65,10 +65,7 @@
                 </th>
                 <th pSortableColumn="quantity" colspan="2"><i class="pi pi-hashtag"></i></th>
                 <th pSortableColumn="metadata.name">Name</th>
-<<<<<<< HEAD
                 <th pSortableColumn="foil">Foil</th>
-=======
->>>>>>> preview
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-card>
@@ -78,16 +75,10 @@
                 </td>
                 <td  style="width: 0px;">{{ card.quantity }}</td>
                 <td style="width: 0px; padding: 0.2rem;">
-<<<<<<< HEAD
                     <img style="height: 40px;margin-top: 2px;margin-bottom: -2px;" [src]="card.metadata.imageUrlSmall" (click)="openImageShowModal(card.metadata.imageUrlLarge)"/>
                 </td>
                 <td><a [routerLink]="['/card', card.metadata.id]">{{ card.metadata.name }}</a></td>
                 <td>{{ card.cardFinish }}</td>
-=======
-                    <img style="height: 40px" [src]="card.metadata.imageUrlSmall" (click)="openImageShowModal(card.metadata.imageUrlLarge)"/>
-                </td>
-                <td><a [routerLink]="['/card', card.metadata.id]">NAME HERE{{ card.metadata.name }}</a></td>
->>>>>>> preview
             </tr>
         </ng-template>
     </p-table>

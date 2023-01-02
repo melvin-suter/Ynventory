@@ -33,11 +33,8 @@ export class FoldersMigrationComponent {
   right_cards:CardModel[] = [];
   right_cardsSelected:CardModel[] = [];
  
-<<<<<<< HEAD
   // Misc
   folderSelected:boolean = false;
-=======
->>>>>>> preview
 
   // Tree
   treeData:TreeNode[] = [];
@@ -97,18 +94,14 @@ export class FoldersMigrationComponent {
   }
 
   nodeSelected(event:any){
-<<<<<<< HEAD
     this.folderSelected = false;
 
-=======
->>>>>>> preview
     // Load Data Left Size
     let node:TreeNode = event.node;
     if( node.children == undefined || node.children!.length == 0){ // Is a folder
       let item:CollectionItemModel = node.data;
       let collection:CollectionModel = node.parent?.data;
 
-<<<<<<< HEAD
       this.left_collectionId = Number(collection!.id);
       this.left_collectionItemId = item.id!;
 
@@ -148,14 +141,6 @@ export class FoldersMigrationComponent {
       });
 
     });
-=======
-      this.collectionService.getCollectionItemCards(collection.id!, item.id!).subscribe( (cards:CardModel[]) => {
-        this.left_cardsSelected = [];
-        this.left_cards = cards;
-      });
-
-    }
->>>>>>> preview
   }
 
 }
