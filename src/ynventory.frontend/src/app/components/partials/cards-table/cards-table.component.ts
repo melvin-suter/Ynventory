@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { skip } from 'rxjs';
 import { CardModel } from 'src/app/models/card.model';
 
@@ -62,6 +63,15 @@ export class CardsTableComponent implements OnInit {
         }
       });
 
+      // Filter for legalities
+      let legalitiesHit = false;
+      this.filter_legalities.forEach((filter:string) => {
+        if(card.metadata?.legalities[filter.toLowerCase()] != "legal"){
+          legalitiesHit = true;
+        }
+      });
+      if(legalitiesHit) {return false;}
+
   
 
       return filtersRun > 0 ? filtersHit > 0 : true;
@@ -73,14 +83,14 @@ export class CardsTableComponent implements OnInit {
   filter_selectedColors:string[] = [];
   filter_cmc:number[] = [0,20];
   filter_fullText:string = "";
-
+  filter_legalities:string[] = [];
 
   imageShowModal:boolean = false;
   imageShowUrl:string = "";
 
   getImageUrl = CardModel.getImageUrl;
 
-  constructor() { }
+  constructor(private messageService: MessageService) {}
 
   ngOnInit(): void {
   }
@@ -90,7 +100,7 @@ export class CardsTableComponent implements OnInit {
     this.imageShowModal = true;
   }
 
-  onRowSelect(event?:any){
+  fireSelection(event?:any){
     this.selectedCardsChange.emit(this.selectedCards);
   }
 

@@ -63,7 +63,7 @@ export class CardSearchComponent implements OnInit {
     this.selectedCard = {
       name: card.name,
       cardMetadataId: card.id,
-      foil: 'NonFoil',
+      cardFinish: 'NonFoil',
       quantity: 1,
       id: -1
     };

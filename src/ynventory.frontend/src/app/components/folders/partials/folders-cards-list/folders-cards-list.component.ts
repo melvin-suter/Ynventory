@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { CardModel } from 'src/app/models/card.model';
 import { CollectionItemModel } from 'src/app/models/collectionItem.model';
 import { FolderModel } from 'src/app/models/folder.model';
-import { CardService } from 'src/app/services/card.service';
+
 import { CollectionService } from 'src/app/services/collection.service';
 import { ScryfallService } from 'src/app/services/scryfall.service';
 
@@ -36,7 +36,7 @@ export class FoldersCardsListComponent  {
   modalDataDelete:CardModel[] = [];
   modalNewData:CardModel = {};
 
-  constructor(private collectionService: CollectionService, private cardService: CardService, private route: ActivatedRoute, private scryfallService:ScryfallService) { 
+  constructor(private collectionService: CollectionService,  private route: ActivatedRoute, private scryfallService:ScryfallService) { 
     this.route.params.subscribe(params => {
       this.collectionId = params['colid'];
       this.collectionItemId = params['id'];
@@ -90,6 +90,7 @@ export class FoldersCardsListComponent  {
   }
  
   saveItem(){
+    console.log(this.modalData);
     this.collectionService.updateCollectionItemCard(this.collectionId, this.collectionItemId,this.modalData).subscribe((data:any) => {
       this.refresh$.next(2);
       this.showEditModal = false;
