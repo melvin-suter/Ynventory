@@ -7,16 +7,27 @@
 
     <div class="grid-tile tile-40">
         <div class="card-list">
-            <app-cards-table [(cards)]="left_cards" [(selectedCards)]="left_cardsSelected"></app-cards-table>
+            <app-cards-table  [(cards)]="from_cards" [(selectedCards)]="from_cardsSelected"></app-cards-table>
         </div>
     </div>
     <div class="grid-tile tile-20 tile-sm-100">
-        <button pButton label="<" [disabled]="!folderSelected || right_cardsSelected.length == 0" (click)="moveLeft()"></button>
-        <button pButton label=">" [disabled]="!folderSelected || left_cardsSelected.length == 0" (click)="moveRight()"></button>
+        <div class="move-buttons">
+            <div class="single">
+                <button pButton label="< 1" [disabled]="!folderSelected || to_cardsSelected.length == 0" (click)="moveBack()"></button>
+                <button pButton label="1 >" [disabled]="!folderSelected || from_cardsSelected.length == 0" (click)="moveForward()"></button>
+            </div>
+            <div class="multiple">
+                <input pInputText [(ngModel)]="quantityMove" placeholder="Quantity"/>
+                <div>
+                    <button pButton label="<< {{ quantityMoveSanitized }}" [disabled]="!folderSelected || to_cardsSelected.length == 0 || quantityMoveValid" (click)="moveBack()"></button>
+                    <button pButton label="{{ quantityMoveSanitized }} >>" [disabled]="!folderSelected || from_cardsSelected.length == 0 || quantityMoveValid" (click)="moveForward()"></button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="grid-tile tile-40">
         <div class="card-list">
-            <app-cards-table [(cards)]="right_cards" [(selectedCards)]="right_cardsSelected"></app-cards-table>
+            <app-cards-table [(cards)]="to_cards" [(selectedCards)]="to_cardsSelected"></app-cards-table>
         </div>
     </div>
 </app-grid>
