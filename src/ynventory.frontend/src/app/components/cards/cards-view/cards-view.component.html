@@ -1,4 +1,4 @@
-<h1>{{ card?.name }}</h1>
+<h1>{{ scryfallData?.name }}</h1>
 
 <div class="info-layout">
     <div class="image-wrapper">
@@ -21,8 +21,7 @@
                     <tr>
                         <td>Mana Cost</td>
                         <td>{{ scryfallData?.cmc }} -
-                            <div class="mana-cost">
-                                <img src="https://svgs.scryfall.io/card-symbols/{{ symbol }}.svg" *ngFor="let symbol of getManaCostList(scryfallData)"/>
+                            <div class="mana-cost" [innerHTML]="scryfallData?.mana_cost | cardColorReplace">
                             </div>
                         </td>
                     </tr>
@@ -42,18 +41,20 @@
                         <td>Legality</td>
                         <td>
                             <table>
-                                <tr><td>Alchemy</td><td><i class="pi pi-{{ scryfallData?.legalities?.alchemy == 'legal' ? 'check' : 'times' }}"></i></td></tr>
-                                <tr><td>Commander</td><td><i class="pi pi-{{ scryfallData?.legalities?.commander == 'legal' ? 'check' : 'times' }}"></i></td></tr>
-                                <tr><td>Historic</td><td><i class="pi pi-{{ scryfallData?.legalities?.historic == 'legal' ? 'check' : 'times' }}"></i></td></tr>
-                                <tr><td>Legacy</td><td><i class="pi pi-{{ scryfallData?.legalities?.legacy == 'legal' ? 'check' : 'times' }}"></i></td></tr>
-                                <tr><td>Modern</td><td><i class="pi pi-{{ scryfallData?.legalities?.modern == 'legal' ? 'check' : 'times' }}"></i></td></tr>
-                                <tr><td>Standard</td><td><i class="pi pi-{{ scryfallData?.legalities?.standard == 'legal' ? 'check' : 'times' }}"></i></td></tr>
+                                <tr><td>Commander</td><td><app-legality-icon [value]="scryfallData?.legalities?.commander == 'legal'"></app-legality-icon></td></tr>
+                                <tr><td>Historic</td><td><app-legality-icon [value]="scryfallData?.legalities?.historic == 'legal'"></app-legality-icon></td></tr>
+                                <tr><td>Legacy</td><td><app-legality-icon [value]="scryfallData?.legalities?.legacy == 'legal'"></app-legality-icon></td></tr>
+                                <tr><td>Modern</td><td><app-legality-icon [value]="scryfallData?.legalities?.modern == 'legal'"></app-legality-icon></td></tr>
+                                <tr><td>Standard</td><td><app-legality-icon [value]="scryfallData?.legalities?.standard == 'legal'"></app-legality-icon></td></tr>
+                                <tr><td>Pioneer</td><td><app-legality-icon [value]="scryfallData?.legalities?.pioneer == 'legal'"></app-legality-icon></td></tr>
                             </table>
                         </td>
                     </tr>
                     <tr>
                         <td>Text</td>
-                        <td>{{ scryfallData?.oracle_text }}</td>
+                        <td>
+                            <div [innerHTML]="scryfallData?.oracle_text | cardColorReplace"></div>
+                        </td>
                     </tr>
                 </ng-template>
 

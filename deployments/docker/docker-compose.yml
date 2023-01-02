@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.0"
 services:
 
   ynventory-postgresql:
@@ -9,27 +9,24 @@ services:
     - POSTGRES_PASSWORD=YNVENTORYPASSWORD
     - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-    - ynventory-postgresql:/var/lib/postgresql/data
+    - ./ynventory-postgresql:/var/lib/postgresql/data
 
   ynventory-backend:
     image: "suterdev/ynventory.backend"
     environment:
+    - POSTGRES_HOST=ynventory-postgresql
     - POSTGRES_DB=ynventory
     - POSTGRES_USER=ynventory
     - POSTGRES_PASSWORD=YNVENTORYPASSWORD
-    - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+    - "5192:80"
     depends_on:
-    - ./ynventory-postgresql
+    - ynventory-postgresql
     links:
       - "ynventory-postgresql:ynventory-postgresql"
 
   ynventory-frontend:
     image: "suterdev/ynventory.frontend"
-    environment:
-    - POSTGRES_DB=ynventory
-    - POSTGRES_USER=ynventory
-    - POSTGRES_PASSWORD=YNVENTORYPASSWORD
-    - PGDATA=/var/lib/postgresql/data/pgdata
     depends_on:
     - ynventory-backend
     - ynventory-postgresql

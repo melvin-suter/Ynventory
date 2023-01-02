@@ -1,9 +1,9 @@
 <h1>Collections</h1>
 
 <div class="button-box">
-    <button pButton label="Add" icon="pi pi-plus" (click)="showAddModal = !showAddModal" iconPos="left" ></button>
+    <button pButton label="Add" icon="pi pi-plus" (click)="openAddModal()" iconPos="left" ></button>
     <button pButton label="Modify" [disabled]="selectedCollections.length != 1" class="p-button-info" icon="pi pi-trash" (click)="openEditModal()" iconPos="left"></button>
-    <button pButton label="Delete" [disabled]="selectedCollections.length == 0" class="p-button-danger" (click)="showDeleteModal = !showDeleteModal" icon="pi pi-trash" iconPos="left"></button>
+    <button pButton label="Delete" [disabled]="selectedCollections.length == 0" class="p-button-danger" (click)="openDeleteModal()" icon="pi pi-trash" iconPos="left"></button>
 </div>
 
 <p-table [value]="collections" 
@@ -13,9 +13,9 @@
             <th style="width: 3rem">
                 <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
             </th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Cards</th>
+            <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
+            <th pSortableColumn="description">Description <p-sortIcon field="description"></p-sortIcon></th>
+            <th pSortableColumn="cardCount">Cards <p-sortIcon field="cardCount"></p-sortIcon></th>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-col>
@@ -66,8 +66,8 @@
 
 <p-dialog header="Delete Collection" [(visible)]="showDeleteModal">
     <div class="dialog-form">
-        <div class="modal-text" *ngIf="selectedCollections.length > 1">Delete {{ selectedCollections.length }} Collections?</div>
-        <div class="modal-text" *ngIf="selectedCollections.length == 1">Delete Collection "{{ selectedCollections[0].name }}"?</div>
+        <div class="modal-text" *ngIf="modalDataDelete.length > 1">Delete {{ modalDataDelete.length }} Collections?</div>
+        <div class="modal-text" *ngIf="modalDataDelete.length == 1">Delete Collection "{{ modalDataDelete[0].name }}"?</div>
         <div class="button-group">
             <button pButton label="Yes" class="p-button-danger" (click)="deleteItem()"></button>
             <button pButton label="No" class="p-button-outlined" (click)="showDeleteModal = false"></button>

@@ -1,0 +1,16 @@
+.tile-20 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+::ng-deep {
+    .grid-tile {
+        padding: 0.5rem !important;
+    }
+
+    .grid {
+        padding: 0.5rem !important;
+    }
+}

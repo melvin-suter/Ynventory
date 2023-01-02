@@ -10,23 +10,23 @@
                 <h3>Colors</h3>
                 <div class="color-filter">
                     <div class="icon-checkbox">
-                        <p-checkbox name="selectedColors" value="white" [(ngModel)]="filter_selectedColors"></p-checkbox>
+                        <p-checkbox name="selectedColors" value="W" [(ngModel)]="filter_selectedColors"></p-checkbox>
                         <img style="height:1rem; width: 1rem;" src='https://svgs.scryfall.io/card-symbols/W.svg'>
                     </div>
                     <div class="icon-checkbox">
-                        <p-checkbox name="selectedColors" value="black" [(ngModel)]="filter_selectedColors"></p-checkbox>
+                        <p-checkbox name="selectedColors" value="B" [(ngModel)]="filter_selectedColors"></p-checkbox>
                         <img style="height:1rem; width: 1rem;" src='https://svgs.scryfall.io/card-symbols/B.svg'>
                     </div>
                     <div class="icon-checkbox">
-                        <p-checkbox name="selectedColors" value="red"  [(ngModel)]="filter_selectedColors"></p-checkbox>
+                        <p-checkbox name="selectedColors" value="R"  [(ngModel)]="filter_selectedColors"></p-checkbox>
                         <img style="height:1rem; width: 1rem;" src='https://svgs.scryfall.io/card-symbols/R.svg'>
                     </div>
                     <div class="icon-checkbox">
-                        <p-checkbox name="selectedColors" value="blue"  [(ngModel)]="filter_selectedColors"></p-checkbox>
-                        <img style="height:1rem; width: 1rem;" src='https://svgs.scryfall.io/card-symbols/B.svg'>
+                        <p-checkbox name="selectedColors" value="U"  [(ngModel)]="filter_selectedColors"></p-checkbox>
+                        <img style="height:1rem; width: 1rem;" src='https://svgs.scryfall.io/card-symbols/U.svg'>
                     </div>
                     <div class="icon-checkbox">
-                        <p-checkbox name="selectedColors" value="green"  [(ngModel)]="filter_selectedColors"></p-checkbox>
+                        <p-checkbox name="selectedColors" value="G"  [(ngModel)]="filter_selectedColors"></p-checkbox>
                         <img style="height:1rem; width: 1rem;" src='https://svgs.scryfall.io/card-symbols/G.svg'>
                     </div>
                     <div class="icon-checkbox">
@@ -51,15 +51,16 @@
 
 
 <div class="table-wrapper">
-    <p-table [value]="cards" 
+    <p-table [value]="filteredCards"
+    (onRowSelect)="onRowSelect()" 
     [(selection)]="selectedCards">
         <ng-template pTemplate="header">
             <tr>
                 <th style="width: 3rem">
                     <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
                 </th>
-                <th colspan="2"><i class="pi pi-hashtag"></i></th>
-                <th>Name</th>
+                <th pSortableColumn="quantity" colspan="2"><i class="pi pi-hashtag"></i></th>
+                <th pSortableColumn="metadata.name">Name</th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-card>
@@ -69,9 +70,9 @@
                 </td>
                 <td  style="width: 0px;">{{ card.quantity }}</td>
                 <td style="width: 0px; padding: 0.2rem;">
-                    <img style="height: 40px" [src]="getImageUrl(card,'small')" (click)="openImageShowModal(getImageUrl(card,'large'))"/>
+                    <img style="height: 40px" [src]="card.metadata.imageUrlSmall" (click)="openImageShowModal(card.metadata.imageUrlLarge)"/>
                 </td>
-                <td><a [routerLink]="['/card', card.id]">{{ card.name }}</a></td>
+                <td><a [routerLink]="['/card', card.metadata.id]">NAME HERE{{ card.metadata.name }}</a></td>
             </tr>
         </ng-template>
     </p-table>

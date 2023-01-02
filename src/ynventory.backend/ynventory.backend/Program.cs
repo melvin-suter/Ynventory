@@ -71,7 +71,7 @@ builder.Services.AddDbContext<YnventoryDbContext>(options =>
     {
         connectionStringBuilder.IncludeErrorDetail = true;
     }
-
+    
     options.UseNpgsql(connectionStringBuilder.ConnectionString,
                       x => x.MigrationsAssembly(typeof(YnventoryDbContext).Assembly.FullName));
     options.UseLazyLoadingProxies();

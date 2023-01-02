@@ -74,7 +74,7 @@ export class DecksViewComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.deck = deckService.getDeck(params['id']);
-      this.cards = cardService.getCards(params['id']);
+      //this.cards = cardService.getCards(params['id']);
     });
 
   }
