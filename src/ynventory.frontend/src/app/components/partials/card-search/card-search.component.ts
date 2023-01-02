@@ -23,6 +23,8 @@ export class CardSearchComponent implements OnInit {
   @Input() selectedCard:CardModel = new CardModel();
   @Output() selectedCardChange = new EventEmitter<CardModel>();
   @Output() dialogClosed = new EventEmitter<boolean>();
+  @Input() showFoil:boolean = true;
+ 
   imageShowModal:boolean = false;
   searchControl:FormControl;
   imageShowUrl:string = "";

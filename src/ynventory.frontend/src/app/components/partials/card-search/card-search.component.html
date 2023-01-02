@@ -59,7 +59,7 @@
                 <label>Quantity</label>
                 <input type="number" pInputText [(ngModel)]="selectedCard.quantity"/>
             </div>
-            <div class="form-group">
+            <div class="form-group" *ngIf="showFoil">
                 <label>Foil</label>
                 <p-dropdown [options]="['NonFoil','Foil','Edged']" [(ngModel)]="selectedCard.cardFinish" ></p-dropdown>
             </div>

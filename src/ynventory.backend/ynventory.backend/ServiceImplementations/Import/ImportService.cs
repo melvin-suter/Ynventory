@@ -89,7 +89,8 @@ namespace Ynventory.Backend.ServiceImplementations.Import
             return new ImportErrorResponse
             {
                 Id = taskError.Id,
-                Error = taskError.Error
+                Error = taskError.Error,
+                ErrorData = taskError.ErrorData
             };
         }
 

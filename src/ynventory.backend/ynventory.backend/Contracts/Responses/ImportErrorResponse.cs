@@ -6,5 +6,6 @@ namespace Ynventory.Backend.Contracts.Responses
     {
         public int Id { get; set; }
         public string Error { get; set; }
+        public string ErrorData { get; set; }
     }
 }
