@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CardModel } from 'src/app/models/card.model';
 import { CollectionModel } from 'src/app/models/collection.model';
 import { CollectionItemModel } from 'src/app/models/collectionItem.model';
-import { FolderModel } from 'src/app/models/folder.model';
+
 
 import { CollectionService } from 'src/app/services/collection.service';
 import { ScryfallService } from 'src/app/services/scryfall.service';
@@ -27,7 +27,7 @@ export class CollectionCardsComponent implements OnInit {
   showDeleteModal:boolean = false;
 
   modalData:CardModel = new CardModel();
-  newFolder:FolderModel = new FolderModel();
+  newFolder?:CollectionItemModel;
   modalDataDelete:CardModel[] = [];
 
   getImageUrl = CardModel.getImageUrl;

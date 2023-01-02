@@ -72,10 +72,12 @@ import { LegalityIconComponent } from './components/partials/legality-icon/legal
 import { ToastModule } from 'primeng/toast';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { FileUploadModule } from 'primeng/fileupload';
 
 // Pipes
 import { CardColorReplacePipe } from './pipes/card-color-replace.pipe';
 import { MessageService } from 'primeng/api';
+import { TasksListComponent } from './components/tasks/tasks-list/tasks-list.component';
 
 @NgModule({
   declarations: [
@@ -115,6 +117,7 @@ import { MessageService } from 'primeng/api';
     FoldersCardsListComponent,
     LegalityIconComponent,
     CardColorReplacePipe,
+    TasksListComponent,
 
 
   ],
@@ -146,6 +149,7 @@ import { MessageService } from 'primeng/api';
     ToastModule,
     InputTextareaModule,
     MultiSelectModule,
+    FileUploadModule,
     
     
   ],

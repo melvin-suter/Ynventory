@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { CardModel } from 'src/app/models/card.model';
 import { CollectionItemModel } from 'src/app/models/collectionItem.model';
-import { FolderModel } from 'src/app/models/folder.model';
+
 
 import { CollectionService } from 'src/app/services/collection.service';
 import { ScryfallService } from 'src/app/services/scryfall.service';

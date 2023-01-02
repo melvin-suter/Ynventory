@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Ynventory.Data.Models;
 using Ynventory.Backend.Services.Data;
 using Ynventory.Data.Enums;
+using Ynventory.Backend.Exceptions;
 
 namespace Ynventory.Backend.ServiceImplementations.Import
 {
@@ -29,15 +30,29 @@ namespace Ynventory.Backend.ServiceImplementations.Import
 
         public async Task<ImportTaskResponse> CreateTask(CreateImportTaskRequest request)
         {
+            var collection = await _context.Collections.FindAsync(request.CollectionId);
+            if (collection is null)
+            {
+                throw new CollectionNotFoundException(request.CollectionId);
+            }
+
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == request.CollectionItemId);
+            if (collectionItem is null)
+            {
+                throw new CollectionItemNotFoundException(request.CollectionItemId);
+            }
+
+
             var task = new ImportTask
             {
                 FileName = request.FileName,
                 FileData = request.FileData,
                 TaskType = request.TaskType,
-                TaskState = Ynventory.Data.Enums.ImportTaskState.Pending
+                TaskState = Ynventory.Data.Enums.ImportTaskState.Pending,
+                createdAt = DateTime.Now
             };
 
-            _context.ImportTasks.Add(task);
+            collectionItem.ImportTasks.Add(task);
 
             await _context.SaveChangesAsync();
 
@@ -62,9 +77,12 @@ namespace Ynventory.Backend.ServiceImplementations.Import
                 Id = task.Id,
                 FileName = task.FileName,
                 TaskType = task.TaskType,
-                Errors = task.ImportErrors.Select(ToResponse).ToArray()
+                Errors = task.ImportErrors.Select(ToResponse).ToArray(),
+                createdAt = task.createdAt,
+                finishedAt = task.finishedAt
             };
         }
+
 
         private static ImportErrorResponse ToResponse(ImportError taskError)
         {
@@ -110,6 +128,7 @@ namespace Ynventory.Backend.ServiceImplementations.Import
             }
 
             task.TaskState = result ? ImportTaskState.Successfull : ImportTaskState.Failed;
+            task.finishedAt = DateTime.Now;
             
             await _context.SaveChangesAsync();
 

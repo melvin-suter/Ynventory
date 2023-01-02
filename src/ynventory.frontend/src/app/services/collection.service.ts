@@ -5,7 +5,6 @@ import { catchError, map, mergeAll, Observable, of } from 'rxjs';
 import { CardModel } from '../models/card.model';
 import { CollectionModel } from '../models/collection.model';
 import { CollectionItemModel } from '../models/collectionItem.model';
-import { FolderModel } from '../models/folder.model';
 
 @Injectable({
   providedIn: 'root'
