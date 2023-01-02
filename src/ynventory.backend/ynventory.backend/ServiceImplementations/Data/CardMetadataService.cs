@@ -52,6 +52,12 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                     {
                         Keyword = x,
                         CardMetadataId = scryfallMetadata.Id
+                    }).ToList(),
+                    Legalities = scryfallMetadata.Legalities.Select(x => new CardLegality
+                    {
+                        PlayFormat = x.Key,
+                        Legality = x.Value,
+                        CardMetadataId = scryfallMetadata.Id
                     }).ToList()
                 };
 
@@ -83,6 +89,9 @@ namespace Ynventory.Backend.ServiceImplementations.Data
             metadata.Toughness = scryfallCard.Toughness;
             metadata.ManaCostTotal = scryfallCard.ManaCostTotal;
             metadata.Colors.Clear();
+            metadata.ColorIdentity.Clear();
+            metadata.Keywords.Clear();
+            metadata.Legalities.Clear();
             scryfallCard.Colors.ToList().ForEach(x => metadata.Colors.Add(new CardColor
             {
                 Color = x,
@@ -97,6 +106,12 @@ namespace Ynventory.Backend.ServiceImplementations.Data
             {
                 Keyword = x,
                 CardMetadataId = cardMetadataId,
+            }));
+            scryfallCard.Legalities.ToList().ForEach(x => metadata.Legalities.Add(new CardLegality
+            {
+                PlayFormat = x.Key,
+                Legality = x.Value,
+                CardMetadataId = cardMetadataId
             }));
 
             await _context.SaveChangesAsync();
@@ -122,6 +137,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 Colors = metadata.Colors.Select(x => x.Color).ToArray(),
                 ColorIdentity = metadata.ColorIdentity.Select(x => x.ColorIdentity).ToArray(),
                 Keywords = metadata.Keywords.Select(x => x.Keyword).ToArray(),
+                Legalities = metadata.Legalities.ToDictionary(x => x.PlayFormat, x => x.Legality)
             };
         }
     }

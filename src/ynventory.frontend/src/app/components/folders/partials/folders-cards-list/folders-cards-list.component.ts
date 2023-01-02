@@ -36,7 +36,11 @@ export class FoldersCardsListComponent  {
   modalDataDelete:CardModel[] = [];
   modalNewData:CardModel = {};
 
+<<<<<<< HEAD
   constructor(private collectionService: CollectionService,  private route: ActivatedRoute, private scryfallService:ScryfallService) { 
+=======
+  constructor(private collectionService: CollectionService, private cardService: CardService, private route: ActivatedRoute, private scryfallService:ScryfallService) { 
+>>>>>>> preview
     this.route.params.subscribe(params => {
       this.collectionId = params['colid'];
       this.collectionItemId = params['id'];
@@ -90,7 +94,6 @@ export class FoldersCardsListComponent  {
   }
  
   saveItem(){
-    console.log(this.modalData);
     this.collectionService.updateCollectionItemCard(this.collectionId, this.collectionItemId,this.modalData).subscribe((data:any) => {
       this.refresh$.next(2);
       this.showEditModal = false;

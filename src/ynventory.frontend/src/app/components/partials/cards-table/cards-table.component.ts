@@ -1,5 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+<<<<<<< HEAD
 import { MessageService } from 'primeng/api';
+=======
+>>>>>>> preview
 import { skip } from 'rxjs';
 import { CardModel } from 'src/app/models/card.model';
 
@@ -100,7 +103,11 @@ export class CardsTableComponent implements OnInit {
     this.imageShowModal = true;
   }
 
+<<<<<<< HEAD
   fireSelection(event?:any){
+=======
+  onRowSelect(event?:any){
+>>>>>>> preview
     this.selectedCardsChange.emit(this.selectedCards);
   }
 

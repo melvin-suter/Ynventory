@@ -84,8 +84,13 @@
 
 <p-dialog header="Delete Folder" [(visible)]="showDeleteModal">
     <div class="dialog-form">
+<<<<<<< HEAD
         <div class="modal-text" *ngIf="selectedCollectionItems.length > 1">Delete {{ selectedCollectionItems.length }} Collection Items?</div>
         <div class="modal-text" *ngIf="selectedCollectionItems.length == 1">Delete Collection Item "{{ selectedCollectionItems[0].name }}"?</div>
+=======
+        <div class="modal-text" *ngIf="selectedCollectionItems.length > 1">Delete {{ selectedCollectionItems.length }} Folders?</div>
+        <div class="modal-text" *ngIf="selectedCollectionItems.length == 1">Delete Folder "{{ selectedCollectionItems[0].name }}"?</div>
+>>>>>>> preview
         <div class="button-group">
             <button pButton label="Yes" class="p-button-danger" (click)="deleteItem()"></button>
             <button pButton label="No" class="p-button-outlined" (click)="showDeleteModal = false"></button>

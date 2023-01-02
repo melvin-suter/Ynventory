@@ -33,7 +33,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                     break;
                 }
 
-                if (reader.TokenType == JsonTokenType.PropertyName)
+                if (reader.TokenType == JsonTokenType.PropertyName && reader.CurrentDepth == 1)
                 {
                     switch (reader.GetString())
                     {
@@ -117,6 +117,10 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                         case "keywords":
                             reader.Read();
                             result.Keywords = ReadStringArray(ref reader);
+                            break;
+                        case "legalities":
+                            reader.Read();
+                            result.Legalities = ReadObjectAsDictionary(ref reader);
                             break;
                         case "card_faces":
                             reader.Read();
@@ -218,6 +222,41 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 resultBuilder.Add(item);
             }
             return resultBuilder.ToArray();
+        }
+
+
+        private static Dictionary<string, string> ReadObjectAsDictionary(ref Utf8JsonReader reader)
+        {
+            if (reader.TokenType != JsonTokenType.StartObject)
+            {
+                throw new JsonException();
+            }
+
+            var result = new Dictionary<string, string>();
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonTokenType.EndObject)
+                {
+                    break;
+                }
+
+                if (reader.TokenType == JsonTokenType.PropertyName)
+                {
+                    var key = reader.GetString()!;
+                    reader.Read();
+                    if (reader.TokenType != JsonTokenType.String)
+                    {
+                        throw new JsonException();
+                    }
+                    var value = reader.GetString()!;
+                    result[key] = value;
+                }
+                else
+                {
+                    throw new JsonException();
+                }
+            }
+            return result;
         }
 
         public override void Write(Utf8JsonWriter writer, CardMetadataResponse value, JsonSerializerOptions options)

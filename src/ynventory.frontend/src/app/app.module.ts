@@ -113,6 +113,8 @@ import { MessageService } from 'primeng/api';
     CardsTableComponent,
     FoldersMigrationComponent,
     FoldersCardsListComponent,
+    LegalityIconComponent,
+    CardColorReplacePipe,
 
 
   ],

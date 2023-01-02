@@ -137,20 +137,43 @@ namespace Ynventory.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Folders",
+                name: "CardLegality",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    PlayFormat = table.Column<string>(type: "text", nullable: false),
+                    Legality = table.Column<string>(type: "text", nullable: false),
+                    CardMetadataId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CardLegality", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CardLegality_CardMetadata_CardMetadataId",
+                        column: x => x.CardMetadataId,
+                        principalTable: "CardMetadata",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CollectionItems",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    Type = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string>(type: "text", nullable: true),
                     CollectionId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Folders", x => x.Id);
+                    table.PrimaryKey("PK_CollectionItems", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Folders_Collections_CollectionId",
+                        name: "FK_CollectionItems_Collections_CollectionId",
                         column: x => x.CollectionId,
                         principalTable: "Collections",
                         principalColumn: "Id",
@@ -158,53 +181,56 @@ namespace Ynventory.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "FolderCards",
+                name: "DeckCards",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
-                    CardMetadataId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    FolderId = table.Column<int>(type: "integer", nullable: false),
-                    Finish = table.Column<int>(type: "integer", nullable: false)
+                    DeckId = table.Column<int>(type: "integer", nullable: false),
+                    MetadataId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_FolderCards", x => x.Id);
+                    table.PrimaryKey("PK_DeckCards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FolderCards_CardMetadata_CardMetadataId",
-                        column: x => x.CardMetadataId,
+                        name: "FK_DeckCards_CardMetadata_MetadataId",
+                        column: x => x.MetadataId,
                         principalTable: "CardMetadata",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_FolderCards_Folders_FolderId",
-                        column: x => x.FolderId,
-                        principalTable: "Folders",
+                        name: "FK_DeckCards_Decks_DeckId",
+                        column: x => x.DeckId,
+                        principalTable: "Decks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "DeckFolderCard",
+                name: "Cards",
                 columns: table => new
                 {
-                    CardsId = table.Column<int>(type: "integer", nullable: false),
-                    DecksId = table.Column<int>(type: "integer", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityAlwaysColumn),
+                    MetadataId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ParentItemId = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    Finish = table.Column<int>(type: "integer", nullable: false),
+                    IsCommander = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DeckFolderCard", x => new { x.CardsId, x.DecksId });
+                    table.PrimaryKey("PK_Cards", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DeckFolderCard_Decks_DecksId",
-                        column: x => x.DecksId,
-                        principalTable: "Decks",
+                        name: "FK_Cards_CardMetadata_MetadataId",
+                        column: x => x.MetadataId,
+                        principalTable: "CardMetadata",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_DeckFolderCard_FolderCards_CardsId",
-                        column: x => x.CardsId,
-                        principalTable: "FolderCards",
+                        name: "FK_Cards_CollectionItems_ParentItemId",
+                        column: x => x.ParentItemId,
+                        principalTable: "CollectionItems",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -225,24 +251,34 @@ namespace Ynventory.Data.Migrations
                 column: "CardMetadataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DeckFolderCard_DecksId",
-                table: "DeckFolderCard",
-                column: "DecksId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FolderCards_CardMetadataId",
-                table: "FolderCards",
+                name: "IX_CardLegality_CardMetadataId",
+                table: "CardLegality",
                 column: "CardMetadataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FolderCards_FolderId",
-                table: "FolderCards",
-                column: "FolderId");
+                name: "IX_Cards_MetadataId",
+                table: "Cards",
+                column: "MetadataId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Folders_CollectionId",
-                table: "Folders",
+                name: "IX_Cards_ParentItemId",
+                table: "Cards",
+                column: "ParentItemId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CollectionItems_CollectionId",
+                table: "CollectionItems",
                 column: "CollectionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeckCards_DeckId",
+                table: "DeckCards",
+                column: "DeckId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DeckCards_MetadataId",
+                table: "DeckCards",
+                column: "MetadataId");
         }
 
         /// <inheritdoc />
@@ -258,22 +294,25 @@ namespace Ynventory.Data.Migrations
                 name: "CardKeyword");
 
             migrationBuilder.DropTable(
-                name: "DeckFolderCard");
+                name: "CardLegality");
+
+            migrationBuilder.DropTable(
+                name: "Cards");
+
+            migrationBuilder.DropTable(
+                name: "DeckCards");
 
             migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "Decks");
-
-            migrationBuilder.DropTable(
-                name: "FolderCards");
+                name: "CollectionItems");
 
             migrationBuilder.DropTable(
                 name: "CardMetadata");
 
             migrationBuilder.DropTable(
-                name: "Folders");
+                name: "Decks");
 
             migrationBuilder.DropTable(
                 name: "Collections");
