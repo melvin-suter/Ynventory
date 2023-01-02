@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Ynventory.Backend.Exceptions;
-using Ynventory.Backend.Services.Import;
 using Ynventory.Backend.Contracts.Requests;
 using Ynventory.Backend.Contracts.Responses;
+using Ynventory.Backend.Exceptions;
+using Ynventory.Backend.Services.Import;
 
 namespace Ynventory.Backend.Controllers
 {
@@ -24,8 +24,9 @@ namespace Ynventory.Backend.Controllers
         /// <response code="200">The list has been created</response>
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionResponse[]))]
-        public async Task<IActionResult> getTasks(){
-            return Ok(await _importService.getTasks());
+        public async Task<IActionResult> GetTasks()
+        {
+            return Ok(await _importService.GetTasks());
         }
 
         /// <summary>
