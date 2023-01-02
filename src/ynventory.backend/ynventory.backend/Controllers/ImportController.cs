@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Ynventory.Backend.Exceptions;
 using Ynventory.Backend.Services.Import;
 using Ynventory.Backend.Contracts.Requests;

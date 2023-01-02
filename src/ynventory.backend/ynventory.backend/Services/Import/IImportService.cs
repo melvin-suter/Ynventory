@@ -1,4 +1,4 @@
-﻿using Ynventory.Backend.Contracts.Responses;
+using Ynventory.Backend.Contracts.Responses;
 using Ynventory.Backend.Contracts.Requests;
 
 namespace Ynventory.Backend.Services.Import

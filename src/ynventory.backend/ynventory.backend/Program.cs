@@ -87,6 +87,7 @@ builder.Services.AddTransient<ICollectionService, CollectionService>();
 builder.Services.AddTransient<IScryfallClient, ScryfallClient>();
 builder.Services.AddTransient<ICardMetadataService, CardMetadataService>();
 builder.Services.AddTransient<IImportService, ImportService>();
+builder.Services.AddTransient<IDeckService, DeckService>();
 
 var app = builder.Build();
 

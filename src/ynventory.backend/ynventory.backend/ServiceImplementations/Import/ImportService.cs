@@ -1,4 +1,4 @@
-﻿using CsvHelper;
+using CsvHelper;
 using System.Globalization;
 using Ynventory.Backend.Services.Import;
 using Ynventory.Backend.Contracts.Requests;
@@ -134,6 +134,5 @@ namespace Ynventory.Backend.ServiceImplementations.Import
 
             await Task.CompletedTask;
         }
-
     }
 }
