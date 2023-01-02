@@ -20,21 +20,32 @@ export class FoldersMigrationComponent {
   collectionItemId:number = -1;
 
   // Left Table
-  left_collectionId:number = -1;
-  left_collectionItemId:number = -1;
-  left_cardsObservable$?:Observable<CollectionItemModel[]>;
-  left_refresh$ = new BehaviorSubject<number>(1);
-  left_cards:CardModel[] = [];
-  left_cardsSelected:CardModel[] = [];
+  to_collectionId:number = -1;
+  to_collectionItemId:number = -1;
+  to_cardsObservable$?:Observable<CollectionItemModel[]>;
+  to_refresh$ = new BehaviorSubject<number>(1);
+  to_cards:CardModel[] = [];
+  to_cardsSelected:CardModel[] = [];
 
   // Right Table
-  right_cardsObservable$?:Observable<CollectionItemModel[]>;
-  right_refresh$ = new BehaviorSubject<number>(1);
-  right_cards:CardModel[] = [];
-  right_cardsSelected:CardModel[] = [];
+  from_cardsObservable$?:Observable<CollectionItemModel[]>;
+  from_refresh$ = new BehaviorSubject<number>(1);
+  from_cards:CardModel[] = [];
+  from_cardsSelected:CardModel[] = [];
  
   // Misc
   folderSelected:boolean = false;
+  quantityMove:string = "X";
+  public get quantityMoveValid():boolean {
+    if(!isNaN(parseInt(this.quantityMove)) && isFinite(Number(this.quantityMove))) {
+      return false;
+    }
+
+    return this.quantityMove.toUpperCase() === "X" ? false : true;
+  }
+  public get quantityMoveSanitized():string {
+    return this.quantityMove.toUpperCase() === "X" ? "X" : String(parseInt(this.quantityMove)) == "NaN" ? "X" : String(parseInt(this.quantityMove));
+  }
 
   // Tree
   treeData:TreeNode[] = [];
@@ -53,13 +64,13 @@ export class FoldersMigrationComponent {
       });
 
       // Load Data Right Size
-      this.right_cardsObservable$ = this.right_refresh$.pipe(switchMap((_:any) => {
+      this.from_cardsObservable$ = this.from_refresh$.pipe(switchMap((_:any) => {
         return this.collectionService.getCollectionItemCards(this.collectionId, this.collectionItemId);
       }));
 
-      this.right_cardsObservable$.subscribe( (data:CollectionItemModel[]) => {
-        this.right_cardsSelected = [];
-        this.right_cards = data;
+      this.from_cardsObservable$.subscribe( (data:CollectionItemModel[]) => {
+        this.from_cardsSelected = [];
+        this.from_cards = data;
       });
 
     });
@@ -102,45 +113,46 @@ export class FoldersMigrationComponent {
       let item:CollectionItemModel = node.data;
       let collection:CollectionModel = node.parent?.data;
 
-      this.left_collectionId = Number(collection!.id);
-      this.left_collectionItemId = item.id!;
+      this.to_collectionId = Number(collection!.id);
+      this.to_collectionItemId = item.id!;
 
       this.loadLeftData();
     }
   }
 
   loadLeftData(){
-    this.collectionService.getCollectionItemCards(this.left_collectionId, this.left_collectionItemId ).subscribe( (cards:CardModel[]) => {
-      this.left_cardsSelected = [];
-      this.left_cards = cards;
+    this.collectionService.getCollectionItemCards(this.to_collectionId, this.to_collectionItemId ).subscribe( (cards:CardModel[]) => {
+      this.to_cardsSelected = [];
+      this.to_cards = cards;
       this.folderSelected = true;
     });
   }
 
-  moveLeft(){
-    let leftColItem = {collectionId: this.left_collectionId, collectionItemId: this.left_collectionItemId};
-    let rightColItem = { collectionId: this.collectionId, collectionItemId: this.collectionItemId };
-    this.right_cardsSelected.forEach( (card:CardModel) => {
-      this.collectionService.moveCollectionItemCard(card, rightColItem, leftColItem, () => {
+  moveForward(){
+    let toColItem = {collectionId: this.to_collectionId, collectionItemId: this.to_collectionItemId};
+    let fromColItem = { collectionId: this.collectionId, collectionItemId: this.collectionItemId };
+    this.from_cardsSelected.forEach( (card:CardModel) => {
+      this.collectionService.moveCollectionItemCard(card, fromColItem, toColItem, () => {
         // Reload Lists if call succeeded/failed
         this.loadLeftData();
-        this.right_refresh$.next(2);
+        this.from_refresh$.next(2);
       });
 
     });
   }
 
-  moveRight(){
-    let leftColItem = {collectionId: this.left_collectionId, collectionItemId: this.left_collectionItemId};
-    let rightColItem = { collectionId: this.collectionId, collectionItemId: this.collectionItemId };
-    this.right_cardsSelected.forEach( (card:CardModel) => {
-      this.collectionService.moveCollectionItemCard(card, leftColItem, rightColItem, () => {
+  moveBack(){
+    let toColItem = {collectionId: this.to_collectionId, collectionItemId: this.to_collectionItemId};
+    let fromColItem = { collectionId: this.collectionId, collectionItemId: this.collectionItemId };
+    this.from_cardsSelected.forEach( (card:CardModel) => {
+      this.collectionService.moveCollectionItemCard(card, toColItem, fromColItem, () => {
         // Reload Lists if call succeeded/failed
         this.loadLeftData();
-        this.right_refresh$.next(2);
+        this.from_refresh$.next(2);
       });
 
     });
   }
+
 
 }

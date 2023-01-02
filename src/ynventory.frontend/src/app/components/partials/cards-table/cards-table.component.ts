@@ -14,6 +14,7 @@ export class CardsTableComponent implements OnInit {
   @Output() cardsChange = new EventEmitter<CardModel[]>();
   @Input() selectedCards:CardModel[] = [];
   @Output() selectedCardsChange = new EventEmitter<CardModel[]>();
+  @Output() selectionChanged = new EventEmitter<CardModel[]>();
 
   public get filteredCards():CardModel[] {
     return this.cards.filter( (card) => {
@@ -102,6 +103,7 @@ export class CardsTableComponent implements OnInit {
 
   fireSelection(event?:any){
     this.selectedCardsChange.emit(this.selectedCards);
+    this.selectionChanged.emit(this.selectedCards);
   }
 
 }
