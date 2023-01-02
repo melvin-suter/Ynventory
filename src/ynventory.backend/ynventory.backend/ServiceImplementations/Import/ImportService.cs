@@ -49,7 +49,7 @@ namespace Ynventory.Backend.ServiceImplementations.Import
                 FileData = request.FileData,
                 TaskType = request.TaskType,
                 TaskState = Ynventory.Data.Enums.ImportTaskState.Pending,
-                createdAt = DateTime.Now
+                createdAt = DateTime.UtcNow
             };
 
             collectionItem.ImportTasks.Add(task);
@@ -128,7 +128,7 @@ namespace Ynventory.Backend.ServiceImplementations.Import
             }
 
             task.TaskState = result ? ImportTaskState.Successfull : ImportTaskState.Failed;
-            task.finishedAt = DateTime.Now;
+            task.finishedAt = DateTime.UtcNow;
             
             await _context.SaveChangesAsync();
 
