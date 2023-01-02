@@ -3,6 +3,7 @@ services:
 
   ynventory-postgresql:
     image: "postgres"
+    restart: always
     environment:
     - POSTGRES_DB=ynventory
     - POSTGRES_USER=ynventory
@@ -13,6 +14,7 @@ services:
 
   ynventory-backend:
     image: "suterdev/ynventory.backend"
+    restart: always
     environment:
     - POSTGRES_HOST=ynventory-postgresql
     - POSTGRES_DB=ynventory
@@ -25,12 +27,14 @@ services:
 
   ynventory-frontend:
     image: "suterdev/ynventory.frontend"
+    restart: always
     depends_on:
     - ynventory-backend
     - ynventory-postgresql
 
   ynventory-nginx:
     image: "nginx"
+    restart: always
     ports:
     - "8080:80"
     volumes:

@@ -10,6 +10,7 @@
             [User.UserAlreadyExists] = StatusCodes.Status400BadRequest,
             [Data.EntityNotFound] = StatusCodes.Status404NotFound,
             [Data.EntityAlreadyExists] = StatusCodes.Status400BadRequest,
+            [Data.EntityIllegalState] = StatusCodes.Status400BadRequest,
             [Scryfall.CardNotFound] = StatusCodes.Status400BadRequest,
             [Scryfall.ApiError] = StatusCodes.Status502BadGateway,
         };
@@ -31,6 +32,7 @@
         {
             public const int EntityNotFound = 301;
             public const int EntityAlreadyExists = 302;
+            public const int EntityIllegalState = 303;
         }
 
         public static class Scryfall

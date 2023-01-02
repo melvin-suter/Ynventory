@@ -1,15 +1,18 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Npgsql;
 using System.Reflection;
 using System.Text.Json;
 using Ynventory.Backend.ServiceImplementations.Authentication;
 using Ynventory.Backend.ServiceImplementations.Data;
 using Ynventory.Backend.ServiceImplementations.Identity;
+using Ynventory.Backend.ServiceImplementations.Import;
 using Ynventory.Backend.ServiceImplementations.Infrastructure;
 using Ynventory.Backend.Services.Authentication;
 using Ynventory.Backend.Services.Data;
 using Ynventory.Backend.Services.Identity;
+using Ynventory.Backend.Services.Import;
 using Ynventory.Backend.Services.Infrastructure;
 using Ynventory.Backend.Util;
 using Ynventory.Data;
@@ -56,7 +59,22 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddDbContext<YnventoryDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("Application"),
+    var section = builder.Configuration.GetSection("EnvironmentVariables");
+
+    var connectionStringBuilder = new NpgsqlConnectionStringBuilder
+    {
+        Host = Environment.GetEnvironmentVariable(section.GetValue<string>("POSTGRES_HOST")!),
+        Database = Environment.GetEnvironmentVariable(section.GetValue<string>("POSTGRES_DB")!),
+        Username = Environment.GetEnvironmentVariable(section.GetValue<string>("POSTGRES_USER")!),
+        Password = Environment.GetEnvironmentVariable(section.GetValue<string>("POSTGRES_PASSWORD")!)
+    };
+
+    if (builder.Environment.IsDevelopment())
+    {
+        connectionStringBuilder.IncludeErrorDetail = true;
+    }
+    
+    options.UseNpgsql(connectionStringBuilder.ConnectionString,
                       x => x.MigrationsAssembly(typeof(YnventoryDbContext).Assembly.FullName));
     options.UseLazyLoadingProxies();
 });
@@ -68,6 +86,8 @@ builder.Services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
 builder.Services.AddTransient<ICollectionService, CollectionService>();
 builder.Services.AddTransient<IScryfallClient, ScryfallClient>();
 builder.Services.AddTransient<ICardMetadataService, CardMetadataService>();
+builder.Services.AddTransient<IImportService, ImportService>();
+builder.Services.AddTransient<IDeckService, DeckService>();
 
 var app = builder.Build();
 

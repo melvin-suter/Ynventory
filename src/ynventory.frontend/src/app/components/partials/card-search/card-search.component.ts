@@ -23,13 +23,15 @@ export class CardSearchComponent implements OnInit {
   @Input() selectedCard:CardModel = new CardModel();
   @Output() selectedCardChange = new EventEmitter<CardModel>();
   @Output() dialogClosed = new EventEmitter<boolean>();
+  @Input() showFoil:boolean = true;
+ 
   imageShowModal:boolean = false;
   searchControl:FormControl;
   imageShowUrl:string = "";
   foilOptions:any = [
-    { key: "nonfoil",value: 'Non Foil' },
-    { key: "foil",value: 'Foil' },
-    { key: "edged",value: 'Edged' }
+    { key: "NonFoil",value: 'Non Foil' },
+    { key: "Foil",value: 'Foil' },
+    { key: "Edged",value: 'Edged' }
   ];
 
   showAddPage:boolean = false;
@@ -62,8 +64,8 @@ export class CardSearchComponent implements OnInit {
     this.showAddPage = true;
     this.selectedCard = {
       name: card.name,
-      scryfallID: card.id,
-      foil: 'nonfoil',
+      cardMetadataId: card.id,
+      cardFinish: 'NonFoil',
       quantity: 1,
       id: -1
     };
@@ -71,8 +73,9 @@ export class CardSearchComponent implements OnInit {
 
   closeModal(closeValue:boolean){
     this.createModalOpen = false;
-    this.dialogClosed.emit(closeValue);
     this.showAddPage = false;
+    this.selectedCardChange.emit(this.selectedCard);
+    this.dialogClosed.emit(closeValue);
   }
 
 }

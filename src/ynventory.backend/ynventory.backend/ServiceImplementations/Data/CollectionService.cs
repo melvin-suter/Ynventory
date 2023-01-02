@@ -4,6 +4,7 @@ using Ynventory.Backend.Contracts.Responses;
 using Ynventory.Backend.Exceptions;
 using Ynventory.Backend.Services.Data;
 using Ynventory.Data;
+using Ynventory.Data.Enums;
 using Ynventory.Data.Models;
 
 namespace Ynventory.Backend.ServiceImplementations.Data
@@ -96,7 +97,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
             await _context.SaveChangesAsync();
         }
 
-        public async Task<CollectionFolderResponse> CreateFolder(int collectionId, CollectionFolderCreateRequest request)
+        public async Task<IEnumerable<CardResponse>> GetCards(int collectionId)
         {
             var collection = await _context.Collections.FindAsync(collectionId);
             if (collection is null)
@@ -104,26 +105,42 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var exists = collection.Folders.Any(x => x.Name == request.Name);
-            if (exists)
+            var cards = collection.Items.Where(x => x.Type == CollectionItemType.Folder).SelectMany(x => x.Cards).Select(ToResponse).ToArray();
+
+            return cards;
+        }
+
+        public async Task<CollectionItemResponse> CreateItem(int collectionId, CollectionItemCreateRequest request)
+        {
+            var collection = await _context.Collections.FindAsync(collectionId);
+            if (collection is null)
             {
-                throw new FolderAlreadyExistsException(request.Name);
+                throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = new Folder
+            var exists = collection.Items.Any(x => x.Name == request.Name && 
+                                                   x.Type == request.Type);
+            if (exists)
+            {
+                throw new CollectionItemAlreadyExistsException(request.Name);
+            }
+
+            var collectionItem = new CollectionItem
             {
                 Name = request.Name,
+                Type = request.Type,
                 Description = request.Description,
+                Notes = request.Notes,
             };
 
-            collection.Folders.Add(folder);
+            collection.Items.Add(collectionItem);
 
             await _context.SaveChangesAsync();
 
-            return ToResponse(folder);
+            return ToResponse(collectionItem);
         }
 
-        public async Task<IEnumerable<CollectionFolderResponse>> GetFolders(int collectionId)
+        public async Task<IEnumerable<CollectionItemResponse>> GetItems(int collectionId)
         {
             var collection = await _context.Collections.FindAsync(collectionId);
             if (collection is null)
@@ -131,10 +148,10 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            return collection.Folders.Select(ToResponse).ToArray();
+            return collection.Items.Select(ToResponse).ToArray();
         }
 
-        public async Task<CollectionFolderResponse> GetFolder(int collectionId, int folderId)
+        public async Task<CollectionItemResponse> GetItem(int collectionId, int collectionItemId)
         {
             var collection = await _context.Collections.FindAsync(collectionId);
             if (collection is null)
@@ -142,16 +159,16 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
-            if (folder is null)
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == collectionItemId);
+            if (collectionItem is null)
             {
-                throw new FolderNotFoundException(folderId);
+                throw new CollectionItemNotFoundException(collectionItemId);
             }
 
-            return ToResponse(folder);
+            return ToResponse(collectionItem);
         }
 
-        public async Task<CollectionFolderResponse> UpdateFolder(int collectionId, CollectionFolderUpdateRequest request)
+        public async Task<CollectionItemResponse> UpdateItem(int collectionId, CollectionItemUpdateRequest request)
         {
             var collection = await _context.Collections.FindAsync(collectionId);
             if (collection is null)
@@ -159,30 +176,32 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id == request.Id);
-            if (folder is null)
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == request.Id);
+            if (collectionItem is null)
             {
-                throw new FolderNotFoundException(request.Id);
+                throw new CollectionItemNotFoundException(request.Id);
             }
 
-            if (folder.Name != request.Name)
+            if (collectionItem.Name != request.Name)
             {
-                var exists = collection.Folders.Any(x => x.Name == request.Name);
+                var exists = collection.Items.Any(x => x.Name == request.Name &&
+                                                       x.Type == collectionItem.Type);
                 if (exists)
                 {
-                    throw new FolderAlreadyExistsException(request.Name);
+                    throw new CollectionItemAlreadyExistsException(request.Name);
                 }
             }
 
-            folder.Name = request.Name;
-            folder.Description = request.Description;
+            collectionItem.Name = request.Name;
+            collectionItem.Description = request.Description;
+            collectionItem.Notes = request.Notes;
 
             await _context.SaveChangesAsync();
 
-            return ToResponse(folder);
+            return ToResponse(collectionItem);
         }
 
-        public async Task DeleteFolder(int collectionId, int folderId)
+        public async Task DeleteItem(int collectionId, int collectionItemId)
         {
             var collection = await _context.Collections.FindAsync(collectionId);
             if (collection is null)
@@ -190,18 +209,18 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
-            if (folder is null)
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == collectionItemId);
+            if (collectionItem is null)
             {
-                throw new FolderNotFoundException(folderId);
+                throw new CollectionItemNotFoundException(collectionItemId);
             }
 
-            collection.Folders.Remove(folder);
+            collection.Items.Remove(collectionItem);
 
             await _context.SaveChangesAsync();
         }
 
-        public async Task<CollectionFolderCardResponse> CreateCard(int collectionId, int folderId, CollectionFolderCardCreateRequest request)
+        public async Task<CardResponse> CreateCard(int collectionId, int collectionItemId, CardCreateRequest request)
         {
             var collection = await _context.Collections.FindAsync(collectionId);
             if (collection is null)
@@ -209,30 +228,31 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
-            if (folder is null)
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == collectionItemId);
+            if (collectionItem is null)
             {
-                throw new FolderNotFoundException(folderId);
+                throw new CollectionItemNotFoundException(collectionItemId);
             }
 
             //check if card exists (this will throw in case it doesn't find anything)
             _ = await _cardMetadataService.GetCardMetadata(request.CardMetadataId);
 
-            var card = new FolderCard
+            var card = new Card
             {
-                CardMetadataId = request.CardMetadataId,
+                MetadataId = request.CardMetadataId,
                 Finish = request.CardFinish,
                 Quantity = request.Quantity,
+                IsCommander = request.IsCommander,
             };
 
-            folder.Cards.Add(card);
+            collectionItem.Cards.Add(card);
 
             await _context.SaveChangesAsync();
 
             return ToResponse(card);
         }
 
-        public async Task<IEnumerable<CollectionFolderCardResponse>> GetCards(int collectionId, int folderId)
+        public async Task<IEnumerable<CardResponse>> GetCards(int collectionId, int collectionItemId)
         {
             var collection = await _context.Collections.FindAsync(collectionId);
             if (collection is null)
@@ -240,16 +260,16 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
-            if (folder is null)
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == collectionItemId);
+            if (collectionItem is null)
             {
-                throw new FolderNotFoundException(folderId);
+                throw new CollectionItemNotFoundException(collectionItemId);
             }
 
-            return folder.Cards.Select(ToResponse);
+            return collectionItem.Cards.Select(ToResponse);
         }
 
-        public async Task<CollectionFolderCardResponse> GetCard(int collectionId, int folderId, int cardId)
+        public async Task<CardResponse> GetCard(int collectionId, int collectionItemId, int cardId)
         {
             var collection = await _context.Collections.FindAsync(collectionId);
             if (collection is null)
@@ -257,13 +277,13 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
-            if (folder is null)
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == collectionItemId);
+            if (collectionItem is null)
             {
-                throw new FolderNotFoundException(folderId);
+                throw new CollectionItemNotFoundException(collectionItemId);
             }
 
-            var card = folder.Cards.FirstOrDefault(x => x.Id == cardId);
+            var card = collectionItem.Cards.FirstOrDefault(x => x.Id == cardId);
             if (card is null)
             {
                 throw new CardNotFoundException(cardId);
@@ -272,7 +292,7 @@ namespace Ynventory.Backend.ServiceImplementations.Data
             return ToResponse(card);
         }
 
-        public async Task<CollectionFolderCardResponse> UpdateCard(int collectionId, int folderId, CollectionFolderCardUpdateRequest request)
+        public async Task<CardResponse> UpdateCard(int collectionId, int collectionItemId, CardUpdateRequest request)
         {
             var collection = await _context.Collections.FindAsync(collectionId);
             if (collection is null)
@@ -280,13 +300,13 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
-            if (folder is null)
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == collectionItemId);
+            if (collectionItem is null)
             {
-                throw new FolderNotFoundException(folderId);
+                throw new CollectionItemNotFoundException(collectionItemId);
             }
 
-            var card = folder.Cards.FirstOrDefault(x => x.Id == request.Id);
+            var card = collectionItem.Cards.FirstOrDefault(x => x.Id == request.Id);
             if (card is null)
             {
                 throw new CardNotFoundException(request.Id);
@@ -296,21 +316,22 @@ namespace Ynventory.Backend.ServiceImplementations.Data
             await _cardMetadataService.GetCardMetadata(request.CardMetadataId);
 
             //If it's the same metadataId, update the card metadata on the database
-            if (request.CardMetadataId == card.CardMetadataId)
+            if (request.CardMetadataId == card.MetadataId)
             {
                 await _cardMetadataService.UpdateCardMetadata(request.CardMetadataId);
             }
 
-            card.CardMetadataId = request.CardMetadataId;
+            card.MetadataId = request.CardMetadataId;
             card.Finish = request.CardFinish;
             card.Quantity = request.Quantity;
+            card.IsCommander = request.IsCommander;
 
             await _context.SaveChangesAsync();
 
             return ToResponse(card);
         }
 
-        public async Task DeleteCard(int collectionId, int folderId, int cardId)
+        public async Task DeleteCard(int collectionId, int collectionItemId, int cardId)
         {
             var collection = await _context.Collections.FindAsync(collectionId);
             if (collection is null)
@@ -318,20 +339,91 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 throw new CollectionNotFoundException(collectionId);
             }
 
-            var folder = collection.Folders.FirstOrDefault(x => x.Id == folderId);
-            if (folder is null)
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == collectionItemId);
+            if (collectionItem is null)
             {
-                throw new FolderNotFoundException(folderId);
+                throw new CollectionItemNotFoundException(collectionItemId);
             }
 
-            var card = folder.Cards.FirstOrDefault(x => x.Id == cardId);
+            var card = collectionItem.Cards.FirstOrDefault(x => x.Id == cardId);
             if (card is null)
             {
                 throw new CardNotFoundException(cardId);
             }
 
-            folder.Cards.Remove(card);
+            collectionItem.Cards.Remove(card);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<CardResponse> MoveCard(int collectionId, int collectionItemId, int cardId, MoveCardRequest request)
+        {
+            var collection = await _context.Collections.FindAsync(collectionId);
+            if (collection is null)
+            {
+                throw new CollectionNotFoundException(collectionId);
+            }
+
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == collectionItemId);
+            if (collectionItem is null)
+            {
+                throw new CollectionItemNotFoundException(collectionItemId);
+            }
+
+            var card = collectionItem.Cards.FirstOrDefault(x => x.Id == cardId);
+            if (card is null)
+            {
+                throw new CardNotFoundException(cardId);
+            }
+
+            if (request.Quantity > card.Quantity)
+            {
+                throw new CardMoveIllegalException(cardId, request.Quantity, card.Quantity);
+            }
+
+            var targetCollection = await _context.Collections.FindAsync(request.TargetCollectionId);
+            if (targetCollection is null)
+            {
+                throw new CollectionNotFoundException(request.TargetCollectionId);
+            }
+
+            var targetCollectionItem = targetCollection.Items.FirstOrDefault(x => x.Id == request.TargetCollectionItemId);
+            if (targetCollectionItem is null)
+            {
+                throw new CollectionItemNotFoundException(request.TargetCollectionItemId);
+            }
+
+            //If card already exists with the same properties, add it to the quantity, otherwise add a new one
+            var targetCard = targetCollectionItem.Cards.FirstOrDefault(x => x.MetadataId == card.MetadataId &&
+                                                                            x.Finish == card.Finish);
+            if (targetCard is null)
+            {
+                targetCard = new Card
+                {
+                    MetadataId = card.MetadataId,
+                    Metadata = card.Metadata,
+                    Finish = card.Finish,
+                    IsCommander = card.IsCommander,
+                    Quantity = request.Quantity,
+                };
+
+                targetCollectionItem.Cards.Add(targetCard);
+            }
+            else
+            {
+                targetCard.Quantity += request.Quantity;
+            }
+
+            if (request.Quantity == card.Quantity)
+            {
+                collectionItem.Cards.Remove(card);
+            }
+            else
+            {
+                card.Quantity -= request.Quantity;
+            }
+
+            await _context.SaveChangesAsync();
+            return ToResponse(targetCard);
         }
 
         private static CollectionResponse ToResponse(Collection collection)
@@ -341,50 +433,32 @@ namespace Ynventory.Backend.ServiceImplementations.Data
                 Id = collection.Id,
                 Name = collection.Name,
                 Description = collection.Description,
-                CardCount = collection.Folders?.Sum(x => x.Cards?.Sum(x => x.Quantity) ?? 0) ?? 0
+                CardCount = collection.Items?.Sum(x => x.Cards?.Sum(x => x.Quantity) ?? 0) ?? 0
             };
         }
 
-        private static CollectionFolderResponse ToResponse(Folder folder)
+        private static CollectionItemResponse ToResponse(CollectionItem collectionItem)
         {
-            return new CollectionFolderResponse
+            return new CollectionItemResponse
             {
-                Id = folder.Id,
-                Name = folder.Name,
-                Description = folder.Description,
-                CardCount = folder.Cards?.Sum(x => x.Quantity) ?? 0,
+                Id = collectionItem.Id,
+                Name = collectionItem.Name,
+                Type = collectionItem.Type,
+                Description = collectionItem.Description,
+                Notes = collectionItem.Notes,
+                CardCount = collectionItem.Cards?.Sum(x => x.Quantity) ?? 0,
             };
         }
 
-        private static CollectionFolderCardResponse ToResponse(FolderCard card)
+        private static CardResponse ToResponse(Card card)
         {
-            return new CollectionFolderCardResponse
+            return new CardResponse
             {
                 Id = card.Id,
                 CardFinish = card.Finish,
                 Quantity = card.Quantity,
-                Metadata = ToResponse(card.Metadata)
-            };
-        }
-
-        private static CardMetadataResponse ToResponse(CardMetadata metadata)
-        {
-            return new CardMetadataResponse
-            {
-                Id = metadata.Id,
-                Lang = metadata.Lang,
-                Layout = metadata.Layout,
-                ImageUrlSmall = metadata.ImageUrlSmall,
-                ImageUrlLarge = metadata.ImageUrlLarge,
-                Type = metadata.Type,
-                ManaCost = metadata.ManaCost,
-                OracleText = metadata.OracleText,
-                Power = metadata.Power,
-                Toughness = metadata.Toughness,
-                ManaCostTotal = metadata.ManaCostTotal,
-                Colors = metadata.Colors.Select(x => x.Color).ToArray(),
-                ColorIdentity = metadata.ColorIdentity.Select(x => x.ColorIdentity).ToArray(),
-                Keywords = metadata.Keywords.Select(x => x.Keyword).ToArray(),
+                IsCommander = card.IsCommander,
+                Metadata = card.Metadata.ToResponse()
             };
         }
     }

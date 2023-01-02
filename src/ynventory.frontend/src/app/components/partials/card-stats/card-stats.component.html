@@ -1,0 +1,63 @@
+
+<app-grid>
+
+    <div class="grid-tile tile-25">
+        <div class="dashboard-field number">
+            <div class="dashboard-value">
+                <span>{{ stats_totalCards }}</span>
+            </div>
+            <div class="dashboard-title">Total Cards</div>
+        </div>
+    </div>
+    <div class="grid-tile tile-25">
+        <div class="dashboard-field number">
+            <div class="dashboard-value">
+                <span>{{ stats_totalCreatures }}</span>
+            </div>
+            <div class="dashboard-title">Total Creatures</div>
+        </div>
+    </div>
+    <div class="grid-tile tile-25">
+        <div class="dashboard-field number">
+            <div class="dashboard-value">
+                <span>{{ stats_totalLands }}</span>
+            </div>
+            <div class="dashboard-title">Total Lands</div>
+        </div>
+    </div>
+
+    <div class="grid-tile tile-25">
+        <div class="dashboard-field table">
+            <div class="dashboard-value">
+                <table>
+                    <tr><td>Commander</td><td><app-legality-icon [value]="stats_deckLegality.commander"></app-legality-icon></td></tr>
+                    <tr><td>Historic</td><td><app-legality-icon [value]="stats_deckLegality.historic"></app-legality-icon></td></tr>
+                    <tr><td>Legacy</td><td><app-legality-icon [value]="stats_deckLegality.legacy"></app-legality-icon></td></tr>
+                    <tr><td>Modern</td><td><app-legality-icon [value]="stats_deckLegality.modern"></app-legality-icon></td></tr>
+                    <tr><td>Standard</td><td><app-legality-icon [value]="stats_deckLegality.standard"></app-legality-icon></td></tr>
+                    <tr><td>Pioneer</td><td><app-legality-icon [value]="stats_deckLegality.pioneer"></app-legality-icon></td></tr>
+                </table>
+            </div>
+            <div class="dashboard-title">Deck Legality</div>
+        </div>
+    </div>
+
+    <div class="grid-tile tile-50">
+        <div class="dashboard-field chart">
+            <div class="dashboard-value">
+                <p-chart type="pie" [data]="stats_chartColorDistribution" height="200px" [options]="chartOptionsPie" ></p-chart>
+            </div>
+            <div class="dashboard-title">Color Distribution</div>
+        </div>
+    </div>
+    <div class="grid-tile tile-50">
+        <div class="dashboard-field chart">
+            <div class="dashboard-value">
+                <p-chart type="bar" [data]="stats_chartLevelDistribution" height="200px" [options]="chartOptionsBar" ></p-chart>
+            </div>
+            <div class="dashboard-title">Mana Cost Distribution</div>
+        </div>
+    </div>
+
+
+</app-grid>

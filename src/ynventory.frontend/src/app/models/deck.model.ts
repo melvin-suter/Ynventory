@@ -1,6 +1,7 @@
-export class DeckModel {
-    name:string = "";
-    description:string = "";
-    cardCount:number = 0;
-    id:number = 0;
+export interface DeckModel {
+    name?:string;
+    description?:string;
+    cardCount?:number;
+    id?:number;
+    notes?:string;
 }

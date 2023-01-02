@@ -24,6 +24,19 @@
             .p-dropdown {
                 width: 100%;
             }
+
+            &.checkbox {
+                display: flex;
+                flex-direction: row-reverse;
+                justify-content: start;
+                align-items: center;
+                padding: 1rem 1rem;
+
+                label {
+                    padding-left: 0.5rem;
+                    margin: 0px;
+                }
+            }
         }
 
         .button-group {

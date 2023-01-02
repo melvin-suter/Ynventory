@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MessageService } from 'primeng/api';
 import { CardModel } from 'src/app/models/card.model';
 import { DeckModel } from 'src/app/models/deck.model';
-import { CardService } from 'src/app/services/card.service';
 import { DeckService } from 'src/app/services/deck.service';
+
+
 import { ScryfallService } from 'src/app/services/scryfall.service';
 
 
@@ -14,6 +16,7 @@ import { ScryfallService } from 'src/app/services/scryfall.service';
 })
 export class DecksViewComponent implements OnInit {
 
+  deckId:number = -1;
   deck?:DeckModel;
   cards:CardModel[] = [];
   selectedCards:CardModel[] = [];
@@ -25,6 +28,7 @@ export class DecksViewComponent implements OnInit {
   showDeleteModal:boolean = false;
 
   modalData:CardModel = new CardModel();
+  modalNewData:CardModel = {};
 
   chartOptions:any = {
     plugins: {
@@ -33,59 +37,38 @@ export class DecksViewComponent implements OnInit {
       }
     }
   }
-  constructor(private deckService: DeckService, private cardService: CardService, private route: ActivatedRoute, private scryfallService:ScryfallService) { 
-    this.chartColorDistribution = {
-      labels: ['White','Red','Green', 'Blue', 'Black'],
-      datasets: [
-        {
-          data: [300, 50, 100, 400, 500],
-          backgroundColor: [
-            "rgb(248,231,185)",
-            "rgb(211,32,42)",
-            "rgb(0,115,62)",
-            "rgb(14,104,171)",
-            "rgb(21,11,0)"
-          ],
-          hoverBackgroundColor: [
-            "rgb(248,231,185)",
-            "rgb(211,32,42)",
-            "rgb(0,115,62)",
-            "rgb(14,104,171)",
-            "rgb(21,11,0)"
-          ]
-        }
-      ]
-    };
-
-    this.chartLevelDistribution = {
-      labels: ['1','2','3', '4', '5'],
-      datasets: [
-        {
-          data: [10, 15, 17, 5, 3],
-          backgroundColor: [
-            "#673AB7"
-          ],
-          hoverBackgroundColor: [
-            "#673AB7"
-          ]
-        }
-      ]
-    };
+  constructor(private deckService:DeckService, private route: ActivatedRoute, private scryfallService:ScryfallService, private messageService:MessageService) { 
 
     this.route.params.subscribe(params => {
-      this.deck = deckService.getDeck(params['id']);
-      this.cards = cardService.getCards(params['id']);
+      this.deckId = params['id'];
+      this.deckService.getDeck(this.deckId).subscribe( (data:DeckModel) => {
+        this.deck = data;
+      });
+      this.loadData();
     });
 
+  }
+
+  loadData() {
+    this.deckService.getDeckCards(this.deckId).subscribe( (data:CardModel[]) => {
+      this.cards = data;
+    });
   }
 
   ngOnInit(): void {
   }
 
-  createItem(){
+  createItem(event:any) {
     this.showAddModal = false;
-  }
 
+    if(event){
+      this.deckService.createDeckCard(this.deckId, this.modalNewData).subscribe(() => {
+        this.loadData();
+        this.modalNewData = {};
+      });
+
+    }
+  }
   openEditModal(){
     this.modalData = this.selectedCards[0];
     this.showEditModal = true;
@@ -97,6 +80,13 @@ export class DecksViewComponent implements OnInit {
 
   deleteItem(){
     this.showDeleteModal = false;
+  }
+
+
+  saveNotes() {
+    this.deckService.updateDeck(this.deck!).subscribe( () => {
+      this.messageService.add({severity:'success', summary: 'Note saved', detail:'Your notes have been saved'});
+    });
   }
 
 

@@ -6,11 +6,32 @@
 ![preview-frontend-build](https://github.com/melvin-suter/ynventory/actions/workflows/preview-frontend-build.yml/badge.svg)
 ![preview-backend-build](https://github.com/melvin-suter/ynventory/actions/workflows/preview-backend-build.yml/badge.svg)
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Self hosted, modern, web based Magic the Gathering inventory & deck building system.
+You can import CSVs from known apps like Delver.
 
-![Example UI](images/screenshot.png)
+![Example UI](images/screenshot.gif)
 
-Demo: [https://ynventory.melvinsuter.ch](https://ynventory.melvinsuter.ch)
+Demo: [https://ynventory.mtg-ynventory.com](https://ynventory.mtg-ynventory.com)
+
+
+# Roadmap
+
+These are the planed versions to be released:
+
+## Version 1.0.0
+
+- [ ] User Login (Every User has his own collection) 
+- [X] Creating Collections, Folders/Decks, Cards, Virtual Decks
+- [X] Deplyoment with Kubernetes
+- [X] Deployment with Docker Compose
+- [ ] Import Delver Files (CSV)
+
+## Version 1.1.0
+
+- [ ] Mobile Friendlier UI
+- [ ] Example Deployments on Hostsers (Hetzner, AWS, etc. **TBD**)
+- [ ] More Import Options
+
 
 # Deplyoment
 
@@ -42,31 +63,11 @@ docker-compose up -d
 
 ### Certificates
 
-TBD
+Use this: [https://github.com/acmesh-official/acme.sh](https://github.com/acmesh-official/acme.sh)
 
 ## Cloud Provider
 
-### AWS
-
-Start an instance with:
-- t2.micro
-- Rocky Linux 9
-
-# Roadmap
-
-These are the planed versions to be released.
-
-## Version 1.0.0
-
-- [ ] Creating Collections, Folders, Cards, Decks
-- [ ] Import Delver Files (CSV, .delver, etc. **TBD**)
-- [ ] Deplyoment with Kubernetes
-- [ ] Deployment with Docker Compose
-
-## Version 1.1.0
-
-- [ ] Mobile Friendly UI
-- [ ] Example Deployments on Hostsers (Hetzner, AWS, etc. **TBD**)
+TBD
 
 # Contributers
 

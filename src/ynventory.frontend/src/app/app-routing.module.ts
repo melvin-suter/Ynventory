@@ -12,6 +12,7 @@ import { CollectionsViewComponent } from './components/collections/collections-v
 import { FoldersViewComponent } from './components/folders/folders-view/folders-view.component';
 import { CardsViewComponent } from './components/cards/cards-view/cards-view.component';
 import { CardsListComponent } from './components/cards/cards-list/cards-list.component';
+import { TasksListComponent } from './components/tasks/tasks-list/tasks-list.component';
 
 const routes: Routes = [
   { path: '', component: AppLayoutComponent, canActivate: [AuthGuard], children: [
@@ -23,6 +24,7 @@ const routes: Routes = [
     {path: 'decks/:id', component: DecksViewComponent},
     {path: 'decks', component: DecksListComponent},
     {path: 'home', component: DashboardComponent},
+    {path: 'tasks', component: TasksListComponent},
     {path: '', redirectTo: 'home', pathMatch: 'full'}
   ]},
   { path: '', component: BareComponent, children: [

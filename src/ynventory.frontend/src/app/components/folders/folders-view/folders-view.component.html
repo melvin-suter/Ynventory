@@ -1,4 +1,13 @@
-<h1>{{ folder?.name }}</h1>
+<h1>{{ collectionItem?.name }} <button pButton type="button" class="p-button-sm" icon="pi pi-book" label="Notes" iconPos="left" (click)="notesOverlay.toggle($event)"></button></h1>
+
+<p-overlayPanel #notesOverlay>
+    <ng-template pTemplate>
+        <textarea pInputTextarea [rows]="8" [cols]="40" [(ngModel)]="collectionItem!.notes"></textarea>
+        <div class="button-wrapper">
+            <button pButton type="button" class="p-button-success" label="Save" (click)="saveNotes()"></button>
+        </div>
+    </ng-template>
+</p-overlayPanel>
 
 <p-tabView>
     <p-tabPanel header="List">
@@ -6,5 +15,8 @@
     </p-tabPanel>
     <p-tabPanel header="Move">
         <app-folders-migration></app-folders-migration>
+    </p-tabPanel>
+    <p-tabPanel header="Stats">
+        <app-card-stats [cards]="cards"></app-card-stats>
     </p-tabPanel>
 </p-tabView>

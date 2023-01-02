@@ -121,6 +121,10 @@
     <value>{0} '{1}' does already exist</value>
     <comment>{0} = EntityName, {1} = EntityIdentifier</comment>
   </data>
+  <data name="Error_EntityIllegalState" xml:space="preserve">
+    <value>{0} with id {1} is invalid: {2}</value>
+    <comment>{0} = EntityName, {1} = EntityId, {2} = ErrorDetail</comment>
+  </data>
   <data name="Error_EntityNotFound" xml:space="preserve">
     <value>{0} with Id {1} does not exist</value>
     <comment>{0} = EntityName, {1} = EntityId</comment>

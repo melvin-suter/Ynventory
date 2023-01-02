@@ -1,1 +1,33 @@
-<p>folders-migration works!</p>
+<div class="">
+    <p-tree [value]="treeData" selectionMode="single" [(selection)]="selectedItem" (onNodeSelect)="nodeSelected($event)"></p-tree>
+
+</div>
+
+<app-grid >
+
+    <div class="grid-tile tile-40">
+        <div class="card-list">
+            <app-cards-table  [(cards)]="from_cards" [(selectedCards)]="from_cardsSelected"></app-cards-table>
+        </div>
+    </div>
+    <div class="grid-tile tile-20 tile-sm-100">
+        <div class="move-buttons">
+            <div class="single">
+                <button pButton label="< 1" [disabled]="!folderSelected || to_cardsSelected.length == 0" (click)="move(true,'back')"></button>
+                <button pButton label="1 >" [disabled]="!folderSelected || from_cardsSelected.length == 0" (click)="move(true, 'forward')"></button>
+            </div>
+            <div class="multiple">
+                <input pInputText [(ngModel)]="quantityMove" placeholder="Quantity"/>
+                <div>
+                    <button pButton label="<< {{ quantityMoveSanitized }}" [disabled]="!folderSelected || to_cardsSelected.length == 0 || quantityMoveValid" (click)="move(false,'back')"></button>
+                    <button pButton label="{{ quantityMoveSanitized }} >>" [disabled]="!folderSelected || from_cardsSelected.length == 0 || quantityMoveValid" (click)="move(false, 'forward')"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="grid-tile tile-40">
+        <div class="card-list">
+            <app-cards-table [(cards)]="to_cards" [(selectedCards)]="to_cardsSelected"></app-cards-table>
+        </div>
+    </div>
+</app-grid>

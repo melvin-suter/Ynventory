@@ -1,0 +1,48 @@
+version: "3.0"
+services:
+
+  ynventory-postgresql:
+    image: "postgres"
+    restart: always
+    ports:
+    - 5432:5432
+    environment:
+    - POSTGRES_DB=ynventory
+    - POSTGRES_USER=ynventory
+    - POSTGRES_PASSWORD=YNVENTORYPASSWORD
+    - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+    - ./ynventory-postgresql:/var/lib/postgresql/data
+
+  ynventory-backend:
+    image: "suterdev/ynventory.backend"
+    restart: always
+    environment:
+    - POSTGRES_HOST=ynventory-postgresql
+    - POSTGRES_DB=ynventory
+    - POSTGRES_USER=ynventory
+    - POSTGRES_PASSWORD=YNVENTORYPASSWORD
+    ports:
+    - "5192:80"
+    depends_on:
+    - ynventory-postgresql
+    links:
+      - "ynventory-postgresql:ynventory-postgresql"
+
+  ynventory-frontend:
+    image: "suterdev/ynventory.frontend"
+    restart: always
+    depends_on:
+    - ynventory-backend
+    - ynventory-postgresql
+
+  ynventory-nginx:
+    image: "nginx"
+    restart: always
+    ports:
+    - "8080:80"
+    volumes:
+    - ./ynventory-nginx:/etc/nginx/conf.d
+    links:
+      - "ynventory-frontend:ynventory-frontend"
+      - "ynventory-backend:ynventory-backend"

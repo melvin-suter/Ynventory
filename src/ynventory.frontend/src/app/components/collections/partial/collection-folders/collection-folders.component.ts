@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { CollectionModel } from 'src/app/models/collection.model';
-import { FolderModel } from 'src/app/models/folder.model';
+import { CollectionItemModel } from 'src/app/models/collectionItem.model';
+
 import { CollectionService } from 'src/app/services/collection.service';
 
 
@@ -10,45 +12,91 @@ import { CollectionService } from 'src/app/services/collection.service';
   templateUrl: './collection-folders.component.html',
   styleUrls: ['./collection-folders.component.scss']
 })
-export class CollectionFoldersComponent implements OnInit {
+export class CollectionFoldersComponent  {
 
+  // Observable Handler Shit
+  collectionItemsObservable$?:Observable<CollectionItemModel[]>;
+  refresh$ = new BehaviorSubject<number>(1);
 
+  // Table Data
   collection?:CollectionModel;
-  folders:FolderModel[] = [];
-  selectedFolders:FolderModel[] = [];
+  collectionItems:CollectionItemModel[] = [];
+  selectedCollectionItems:CollectionItemModel[] = [];
+  collectionId:number = -1;
 
-
+  // Modal Data
   showAddModal:boolean = false;
   showEditModal:boolean = false;
   showDeleteModal:boolean = false;
+  modalData:CollectionItemModel = {};
+  modalDataDelete:CollectionItemModel[] = [];
 
-  modalData:FolderModel = new CollectionModel();
-
+  
   constructor(private collectionService:CollectionService,private route: ActivatedRoute) { 
+
     this.route.params.subscribe(params => {
-      this.collection = collectionService.getCollection(params['colid']);
-      this.folders = collectionService.getCollectionFolders(params["colid"]);
+
+      this.collectionId = params['colid'];
+
+      collectionService.getCollection(params['colid']).subscribe( (data:CollectionModel) => {
+        this.collection = data;
+      });
+
+      this.collectionItemsObservable$ = this.refresh$.pipe(switchMap((_:any) => {
+        return this.collectionService.getCollectionItems(params['colid']);
+      }));
+
+      this.collectionItemsObservable$.subscribe( (data:CollectionItemModel[]) => {
+        this.selectedCollectionItems = [];
+        this.collectionItems = data;
+      });
+      
+
     });
 
   }
 
-  ngOnInit(): void {
-  }
-
-  createItem(){
-    this.showAddModal = false;
+  openAddModal() {
+    this.modalData = {};
+    this.showAddModal = true;
   }
 
   openEditModal(){
-    this.modalData = this.selectedFolders[0];
+    this.modalData = JSON.parse(JSON.stringify(this.selectedCollectionItems[0]));
     this.showEditModal = true;
   }
 
+  openDeleteModal(){
+    this.modalDataDelete = this.selectedCollectionItems;
+    this.showDeleteModal = true;
+  }
+
+  createItem(){
+    this.collectionService.createCollectionItem(this.collectionId,this.modalData).subscribe(() => {
+      this.refresh$.next(2);
+      this.showAddModal = false;
+      this.modalData = {};
+    });
+  }
+
   saveItem(){
-    this.showEditModal = false;
+    this.collectionService.updateCollectionItem(this.collectionId,this.modalData).subscribe(() => {
+      this.refresh$.next(2);
+      this.showEditModal = false;
+      this.modalData = {};
+    });
   }
 
   deleteItem(){
+    this.modalDataDelete.forEach( (item:CollectionModel) => {
+
+      this.collectionService.deleteCollectionItem(this.collectionId,item.id!).subscribe(() => {
+        this.refresh$.next(2);
+      });
+
+    });
+
+    this.modalDataDelete = [];
     this.showDeleteModal = false;
   }
 
