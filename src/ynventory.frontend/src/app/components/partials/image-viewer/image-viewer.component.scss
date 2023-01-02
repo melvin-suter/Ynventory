@@ -1,9 +1,10 @@
 .image-viewer {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     left: 0px;
     top: 0px;
+    z-index: 2000;
 
     *{
         z-index: 2000;
@@ -16,6 +17,7 @@
         left: 0px;
         width: 100%;
         height: 100%;
+        z-index: 2000;
         backdrop-filter: blur(1px);
     }
 

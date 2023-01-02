@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { BehaviorSubject, Observable, switchMap } from 'rxjs';
 import { CollectionModel } from 'src/app/models/collection.model';
 import { CollectionItemModel } from 'src/app/models/collectionItem.model';
-import { FolderModel } from 'src/app/models/folder.model';
+
 import { CollectionService } from 'src/app/services/collection.service';
 
 
@@ -21,7 +21,7 @@ export class CollectionFoldersComponent  {
   // Table Data
   collection?:CollectionModel;
   collectionItems:CollectionItemModel[] = [];
-  selectedCollectionItems:FolderModel[] = [];
+  selectedCollectionItems:CollectionItemModel[] = [];
   collectionId:number = -1;
 
   // Modal Data
@@ -31,6 +31,7 @@ export class CollectionFoldersComponent  {
   modalData:CollectionItemModel = {};
   modalDataDelete:CollectionItemModel[] = [];
 
+  
   constructor(private collectionService:CollectionService,private route: ActivatedRoute) { 
 
     this.route.params.subscribe(params => {

@@ -3,7 +3,8 @@ export class CardModel {
     name?:string = "";
     cardMetadataId?:string = "";
     quantity?:number = 0;
-    foil?:"NonFoil"|"Foil"|"Edged";
+    cardFinish?:"NonFoil"|"Foil"|"Edged";
+    isCommander?:boolean;
     metadata?: {
         id:string
         name:string
@@ -19,7 +20,8 @@ export class CardModel {
         manaCostTotal: number
         colors: string[]
         colorIdentity: string[]
-        keywords: string[]
+        keywords: string[],
+        legalities:any
     };
 
     public static getImageUrl(card:CardModel, type:"large"|"small"|"normal"|"border_crop"|"art_crop" = "large"):string{

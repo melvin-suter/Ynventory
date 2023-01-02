@@ -4,4 +4,5 @@ export interface CollectionItemModel {
     cardCount?:number;
     id?:number;
     type?:"Folder"|"Deck";
+    notes?:string;
 }

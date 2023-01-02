@@ -287,6 +287,75 @@ namespace Ynventory.Data.Migrations
                     b.ToTable("DeckCards", (string)null);
                 });
 
+            modelBuilder.Entity("Ynventory.Data.Models.ImportError", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Error")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ErrorData")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("ImportTaskId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ImportTaskId");
+
+                    b.ToTable("ImportErrors", (string)null);
+                });
+
+            modelBuilder.Entity("Ynventory.Data.Models.ImportTask", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CollectionId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("CollectionItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<byte[]>("FileData")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("TaskState")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("TaskType")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("createdAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("finishedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollectionId");
+
+                    b.HasIndex("CollectionItemId");
+
+                    b.ToTable("ImportTasks", (string)null);
+                });
+
             modelBuilder.Entity("Ynventory.Data.Models.User", b =>
                 {
                     b.Property<int>("Id")
@@ -401,6 +470,32 @@ namespace Ynventory.Data.Migrations
                     b.Navigation("Metadata");
                 });
 
+            modelBuilder.Entity("Ynventory.Data.Models.ImportError", b =>
+                {
+                    b.HasOne("Ynventory.Data.Models.ImportTask", "ImportTask")
+                        .WithMany("ImportErrors")
+                        .HasForeignKey("ImportTaskId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ImportTask");
+                });
+
+            modelBuilder.Entity("Ynventory.Data.Models.ImportTask", b =>
+                {
+                    b.HasOne("Ynventory.Data.Models.Collection", null)
+                        .WithMany("ImportTasks")
+                        .HasForeignKey("CollectionId");
+
+                    b.HasOne("Ynventory.Data.Models.CollectionItem", "CollectionItem")
+                        .WithMany("ImportTasks")
+                        .HasForeignKey("CollectionItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CollectionItem");
+                });
+
             modelBuilder.Entity("Ynventory.Data.Models.CardMetadata", b =>
                 {
                     b.Navigation("ColorIdentity");
@@ -414,12 +509,21 @@ namespace Ynventory.Data.Migrations
 
             modelBuilder.Entity("Ynventory.Data.Models.Collection", b =>
                 {
+                    b.Navigation("ImportTasks");
+
                     b.Navigation("Items");
                 });
 
             modelBuilder.Entity("Ynventory.Data.Models.CollectionItem", b =>
                 {
                     b.Navigation("Cards");
+
+                    b.Navigation("ImportTasks");
+                });
+
+            modelBuilder.Entity("Ynventory.Data.Models.ImportTask", b =>
+                {
+                    b.Navigation("ImportErrors");
                 });
 #pragma warning restore 612, 618
         }

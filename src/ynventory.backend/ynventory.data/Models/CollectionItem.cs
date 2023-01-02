@@ -12,5 +12,6 @@ namespace Ynventory.Data.Models
         public int CollectionId { get; set; }
         public virtual Collection Collection { get; set; } = null!;
         public virtual ICollection<Card> Cards { get; set; } = null!;
+        public virtual ICollection<ImportTask> ImportTasks { get; set; } = null!;
     }
 }

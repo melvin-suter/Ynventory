@@ -5,7 +5,7 @@
     <div class="grid-tile tile-25">
         <div class="dashboard-field number">
             <div class="dashboard-value">
-                <span>1234</span>
+                <span>{{ stats_totalCards }}</span>
             </div>
             <div class="dashboard-title">Total Cards</div>
         </div>
@@ -13,15 +13,31 @@
     <div class="grid-tile tile-25">
         <div class="dashboard-field number">
             <div class="dashboard-value">
-                <span>15</span>
+                <span>{{ stats_totalVirtualDecks }}</span>
+            </div>
+            <div class="dashboard-title">Total Virtual Decks</div>
+        </div>
+    </div>
+    <div class="grid-tile tile-25">
+        <div class="dashboard-field number">
+            <div class="dashboard-value">
+                <span>{{ stats_totalDecks }}</span>
             </div>
             <div class="dashboard-title">Total Decks</div>
+        </div>
+    </div>
+    <div class="grid-tile tile-25">
+        <div class="dashboard-field number">
+            <div class="dashboard-value">
+                <span>{{ stats_totalFolders }}</span>
+            </div>
+            <div class="dashboard-title">Total Folders</div>
         </div>
     </div>
     <div class="grid-tile tile-50">
         <div class="dashboard-field chart">
             <div class="dashboard-value">
-                <p-chart type="pie" [data]="data" height="200px" [options]="chartOptions" ></p-chart>
+                <p-chart type="pie" [data]="stats_chartColorDistribution" height="200px" [options]="chartOptionsPie" ></p-chart>
             </div>
             <div class="dashboard-title">Card Distribution</div>
         </div>

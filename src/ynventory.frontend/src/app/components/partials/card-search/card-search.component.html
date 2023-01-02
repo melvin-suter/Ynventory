@@ -61,7 +61,11 @@
             </div>
             <div class="form-group">
                 <label>Foil</label>
-                <p-dropdown [options]="foilOptions" [(ngModel)]="selectedCard.foil" optionLabel="key"></p-dropdown>
+                <p-dropdown [options]="['NonFoil','Foil','Edged']" [(ngModel)]="selectedCard.cardFinish" ></p-dropdown>
+            </div>
+            <div class="form-group checkbox">
+                <label>Is Commander</label>
+                <p-checkbox [binary]="true" [(ngModel)]="selectedCard.isCommander"></p-checkbox>
             </div>
             <div class="button-group">
                 <button pButton label="Save" class="p-button-success" (click)="closeModal(true)"></button>
