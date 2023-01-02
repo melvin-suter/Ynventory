@@ -89,32 +89,13 @@ export class CollectionService {
     return this.http.post<any>('/api/collections/' + collectionId + '/items/' + itemId + "/cards" , data);
   }
 
-  moveCollectionItemCard(card:CardModel, from:{collectionId:number, collectionItemId:number}, to:{collectionId:number, collectionItemId:number}, doneAction:Function){
-  // Add metadata id
-  card.cardMetadataId = card.metadata?.id;
-
-  // Add Card on new Collection Item
-  this.http.post<any>('/api/collections/' + to.collectionId + '/items/' + to.collectionItemId + "/cards" , card).pipe(
-    map((v) => v),
-    catchError(err => {
-      this.messageService.add({severity: 'danger', summary: 'Move Failed', detail: 'there was an error during card creation: ' + err});
-
-      doneAction();
-      return of();
-    }
-  )).subscribe( () => {
-      this.http.delete<any>('/api/collections/' + from.collectionId + '/items/' + from.collectionItemId + '/cards/' + card.id).pipe(
-        map((v) => v),
-        catchError(err => {
-          this.messageService.add({severity: 'danger', summary: 'Move Failed', detail: 'there was an error during card deletion: ' + err});
+  moveCollectionItemCard(cardId:number, from:{collectionId:number, collectionItemId:number}, to:{collectionId:number, collectionItemId:number}, quantity:number):Observable<any>{
+    return this.http.post<any>('/api/collections/' + from.collectionId + '/items/' + from.collectionItemId + '/cards/' + cardId + '/move', {
+      targetCollectionId: to.collectionId,
+      targetCollectionItemId: to.collectionItemId,
+      quantity: quantity
+    });
   
-          doneAction();
-          return of();
-        }
-      )).subscribe( () => {
-        doneAction();
-      });
-  });
   }
 
 
