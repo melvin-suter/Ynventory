@@ -39,6 +39,6 @@ jobs:
         file: ./src/ynventory.backend/Dockerfile
         push: true
         tags: | 
-          ${{ secrets.DOCKER_HUB_USERNAME }}/ynventory.backend:latest
+          ${{ secrets.DOCKER_HUB_USERNAME }}/ynventory.backend:preview
           ${{ secrets.DOCKER_HUB_USERNAME }}/ynventory.backend:${{ steps.version.outputs.BACKEND_VERSION }}
 
