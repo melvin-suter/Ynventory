@@ -100,7 +100,7 @@ using (var scope = app.Services.CreateScope())
     initializer.SeedAsync().Wait();
 }
 
-app.UseHttpsRedirection();
+// DONT DO THAT: app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
