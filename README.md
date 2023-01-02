@@ -11,7 +11,7 @@ You can import CSVs from known apps like Delver.
 
 ![Example UI](images/screenshot.gif)
 
-Demo: [https://ynventory.mtg-ynventory.com](https://ynventory.mtg-ynventory.com)
+Demo: [https://demo.mtg-ynventory.com](https://demo.mtg-ynventory.com)
 
 
 # Roadmap
