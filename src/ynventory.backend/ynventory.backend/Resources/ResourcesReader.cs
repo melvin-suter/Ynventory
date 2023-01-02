@@ -3,25 +3,34 @@ using System.Resources;
 
 namespace Ynventory.Backend.Resources
 {
-    public static class ResourcesReader
+    public class ResourcesReader
     {
-        private const string RESOURCE_PATH = "Resources/";
-        private static readonly string ErrorMessagesResources = typeof(ErrorMessages).FullName!;
+        public static readonly ResourcesReader ErrorMessages = new(typeof(ErrorMessages), "Error");
+        public static readonly ResourcesReader Strings = new(typeof(Strings));
+        
+        private readonly Type _resourceType;
+        private readonly string? _resourceKeyPrefix;
 
-        public static string GetErrorMessage(string key, params object?[] args)
+        private ResourcesReader(Type resourceType, string? resourceKeyPrefix = null)
         {
-            return GetErrorMessage(key, CultureInfo.InvariantCulture, args);
+            _resourceType = resourceType;
+            _resourceKeyPrefix = resourceKeyPrefix;
         }
 
-        public static string GetErrorMessage(string key, CultureInfo culture, params object?[] args)
+        public string GetString(string key, params object?[] args)
         {
-            var resourceKey = $"Error_{key}";
-            return ReadMessage(ErrorMessagesResources, resourceKey, culture, args);
+            return GetString(key, CultureInfo.InvariantCulture, args);
         }
 
-        private static string ReadMessage(string file, string key, CultureInfo culture, params object?[] args)
+        public string GetString(string key, CultureInfo culture, params object?[] args)
         {
-            var manager = new ResourceManager(file, typeof(ErrorMessages).Assembly);
+            var resourceKey = _resourceKeyPrefix != null ? $"{_resourceKeyPrefix}_{key}" : key;
+            return ReadString(_resourceType, resourceKey, culture, args);
+        }
+
+        private static string ReadString(Type resourceType, string key, CultureInfo culture, params object?[] args)
+        {
+            var manager = new ResourceManager(resourceType.FullName!, resourceType.Assembly);
 
             var value = manager.GetString(key, culture);
             if (value is null)

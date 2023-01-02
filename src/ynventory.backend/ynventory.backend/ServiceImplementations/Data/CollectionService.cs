@@ -355,6 +355,77 @@ namespace Ynventory.Backend.ServiceImplementations.Data
             await _context.SaveChangesAsync();
         }
 
+        public async Task<CardResponse> MoveCard(int collectionId, int collectionItemId, int cardId, MoveCardRequest request)
+        {
+            var collection = await _context.Collections.FindAsync(collectionId);
+            if (collection is null)
+            {
+                throw new CollectionNotFoundException(collectionId);
+            }
+
+            var collectionItem = collection.Items.FirstOrDefault(x => x.Id == collectionItemId);
+            if (collectionItem is null)
+            {
+                throw new CollectionItemNotFoundException(collectionItemId);
+            }
+
+            var card = collectionItem.Cards.FirstOrDefault(x => x.Id == cardId);
+            if (card is null)
+            {
+                throw new CardNotFoundException(cardId);
+            }
+
+            if (request.Quantity > card.Quantity)
+            {
+                throw new CardMoveIllegalException(cardId, request.Quantity, card.Quantity);
+            }
+
+            var targetCollection = await _context.Collections.FindAsync(request.TargetCollectionId);
+            if (targetCollection is null)
+            {
+                throw new CollectionNotFoundException(request.TargetCollectionId);
+            }
+
+            var targetCollectionItem = targetCollection.Items.FirstOrDefault(x => x.Id == request.TargetCollectionItemId);
+            if (targetCollectionItem is null)
+            {
+                throw new CollectionItemNotFoundException(request.TargetCollectionItemId);
+            }
+
+            //If card already exists with the same properties, add it to the quantity, otherwise add a new one
+            var targetCard = targetCollectionItem.Cards.FirstOrDefault(x => x.MetadataId == card.MetadataId &&
+                                                                            x.Finish == card.Finish);
+            if (targetCard is null)
+            {
+                targetCard = new Card
+                {
+                    MetadataId = card.MetadataId,
+                    Metadata = card.Metadata,
+                    Finish = card.Finish,
+                    IsCommander = card.IsCommander,
+                    Quantity = request.Quantity,
+                };
+
+                targetCollectionItem.Cards.Add(targetCard);
+            }
+            else
+            {
+                targetCard.Quantity += request.Quantity;
+            }
+
+            if (request.Quantity == card.Quantity)
+            {
+                collectionItem.Cards.Remove(card);
+            }
+            else
+            {
+                card.Quantity -= request.Quantity;
+            }
+
+            await _context.SaveChangesAsync();
+            return ToResponse(targetCard);
+        }
+
         private static CollectionResponse ToResponse(Collection collection)
         {
             return new CollectionResponse

@@ -70,6 +70,15 @@ namespace Ynventory.Backend.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} with id {1} is invalid: {2}.
+        /// </summary>
+        internal static string Error_EntityIllegalState {
+            get {
+                return ResourceManager.GetString("Error_EntityIllegalState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} with Id {1} does not exist.
         /// </summary>
         internal static string Error_EntityNotFound {
