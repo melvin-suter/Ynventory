@@ -77,7 +77,7 @@ namespace Ynventory.Backend.ServiceImplementations.Import
                 Id = task.Id,
                 FileName = task.FileName,
                 TaskType = task.TaskType,
-                Errors = task.ImportErrors.Select(ToResponse).ToArray(),
+                Errors = (task.ImportErrors == null) ? new ImportErrorResponse[0] : task.ImportErrors.Select(ToResponse).ToArray(),
                 createdAt = task.createdAt,
                 finishedAt = task.finishedAt
             };
