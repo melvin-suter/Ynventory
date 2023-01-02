@@ -45,6 +45,10 @@ namespace Ynventory.Data
                        .WithOne(x => x.ParentItem)
                        .HasForeignKey(x => x.ParentItemId);
 
+                builder.HasMany(x => x.ImportTasks)
+                       .WithOne(x => x.CollectionItem)
+                       .HasForeignKey(x => x.CollectionItemId);
+
                 builder.HasOne(x => x.Collection)
                        .WithMany(x => x.Items)
                        .HasForeignKey(x => x.CollectionId);

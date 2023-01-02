@@ -13,8 +13,6 @@ namespace Ynventory.Data.Models
         public DateTime createdAt {get;set;}
         public DateTime finishedAt {get;set;}
 
-        public int CollectionId { get; set; }
-        public virtual Collection Collection { get; set; } = null!;
         public int CollectionItemId { get; set; }
         public virtual CollectionItem CollectionItem { get; set; } = null!;
         
