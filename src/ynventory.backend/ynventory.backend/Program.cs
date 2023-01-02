@@ -7,10 +7,12 @@ using System.Text.Json;
 using Ynventory.Backend.ServiceImplementations.Authentication;
 using Ynventory.Backend.ServiceImplementations.Data;
 using Ynventory.Backend.ServiceImplementations.Identity;
+using Ynventory.Backend.ServiceImplementations.Import;
 using Ynventory.Backend.ServiceImplementations.Infrastructure;
 using Ynventory.Backend.Services.Authentication;
 using Ynventory.Backend.Services.Data;
 using Ynventory.Backend.Services.Identity;
+using Ynventory.Backend.Services.Import;
 using Ynventory.Backend.Services.Infrastructure;
 using Ynventory.Backend.Util;
 using Ynventory.Data;
@@ -84,6 +86,7 @@ builder.Services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
 builder.Services.AddTransient<ICollectionService, CollectionService>();
 builder.Services.AddTransient<IScryfallClient, ScryfallClient>();
 builder.Services.AddTransient<ICardMetadataService, CardMetadataService>();
+builder.Services.AddTransient<IImportService, ImportService>();
 
 var app = builder.Build();
 
