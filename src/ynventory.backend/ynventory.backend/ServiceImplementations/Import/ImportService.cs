@@ -106,7 +106,7 @@ namespace Ynventory.Backend.ServiceImplementations.Import
             while (csvReader.Read())
             {
                 try {
-                    await _collectionService.CreateCard(task.CollectionId, task.CollectionItemId, new CardCreateRequest(){
+                    await _collectionService.CreateCard(task.CollectionItem.CollectionId, task.CollectionItemId, new CardCreateRequest(){
                         CardMetadataId = csvReader.GetField<Guid>("Scryfall ID"),
                         Quantity = csvReader.GetField<int>("Quantity"),
                         CardFinish = csvReader.GetField<CardFinish>("Foil"),
@@ -121,7 +121,7 @@ namespace Ynventory.Backend.ServiceImplementations.Import
                     _context.ImportErrors.Add(new ImportError(){
                         Error = ex.Message,
                         ErrorData = errorData,
-                        ImportTaskId = task.Id
+                        ImportTaskId = task.Id,
                     });
                     result = false;
                 }
