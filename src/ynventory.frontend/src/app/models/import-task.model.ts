@@ -5,4 +5,6 @@ export interface ImportTaskModel {
     fileData?:string;
     collectionId:number;
     collectionItemId:number;
+    createdAt?:Date;
+    finishedAt?:Date;
 }

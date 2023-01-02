@@ -7,7 +7,7 @@ namespace Ynventory.Backend.Contracts.Requests
     {
         [Required] public string FileName { get; set; }
         [Required] public ImportTaskType TaskType { get; set; }
-        [Required] public byte[] FileData { get; set; }
+        [Required] public string FileData { get; set; }
         [Required] public int CollectionId {get;set;}
         [Required] public int CollectionItemId {get;set;}
     }

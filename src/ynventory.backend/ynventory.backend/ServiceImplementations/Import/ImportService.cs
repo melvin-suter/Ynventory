@@ -46,7 +46,7 @@ namespace Ynventory.Backend.ServiceImplementations.Import
             var task = new ImportTask
             {
                 FileName = request.FileName,
-                FileData = request.FileData,
+                FileData = System.Text.Encoding.Default.GetBytes(request.FileData),
                 TaskType = request.TaskType,
                 TaskState = Ynventory.Data.Enums.ImportTaskState.Pending,
                 createdAt = DateTime.UtcNow

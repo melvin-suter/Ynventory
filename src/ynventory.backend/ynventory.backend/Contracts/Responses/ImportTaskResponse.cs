@@ -6,6 +6,7 @@ namespace Ynventory.Backend.Contracts.Responses
     {
         public int Id { get; set; }
         public string FileName { get; set; }
+        public ImportTaskState TaskState { get; set; }
         public ImportTaskType TaskType { get; set; }
         public ImportErrorResponse[] Errors {get;set;}
         public DateTime createdAt {get;set;}
