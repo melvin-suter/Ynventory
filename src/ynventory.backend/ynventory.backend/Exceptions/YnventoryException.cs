@@ -13,7 +13,7 @@ namespace Ynventory.Backend.Exceptions
          
         private static string FormatMessage(string key, params object?[] values)
         {
-            return ResourcesReader.GetErrorMessage(key, values);
+            return ResourcesReader.ErrorMessages.GetString(key, values);
         }
 
         public virtual new IDictionary<string, object?>? Data { get; }
