@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Ynventory.Data;
@@ -11,9 +12,11 @@ using Ynventory.Data;
 namespace Ynventory.Data.Migrations
 {
     [DbContext(typeof(YnventoryDbContext))]
-    partial class YnventoryDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230102173631_import_tasks_add_dates")]
+    partial class importtasksadddates
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
