@@ -17,5 +17,8 @@
         public virtual ICollection<CardColor> Colors { get; set; } = null!;
         public virtual ICollection<CardColorIdentity> ColorIdentity { get; set; } = null!;
         public virtual ICollection<CardKeyword> Keywords { get; set; } = null!;
+        public virtual ICollection<CardLegality> Legalities { get; set; } = null!;
+
+        public virtual ICollection<Deck> Decks { get; set; } = null!;
     }
 }

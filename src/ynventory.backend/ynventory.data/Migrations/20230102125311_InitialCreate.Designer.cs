@@ -12,7 +12,7 @@ using Ynventory.Data;
 namespace Ynventory.Data.Migrations
 {
     [DbContext(typeof(YnventoryDbContext))]
-    [Migration("20221228220833_InitialCreate")]
+    [Migration("20230102125311_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,19 +25,36 @@ namespace Ynventory.Data.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DeckFolderCard", b =>
+            modelBuilder.Entity("Ynventory.Data.Models.Card", b =>
                 {
-                    b.Property<int>("CardsId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    b.Property<int>("DecksId")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Finish")
                         .HasColumnType("integer");
 
-                    b.HasKey("CardsId", "DecksId");
+                    b.Property<bool>("IsCommander")
+                        .HasColumnType("boolean");
 
-                    b.HasIndex("DecksId");
+                    b.Property<Guid>("MetadataId")
+                        .HasColumnType("uuid");
 
-                    b.ToTable("DeckFolderCard");
+                    b.Property<int>("ParentItemId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MetadataId");
+
+                    b.HasIndex("ParentItemId");
+
+                    b.ToTable("Cards", (string)null);
                 });
 
             modelBuilder.Entity("Ynventory.Data.Models.CardColor", b =>
@@ -104,6 +121,32 @@ namespace Ynventory.Data.Migrations
                     b.HasIndex("CardMetadataId");
 
                     b.ToTable("CardKeyword", (string)null);
+                });
+
+            modelBuilder.Entity("Ynventory.Data.Models.CardLegality", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("CardMetadataId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Legality")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PlayFormat")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardMetadataId");
+
+                    b.ToTable("CardLegality", (string)null);
                 });
 
             modelBuilder.Entity("Ynventory.Data.Models.CardMetadata", b =>
@@ -173,6 +216,37 @@ namespace Ynventory.Data.Migrations
                     b.ToTable("Collections", (string)null);
                 });
 
+            modelBuilder.Entity("Ynventory.Data.Models.CollectionItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CollectionId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CollectionId");
+
+                    b.ToTable("CollectionItems", (string)null);
+                });
+
             modelBuilder.Entity("Ynventory.Data.Models.Deck", b =>
                 {
                     b.Property<int>("Id")
@@ -193,7 +267,7 @@ namespace Ynventory.Data.Migrations
                     b.ToTable("Decks", (string)null);
                 });
 
-            modelBuilder.Entity("Ynventory.Data.Models.Folder", b =>
+            modelBuilder.Entity("Ynventory.Data.Models.DeckCard", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -201,50 +275,19 @@ namespace Ynventory.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CollectionId")
+                    b.Property<int>("DeckId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CollectionId");
-
-                    b.ToTable("Folders", (string)null);
-                });
-
-            modelBuilder.Entity("Ynventory.Data.Models.FolderCard", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityAlwaysColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid>("CardMetadataId")
+                    b.Property<Guid>("MetadataId")
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Finish")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("FolderId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("CardMetadataId");
+                    b.HasIndex("DeckId");
 
-                    b.HasIndex("FolderId");
+                    b.HasIndex("MetadataId");
 
-                    b.ToTable("FolderCards", (string)null);
+                    b.ToTable("DeckCards", (string)null);
                 });
 
             modelBuilder.Entity("Ynventory.Data.Models.User", b =>
@@ -268,19 +311,23 @@ namespace Ynventory.Data.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
-            modelBuilder.Entity("DeckFolderCard", b =>
+            modelBuilder.Entity("Ynventory.Data.Models.Card", b =>
                 {
-                    b.HasOne("Ynventory.Data.Models.FolderCard", null)
+                    b.HasOne("Ynventory.Data.Models.CardMetadata", "Metadata")
                         .WithMany()
-                        .HasForeignKey("CardsId")
+                        .HasForeignKey("MetadataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ynventory.Data.Models.Deck", null)
-                        .WithMany()
-                        .HasForeignKey("DecksId")
+                    b.HasOne("Ynventory.Data.Models.CollectionItem", "ParentItem")
+                        .WithMany("Cards")
+                        .HasForeignKey("ParentItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Metadata");
+
+                    b.Navigation("ParentItem");
                 });
 
             modelBuilder.Entity("Ynventory.Data.Models.CardColor", b =>
@@ -316,10 +363,21 @@ namespace Ynventory.Data.Migrations
                     b.Navigation("Metadata");
                 });
 
-            modelBuilder.Entity("Ynventory.Data.Models.Folder", b =>
+            modelBuilder.Entity("Ynventory.Data.Models.CardLegality", b =>
+                {
+                    b.HasOne("Ynventory.Data.Models.CardMetadata", "Metadata")
+                        .WithMany("Legalities")
+                        .HasForeignKey("CardMetadataId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Metadata");
+                });
+
+            modelBuilder.Entity("Ynventory.Data.Models.CollectionItem", b =>
                 {
                     b.HasOne("Ynventory.Data.Models.Collection", "Collection")
-                        .WithMany("Folders")
+                        .WithMany("Items")
                         .HasForeignKey("CollectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -327,21 +385,21 @@ namespace Ynventory.Data.Migrations
                     b.Navigation("Collection");
                 });
 
-            modelBuilder.Entity("Ynventory.Data.Models.FolderCard", b =>
+            modelBuilder.Entity("Ynventory.Data.Models.DeckCard", b =>
                 {
+                    b.HasOne("Ynventory.Data.Models.Deck", "Deck")
+                        .WithMany()
+                        .HasForeignKey("DeckId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Ynventory.Data.Models.CardMetadata", "Metadata")
                         .WithMany()
-                        .HasForeignKey("CardMetadataId")
+                        .HasForeignKey("MetadataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Ynventory.Data.Models.Folder", "Folder")
-                        .WithMany("Cards")
-                        .HasForeignKey("FolderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Folder");
+                    b.Navigation("Deck");
 
                     b.Navigation("Metadata");
                 });
@@ -353,14 +411,16 @@ namespace Ynventory.Data.Migrations
                     b.Navigation("Colors");
 
                     b.Navigation("Keywords");
+
+                    b.Navigation("Legalities");
                 });
 
             modelBuilder.Entity("Ynventory.Data.Models.Collection", b =>
                 {
-                    b.Navigation("Folders");
+                    b.Navigation("Items");
                 });
 
-            modelBuilder.Entity("Ynventory.Data.Models.Folder", b =>
+            modelBuilder.Entity("Ynventory.Data.Models.CollectionItem", b =>
                 {
                     b.Navigation("Cards");
                 });
