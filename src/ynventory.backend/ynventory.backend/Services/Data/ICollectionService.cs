@@ -23,5 +23,6 @@ namespace Ynventory.Backend.Services.Data
         public Task<CardResponse> GetCard(int collectionId, int collectionItemId, int cardId);
         public Task<CardResponse> UpdateCard(int collectionId, int collectionItemId, CardUpdateRequest request);
         public Task DeleteCard(int collectionId, int collectionItemId, int cardId);
+        public Task<CardResponse> MoveCard(int collectionId, int collectionItemId, int cardId, MoveCardRequest request);
     }
 }

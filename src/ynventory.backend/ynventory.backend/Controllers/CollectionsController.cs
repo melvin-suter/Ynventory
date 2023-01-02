@@ -525,7 +525,7 @@ namespace Ynventory.Backend.Controllers
         /// <response code="200">The card was successfully deleted</response>
         /// <response code="404">Either the collection, item or card was not found</response>
         [HttpDelete("{collectionId}/items/{collectionItemId}/cards/{cardId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CardResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         public async Task<IActionResult> DeleteCard(int collectionId, int collectionItemId, int cardId)
         {
@@ -535,6 +535,44 @@ namespace Ynventory.Backend.Controllers
                 return Ok();
             }
             catch (YnventoryException ex)
+            {
+                return new ErrorResponse(ex).ToResult();
+            }
+        }
+
+        /// <summary>
+        /// Moves a card from one collection item to another
+        /// </summary>
+        /// <param name="collectionId">The collection with the item</param>
+        /// <param name="collectionItemId">The item with the card</param>
+        /// <param name="cardId">The card to move</param>
+        /// <param name="request">The details of the target</param>
+        /// <returns>The moved card</returns>
+        /// <remarks>
+        /// Example request: 
+        /// 
+        ///     POST /collections/123/items/11/cards/21/move
+        ///     {
+        ///         "targetCollectionId": 321,
+        ///         "targetCollectionItemId": 21,
+        ///         "quantity": 2
+        ///     }
+        /// 
+        /// </remarks>
+        /// <response code="200">The card was successfully moved</response>
+        /// <response code="400">The request is invalid</response>
+        /// <response code="404">One of the respective items was not found</response>
+        [HttpPost("{collectionId}/items/{collectionItemId}/cards/{cardId}/move")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CardResponse))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
+        public async Task<IActionResult> MoveCard(int collectionId, int collectionItemId, int cardId, MoveCardRequest request)
+        {
+            try
+            {
+                return Ok(await _collectionService.MoveCard(collectionId, collectionItemId, cardId, request));
+            } 
+            catch (YnventoryException ex) 
             {
                 return new ErrorResponse(ex).ToResult();
             }
