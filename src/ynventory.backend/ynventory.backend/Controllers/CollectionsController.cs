@@ -168,34 +168,63 @@ namespace Ynventory.Backend.Controllers
         }
 
         /// <summary>
-        /// Creates a new folder within a collection. Note that the name of the folder must be unique within the collection
+        /// Retrieves all cards assigned to folders within a collection
+        /// </summary>
+        /// <param name="collectionId"></param>
+        /// <returns>A collection of cards within the collection</returns>
+        /// <remarks>
+        /// Example request:
+        ///     
+        ///     GET /collections/123/cards
+        /// 
+        /// </remarks>
+        /// <response code="200">The cards were successfully retrieved</response>
+        /// <response code="404">The collection was not found</response>
+        [HttpGet("{collectionId}/cards")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CardResponse[]))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
+        public async Task<IActionResult> GetCards(int collectionId)
+        {
+            try
+            {
+                return Ok(await _collectionService.GetCards(collectionId));
+            } 
+            catch (YnventoryException ex)
+            {
+                return new ErrorResponse(ex).ToResult();
+            }
+        }
+
+        /// <summary>
+        /// Creates a new collection item within a collection. Note that the name of the item must be unique within the collection and its respective type
         /// </summary>
         /// <param name="collectionId">The collection to create the folder in</param>
-        /// <param name="request">The details of the folder to create</param>
-        /// <returns>The newly created folder</returns>
+        /// <param name="request">The details of the collection item to create</param>
+        /// <returns>The newly created collection item</returns>
         /// <remarks>
         /// Example request:
         /// 
-        ///     POST /collections/123/folders 
+        ///     POST /collections/123/items 
         ///     {
         ///         "name": "my secret folder",
+        ///         "type": "Folder",
         ///         "description": "please don't tell anyone!!"
         ///     }
         /// 
         /// </remarks>
-        /// <response code="201">The folder was successfully created</response>
-        /// <response code="400">A folder with the given name already exists within the collection</response>
+        /// <response code="201">The item was successfully created</response>
+        /// <response code="400">An item with the given name and type already exists within the collection</response>
         /// <response code="404">The collection was not found</response>
-        [HttpPost("{collectionId}/folders")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderResponse))]
+        [HttpPost("{collectionId}/items")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionItemResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> CreateFolder(int collectionId, CollectionFolderCreateRequest request)
+        public async Task<IActionResult> CreateItem(int collectionId, CollectionItemCreateRequest request)
         {
             try
             {
-                var folder = await _collectionService.CreateFolder(collectionId, request);
-                return Created($"/api/collections/{collectionId}/folders/{folder.Id}", folder);
+                var collectionItem = await _collectionService.CreateItem(collectionId, request);
+                return Created($"/api/collections/{collectionId}/items/{collectionItem.Id}", collectionItem);
             }
             catch (YnventoryException ex)
             {
@@ -204,26 +233,26 @@ namespace Ynventory.Backend.Controllers
         }
 
         /// <summary>
-        /// Retrieves all folders within a collection
+        /// Retrieves all items within a collection
         /// </summary>
-        /// <param name="collectionId">The collection to get the folders from</param>
-        /// <returns>A list of folders contained within the collection</returns>
+        /// <param name="collectionId">The collection to get the items from</param>
+        /// <returns>A list of items contained within the collection</returns>
         /// <remarks>
         /// Example request:
         /// 
-        ///     GET /collections/123/folders
-        /// 
+        ///     GET /collections/123/items
+        ///      
         /// </remarks>
-        /// <response code="200">The folders were retrieved successfully</response>
+        /// <response code="200">The items were retrieved successfully</response>
         /// <response code="404">The collection was not found</response>
-        [HttpGet("{collectionId}/folders")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderResponse))]
+        [HttpGet("{collectionId}/items")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionItemResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> GetFolders(int collectionId)
+        public async Task<IActionResult> GetItems(int collectionId)
         {
             try
             {
-                return Ok(await _collectionService.GetFolders(collectionId));
+                return Ok(await _collectionService.GetItems(collectionId));
             }
             catch (YnventoryException ex)
             {
@@ -232,27 +261,27 @@ namespace Ynventory.Backend.Controllers
         }
 
         /// <summary>
-        /// Retrieves a folder within a collection
+        /// Retrieves an item within a collection
         /// </summary>
-        /// <param name="collectionId">The collection to get the folder from</param>
-        /// <param name="folderId">The id of the folder to be retrieved</param>
-        /// <returns>The folder associated with the given id</returns>
+        /// <param name="collectionId">The collection to get the item from</param>
+        /// <param name="collectionItemId">The id of the item to be retrieved</param>
+        /// <returns>The item associated with the given id</returns>
         /// <remarks>
         /// Example request:
         /// 
-        ///     GET /collections/123/folders/11
+        ///     GET /collections/123/items/11
         /// 
         /// </remarks>
-        /// <response code="200">The folder was retrieved successfully</response>
-        /// <response code="404">Either the collection or folder was not found</response>
-        [HttpGet("{collectionId}/folders/{folderId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderResponse))]
+        /// <response code="200">The item was retrieved successfully</response>
+        /// <response code="404">Either the collection or item was not found</response>
+        [HttpGet("{collectionId}/items/{collectionItemId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionItemResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> GetFolder(int collectionId, int folderId)
+        public async Task<IActionResult> GetItem(int collectionId, int collectionItemId)
         {
             try
             {
-                return Ok(await _collectionService.GetFolder(collectionId, folderId));
+                return Ok(await _collectionService.GetItem(collectionId, collectionItemId));
             }
             catch (YnventoryException ex) 
             { 
@@ -261,16 +290,16 @@ namespace Ynventory.Backend.Controllers
         }
 
         /// <summary>
-        /// Updates an existing folder within a collection
+        /// Updates an existing item within a collection
         /// </summary>
-        /// <param name="collectionId">The collection with the folder</param>
-        /// <param name="folderId">The folder id to update</param>
+        /// <param name="collectionId">The collection with the item</param>
+        /// <param name="collectionItemId">The item id to update</param>
         /// <param name="request">The new values</param>
-        /// <returns>The updated folder</returns>
+        /// <returns>The updated item</returns>
         /// <remarks>
         /// Example request:
         /// 
-        ///     PUT /collections/123/folders/11
+        ///     PUT /collections/123/items/11
         ///     {
         ///         "id": 11,
         ///         "name": "my even more secret folder",
@@ -278,16 +307,16 @@ namespace Ynventory.Backend.Controllers
         ///     }
         ///     
         /// </remarks>
-        /// <response code="200">The folder was updated successfully</response>
+        /// <response code="200">The item was updated successfully</response>
         /// <response code="400">The request is invalid</response>
-        /// <response code="404">Either the collection or folder was not found</response>
-        [HttpPut("{collectionId}/folders/{folderId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderResponse))]
+        /// <response code="404">Either the collection or item was not found</response>
+        [HttpPut("{collectionId}/items/{collectionItemId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionItemResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> GetFolder(int collectionId, int folderId, CollectionFolderUpdateRequest request)
+        public async Task<IActionResult> UpdateItem(int collectionId, int collectionItemId, CollectionItemUpdateRequest request)
         {
-            var response = CheckIdMismatch(folderId, request.Id);
+            var response = CheckIdMismatch(collectionItemId, request.Id);
             if (response is not null)
             {
                 return response;
@@ -295,7 +324,7 @@ namespace Ynventory.Backend.Controllers
 
             try
             {
-                return Ok(await _collectionService.UpdateFolder(collectionId, request));
+                return Ok(await _collectionService.UpdateItem(collectionId, request));
             }
             catch (YnventoryException ex)
             {
@@ -304,27 +333,27 @@ namespace Ynventory.Backend.Controllers
         }
 
         /// <summary>
-        /// Deletes a folder within a collection
+        /// Deletes an item within a collection
         /// </summary>
-        /// <param name="collectionId">The collection with the folder</param>
-        /// <param name="folderId">The folder id to delete</param>
+        /// <param name="collectionId">The collection with the item</param>
+        /// <param name="collectionItemId">The item id to delete</param>
         /// <returns></returns>
         /// <remarks>
         /// Example request:
         /// 
-        ///     DELETE /collections/123/folders/11
+        ///     DELETE /collections/123/items/11
         /// 
         /// </remarks>
-        /// <response code="200">The folder was successfully deleted</response>
-        /// <response code="404">Either the collection or folder was not found</response>
-        [HttpDelete("{collectionId}/folders/{folderId}")]
+        /// <response code="200">The item was successfully deleted</response>
+        /// <response code="404">Either the collection or item was not found</response>
+        [HttpDelete("{collectionId}/items/{collectionItemId}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> DeleteFolder(int collectionId, int folderId)
+        public async Task<IActionResult> DeleteItem(int collectionId, int collectionItemId)
         {
             try
             {
-                await _collectionService.DeleteFolder(collectionId, folderId);
+                await _collectionService.DeleteItem(collectionId, collectionItemId);
                 return Ok();
             }
             catch (YnventoryException ex)
@@ -334,37 +363,38 @@ namespace Ynventory.Backend.Controllers
         }
 
         /// <summary>
-        /// Adds a card to a folder within a collection
+        /// Adds a card to an item within a collection
         /// </summary>
-        /// <param name="collectionId">The collection with the folder</param>
-        /// <param name="folderId">The folder to add the card to</param>
+        /// <param name="collectionId">The collection with the item</param>
+        /// <param name="collectionItemId">The item to add the card to</param>
         /// <param name="request">The details of the card to add</param>
         /// <returns>The newly created card</returns>
         /// <remarks>
         /// Example request:
         ///     
-        ///     POST /collections/123/folders/11/cards
+        ///     POST /collections/123/items/11/cards
         ///     {
         ///         "cardMetadataId": "f295b713-1d6a-43fd-910d-fb35414bf58a",
         ///         "quantity": 2,
-        ///         "cardFinish": 0
+        ///         "cardFinish": "NonFoil"
         ///     }
         /// 
         /// </remarks>
         /// <response code="201">The card was successfully created</response>
         /// <response code="400">The cardMetadataId does not exist</response>
-        /// <response code="404">Either the collection or folder was not found</response>
+        /// <response code="404">Either the collection or item was not found</response>
         /// <response code="502">An error occured calling the scryfall API</response>
-        [HttpPost("{collectionId}/folders/{folderId}/cards")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderCardResponse))]
+        [HttpPost("{collectionId}/items/{collectionItemId}/cards")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CardResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> CreateCard(int collectionId, int folderId, CollectionFolderCardCreateRequest request)
+        [ProducesResponseType(StatusCodes.Status502BadGateway, Type = typeof(ErrorResponse))]
+        public async Task<IActionResult> CreateCard(int collectionId, int collectionItemId, CardCreateRequest request)
         {
             try
             {
-                var card = await _collectionService.CreateCard(collectionId, folderId, request);
-                return Created($"/api/collections/{collectionId}/folders/{folderId}/cards/{card.Id}", card);
+                var card = await _collectionService.CreateCard(collectionId, collectionItemId, request);
+                return Created($"/api/collections/{collectionId}/items/{collectionItemId}/cards/{card.Id}", card);
             }
             catch (YnventoryException ex)
             {
@@ -373,27 +403,27 @@ namespace Ynventory.Backend.Controllers
         }
 
         /// <summary>
-        /// Retrieves a list of cards of a folder within a collection
+        /// Retrieves a list of cards of an item within a collection
         /// </summary>
-        /// <param name="collectionId">The collection with the folder</param>
-        /// <param name="folderId">The folder with the cards</param>
-        /// <returns>A list of cards contained in the folder</returns>
+        /// <param name="collectionId">The collection with the item</param>
+        /// <param name="collectionItemId">The item with the cards</param>
+        /// <returns>A list of cards contained in the item</returns>
         /// <remarks>
         /// Example request:
         ///     
-        ///     GET /collections/123/folders/11/cards
+        ///     GET /collections/123/items/11/cards
         /// 
         /// </remarks>
         /// <response code="200">The list was successfully retrieved</response>
-        /// <response code="404">Either the collection or folder was not found</response>
-        [HttpGet("{collectionId}/folders/{folderId}/cards")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderCardResponse))]
+        /// <response code="404">Either the collection or item was not found</response>
+        [HttpGet("{collectionId}/items/{collectionItemId}/cards")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CardResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> GetCards(int collectionId, int folderId)
+        public async Task<IActionResult> GetCards(int collectionId, int collectionItemId)
         {
             try
             {
-                return Ok(await _collectionService.GetCards(collectionId, folderId));
+                return Ok(await _collectionService.GetCards(collectionId, collectionItemId));
             }
             catch (YnventoryException ex)
             {
@@ -402,29 +432,29 @@ namespace Ynventory.Backend.Controllers
         }
 
         /// <summary>
-        /// Retrieves a card of a folder within a collection
+        /// Retrieves a card of an item within a collection
         /// </summary>
-        /// <param name="collectionId">The collection with the folder</param>
-        /// <param name="folderId">The folder with the card</param>
+        /// <param name="collectionId">The collection with the item</param>
+        /// <param name="collectionItemId">The item with the card</param>
         /// <param name="cardId">The card to retrieve</param>
         /// <returns>The card associated with the id</returns>
         /// <remarks>
         /// Example request:
         /// 
-        ///     GET /collections/123/folders/11/cards/21
+        ///     GET /collections/123/items/11/cards/21
         ///     
         /// </remarks>
         /// <response code="200">The card was found</response>
-        /// <response code="404">Either the collection, folder or card was not found</response>
-        [HttpGet("{collectionId}/folders/{folderId}/cards/{cardId}")]
+        /// <response code="404">Either the collection, item or card was not found</response>
+        [HttpGet("{collectionId}/items/{collectionItemId}/cards/{cardId}")]
         [ActionName("GetCard")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderCardResponse))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CardResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> GetCard(int collectionId, int folderId, int cardId)
+        public async Task<IActionResult> GetCard(int collectionId, int collectionItemId, int cardId)
         {
             try
             {
-                return Ok(await _collectionService.GetCard(collectionId, folderId, cardId));
+                return Ok(await _collectionService.GetCard(collectionId, collectionItemId, cardId));
             }
             catch (YnventoryException ex)
             {
@@ -433,17 +463,17 @@ namespace Ynventory.Backend.Controllers
         }
 
         /// <summary>
-        /// Updates an existing card of a folder within a collection
+        /// Updates an existing card of an item within a collection
         /// </summary>
-        /// <param name="collectionId">The collection with the folder</param>
-        /// <param name="folderId">The folder with the card</param>
+        /// <param name="collectionId">The collection with the item</param>
+        /// <param name="collectionItemId">The item with the card</param>
         /// <param name="cardId">The card id to update</param>
         /// <param name="request">The new values</param>
         /// <returns>The updated card</returns>
         /// <remarks>
         /// Example request:    
         /// 
-        ///     PUT /collections/123/folders/11/cards/21
+        ///     PUT /collections/123/items/11/cards/21
         ///     {
         ///         "id": 21,
         ///         "cardMetadataId": "f295b713-1d6a-43fd-910d-fb35414bf58a"
@@ -454,14 +484,14 @@ namespace Ynventory.Backend.Controllers
         /// </remarks>
         /// <response code="200">The card was successfully updated</response>
         /// <response code="400">The request is invalid</response>
-        /// <response code="404">Either the collection, folder or card was not found</response>
+        /// <response code="404">Either the collection, item or card was not found</response>
         /// <response code="502">An error occured calling the scryfall API</response>
-        [HttpPut("{collectionId}/folders/{folderId}/cards/{cardId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderCardResponse))]
+        [HttpPut("{collectionId}/items/{collectionItemId}/cards/{cardId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CardResponse))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ErrorResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
         [ProducesResponseType(StatusCodes.Status502BadGateway, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> UpdateCard(int collectionId, int folderId, int cardId, CollectionFolderCardUpdateRequest request)
+        public async Task<IActionResult> UpdateCard(int collectionId, int collectionItemId, int cardId, CardUpdateRequest request)
         {
             var response = CheckIdMismatch(cardId, request.Id);
             if (response is not null)
@@ -471,7 +501,7 @@ namespace Ynventory.Backend.Controllers
 
             try
             {
-                return Ok(await _collectionService.UpdateCard(collectionId, folderId, request));
+                return Ok(await _collectionService.UpdateCard(collectionId, collectionItemId, request));
             }
             catch (YnventoryException ex)
             {
@@ -480,28 +510,28 @@ namespace Ynventory.Backend.Controllers
         }
 
         /// <summary>
-        /// Deletes a card of a folder within a collection
+        /// Deletes a card of an item within a collection
         /// </summary>
-        /// <param name="collectionId">The collection with the folder</param>
-        /// <param name="folderId">The folder with the card</param>
+        /// <param name="collectionId">The collection with the item</param>
+        /// <param name="collectionItemId">The item with the card</param>
         /// <param name="cardId">The card to delete</param>
         /// <returns></returns>
         /// <remarks>
         /// Example request:
         ///     
-        ///     DELETE /collections/123/folders/11/cards/21
+        ///     DELETE /collections/123/items/11/cards/21
         /// 
         /// </remarks>
         /// <response code="200">The card was successfully deleted</response>
-        /// <response code="404">Either the collection, folder or card was not found</response>
-        [HttpDelete("{collectionId}/folders/{folderId}/cards/{cardId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CollectionFolderCardResponse))]
+        /// <response code="404">Either the collection, item or card was not found</response>
+        [HttpDelete("{collectionId}/items/{collectionItemId}/cards/{cardId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CardResponse))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorResponse))]
-        public async Task<IActionResult> DeleteCard(int collectionId, int folderId, int cardId)
+        public async Task<IActionResult> DeleteCard(int collectionId, int collectionItemId, int cardId)
         {
             try
             {
-                await _collectionService.DeleteCard(collectionId, folderId, cardId);
+                await _collectionService.DeleteCard(collectionId, collectionItemId, cardId);
                 return Ok();
             }
             catch (YnventoryException ex)

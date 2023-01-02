@@ -17,5 +17,6 @@
         public string[] Colors { get; set; } = null!;
         public string[] ColorIdentity { get; set; } = null!;
         public string[] Keywords { get; set; } = null!;
+        public Dictionary<string, string> Legalities { get; set; } = null!;
     }
 }

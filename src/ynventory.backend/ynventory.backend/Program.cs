@@ -67,6 +67,11 @@ builder.Services.AddDbContext<YnventoryDbContext>(options =>
         Password = Environment.GetEnvironmentVariable(section.GetValue<string>("POSTGRES_PASSWORD")!)
     };
 
+    if (builder.Environment.IsDevelopment())
+    {
+        connectionStringBuilder.IncludeErrorDetail = true;
+    }
+
     options.UseNpgsql(connectionStringBuilder.ConnectionString,
                       x => x.MigrationsAssembly(typeof(YnventoryDbContext).Assembly.FullName));
     options.UseLazyLoadingProxies();

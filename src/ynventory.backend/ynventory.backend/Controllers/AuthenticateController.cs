@@ -52,7 +52,7 @@ namespace Ynventory.Backend.Controllers
         {
             try
             {
-                await _authenticateService.Authenticate(request.UserName, request.Password);
+                await _authenticateService.Authenticate(request.Username, request.Password);
             }
             catch (YnventoryException ex)
             {
@@ -61,7 +61,7 @@ namespace Ynventory.Backend.Controllers
 
             var claims = new Claim[]
             {
-                new Claim(ClaimTypes.Name, request.UserName)
+                new Claim(ClaimTypes.Name, request.Username)
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);

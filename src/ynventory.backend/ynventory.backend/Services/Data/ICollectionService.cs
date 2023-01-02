@@ -10,17 +10,18 @@ namespace Ynventory.Backend.Services.Data
         public Task<CollectionResponse> GetCollection(int collectionId);
         public Task<CollectionResponse> UpdateCollection(CollectionUpdateRequest request);
         public Task DeleteCollection(int collectionId);
+        public Task<IEnumerable<CardResponse>> GetCards(int collectionId);
 
-        public Task<CollectionFolderResponse> CreateFolder(int collectionId, CollectionFolderCreateRequest request);
-        public Task<IEnumerable<CollectionFolderResponse>> GetFolders(int collectionId);
-        public Task<CollectionFolderResponse> GetFolder(int collectionId, int folderId);
-        public Task<CollectionFolderResponse> UpdateFolder(int collectionId, CollectionFolderUpdateRequest request);
-        public Task DeleteFolder(int collectionId, int folderId);
+        public Task<CollectionItemResponse> CreateItem(int collectionId, CollectionItemCreateRequest request);
+        public Task<IEnumerable<CollectionItemResponse>> GetItems(int collectionId);
+        public Task<CollectionItemResponse> GetItem(int collectionId, int collectionItemId);
+        public Task<CollectionItemResponse> UpdateItem(int collectionId, CollectionItemUpdateRequest request);
+        public Task DeleteItem(int collectionId, int collectionItemId);
 
-        public Task<CollectionFolderCardResponse> CreateCard(int collectionId, int folderId, CollectionFolderCardCreateRequest request);
-        public Task<IEnumerable<CollectionFolderCardResponse>> GetCards(int collectionId, int folderId); 
-        public Task<CollectionFolderCardResponse> GetCard(int collectionId, int folderId, int cardId);
-        public Task<CollectionFolderCardResponse> UpdateCard(int collectionId, int folderId, CollectionFolderCardUpdateRequest request);
-        public Task DeleteCard(int collectionId, int folderId, int cardId);
+        public Task<CardResponse> CreateCard(int collectionId, int collectionItemId, CardCreateRequest request);
+        public Task<IEnumerable<CardResponse>> GetCards(int collectionId, int collectionItemId); 
+        public Task<CardResponse> GetCard(int collectionId, int collectionItemId, int cardId);
+        public Task<CardResponse> UpdateCard(int collectionId, int collectionItemId, CardUpdateRequest request);
+        public Task DeleteCard(int collectionId, int collectionItemId, int cardId);
     }
 }
