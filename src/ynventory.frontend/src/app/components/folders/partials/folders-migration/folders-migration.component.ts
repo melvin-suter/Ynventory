@@ -16,8 +16,6 @@ export class FoldersMigrationComponent {
 
   // Collection
   collectionItem?:CollectionItemModel;
-  collectionId:number = -1;
-  collectionItemId:number = -1;
 
   // Left Table
   to_collectionId:number = -1;
@@ -28,6 +26,8 @@ export class FoldersMigrationComponent {
   to_cardsSelected:CardModel[] = [];
 
   // Right Table
+  from_collectionId:number = -1;
+  from_collectionItemId:number = -1;
   from_cardsObservable$?:Observable<CollectionItemModel[]>;
   from_refresh$ = new BehaviorSubject<number>(1);
   from_cards:CardModel[] = [];
@@ -56,16 +56,16 @@ export class FoldersMigrationComponent {
   constructor(private collectionService: CollectionService, private route: ActivatedRoute) {
     this.route.params.subscribe(params => {
       // Collection Data
-      this.collectionId = params['colid'];
-      this.collectionItemId = params['id'];
+      this.from_collectionId = params['colid'];
+      this.from_collectionItemId = params['id'];
 
-      collectionService.getCollectionItem(this.collectionId, this.collectionItemId).subscribe( (data:CollectionItemModel) => {
+      collectionService.getCollectionItem(this.from_collectionId, this.from_collectionItemId).subscribe( (data:CollectionItemModel) => {
         this.collectionItem = data;
       });
 
       // Load Data Right Size
       this.from_cardsObservable$ = this.from_refresh$.pipe(switchMap((_:any) => {
-        return this.collectionService.getCollectionItemCards(this.collectionId, this.collectionItemId);
+        return this.collectionService.getCollectionItemCards(this.from_collectionId, this.from_collectionItemId);
       }));
 
       this.from_cardsObservable$.subscribe( (data:CollectionItemModel[]) => {
@@ -128,30 +128,33 @@ export class FoldersMigrationComponent {
     });
   }
 
-  moveForward(){
+  move(single:boolean,direction:'forward'|'back'){
     let toColItem = {collectionId: this.to_collectionId, collectionItemId: this.to_collectionItemId};
-    let fromColItem = { collectionId: this.collectionId, collectionItemId: this.collectionItemId };
-    this.from_cardsSelected.forEach( (card:CardModel) => {
-      this.collectionService.moveCollectionItemCard(card, fromColItem, toColItem, () => {
-        // Reload Lists if call succeeded/failed
-        this.loadLeftData();
-        this.from_refresh$.next(2);
+    let fromColItem = { collectionId: this.from_collectionId, collectionItemId: this.from_collectionItemId };
+
+    if(direction == 'forward'){
+      this.from_cardsSelected.forEach( (card:CardModel) => {
+          this.collectionService.moveCollectionItemCard(card.id!, 
+            fromColItem,
+            toColItem,
+            single ? 1 : this.quantityMoveSanitized == "X" ? Number(card.quantity) : Number(this.quantityMoveSanitized)
+          ).subscribe(() => {
+            this.loadLeftData();
+            this.from_refresh$.next(2);
+          })
       });
-
+    } else {
+      this.to_cardsSelected.forEach( (card:CardModel) => {
+        this.collectionService.moveCollectionItemCard(card.id!, 
+          toColItem,
+          fromColItem,
+          single ? 1 : this.quantityMoveSanitized == "X" ? Number(card.quantity) : Number(this.quantityMoveSanitized)
+        ).subscribe(() => {
+          this.loadLeftData();
+          this.from_refresh$.next(2);
+        })
     });
-  }
-
-  moveBack(){
-    let toColItem = {collectionId: this.to_collectionId, collectionItemId: this.to_collectionItemId};
-    let fromColItem = { collectionId: this.collectionId, collectionItemId: this.collectionItemId };
-    this.from_cardsSelected.forEach( (card:CardModel) => {
-      this.collectionService.moveCollectionItemCard(card, toColItem, fromColItem, () => {
-        // Reload Lists if call succeeded/failed
-        this.loadLeftData();
-        this.from_refresh$.next(2);
-      });
-
-    });
+    }
   }
 
 

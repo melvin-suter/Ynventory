@@ -15,6 +15,8 @@ namespace Ynventory.Data
         public DbSet<DeckCard> DeckCards { get; set; } = null!;
         public DbSet<CardMetadata> CardMetadata { get; set; }
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<ImportError> ImportErrors { get; set; } = null!;
+        public DbSet<ImportTask> ImportTasks { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -172,6 +174,32 @@ namespace Ynventory.Data
                 builder.Property(x => x.Id).UseIdentityAlwaysColumn();
 
                 builder.ToTable("Users");
+            });
+
+
+            modelBuilder.Entity<ImportTask>(builder =>
+            {
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).UseIdentityAlwaysColumn();
+
+                builder.HasMany(x => x.ImportErrors)
+                       .WithOne(x => x.ImportTask)
+                       .HasForeignKey(x => x.ImportTaskId);
+
+                builder.ToTable("ImportTasks");
+            });
+
+            modelBuilder.Entity<ImportError>(builder =>
+            {
+                builder.HasKey(x => x.Id);
+                builder.Property(x => x.Id).UseIdentityAlwaysColumn();
+
+
+                builder.HasOne(x => x.ImportTask)
+                       .WithMany(x => x.ImportErrors)
+                       .HasForeignKey(x => x.ImportTaskId);
+
+                builder.ToTable("ImportErrors");
             });
         }
     }
