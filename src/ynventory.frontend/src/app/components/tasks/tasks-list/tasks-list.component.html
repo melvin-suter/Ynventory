@@ -1,0 +1,52 @@
+<h1>Tasks</h1>
+
+<div class="button-box">
+    <button pButton label="Add" icon="pi pi-plus" (click)="openAddModal()" iconPos="left" ></button>
+</div>
+
+<p-table [value]="tasks">
+    <ng-template pTemplate="header">
+        <tr>
+            <th pSortableColumn="id">ID</th>
+            <th pSortableColumn="fileName">Filename</th>
+            <th pSortableColumn="taskState">State</th>
+            <th pSortableColumn="importTaskType">Type</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-task>
+        <tr>
+            <td>{{ task.id }}</td>
+        </tr>
+    </ng-template>
+</p-table>
+
+
+<p-dialog header="Add Import Task" [(visible)]="showAddModal">
+    <div class="dialog-form">
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" pInputText readonly [(ngModel)]="newTask.fileName" />
+        </div>
+        <div class="form-group">
+            <label>Type</label>
+            <p-dropdown [options]="['DelverCSV']" [(ngModel)]="newTask.taskType"></p-dropdown>
+        </div>
+        <div class="form-group">
+            <label>Colleciton</label>
+            <p-dropdown [options]="collections" (onChange)="collectionSelected()" optionLabel="name" [(ngModel)]="selectedCollection"></p-dropdown>
+        </div>
+        <div class="form-group">
+            <label>Collection Item</label>
+            <p-dropdown [options]="collectionItems"  optionLabel="name" [(ngModel)]="selectedCollectionItem"></p-dropdown>
+        </div>
+        <div class="form-group">
+            <label>File</label>
+            <input type="file" (change)="fileChanged($event)">
+
+        </div>
+        <div class="button-group">
+            <button pButton label="Save" class="p-button-success" (click)="createTask()"></button>
+            <button pButton label="Cancel" class="p-button-outlined" (click)="showAddModal = false"></button>
+        </div>
+    </div>
+</p-dialog>

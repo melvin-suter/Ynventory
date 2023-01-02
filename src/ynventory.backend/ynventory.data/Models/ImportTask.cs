@@ -10,6 +10,8 @@ namespace Ynventory.Data.Models
         public ImportTaskType TaskType {get;set;}
         public Byte[] FileData {get;set;}
         public virtual ICollection<ImportError> ImportErrors { get; set; } = null!;
+        public DateTime createdAt {get;set;}
+        public DateTime finishedAt {get;set;}
 
         public int CollectionId { get; set; }
         public virtual Collection Collection { get; set; } = null!;

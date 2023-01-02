@@ -8,5 +8,7 @@ namespace Ynventory.Backend.Contracts.Responses
         public string FileName { get; set; }
         public ImportTaskType TaskType { get; set; }
         public ImportErrorResponse[] Errors {get;set;}
+        public DateTime createdAt {get;set;}
+        public DateTime finishedAt {get;set;}
     }
 }
