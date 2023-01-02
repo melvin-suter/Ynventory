@@ -20,6 +20,8 @@ export class FoldersMigrationComponent {
   collectionItemId:number = -1;
 
   // Left Table
+  left_collectionId:number = -1;
+  left_collectionItemId:number = -1;
   left_cardsObservable$?:Observable<CollectionItemModel[]>;
   left_refresh$ = new BehaviorSubject<number>(1);
   left_cards:CardModel[] = [];
@@ -31,6 +33,11 @@ export class FoldersMigrationComponent {
   right_cards:CardModel[] = [];
   right_cardsSelected:CardModel[] = [];
  
+<<<<<<< HEAD
+  // Misc
+  folderSelected:boolean = false;
+=======
+>>>>>>> preview
 
   // Tree
   treeData:TreeNode[] = [];
@@ -90,18 +97,65 @@ export class FoldersMigrationComponent {
   }
 
   nodeSelected(event:any){
+<<<<<<< HEAD
+    this.folderSelected = false;
+
+=======
+>>>>>>> preview
     // Load Data Left Size
     let node:TreeNode = event.node;
     if( node.children == undefined || node.children!.length == 0){ // Is a folder
       let item:CollectionItemModel = node.data;
       let collection:CollectionModel = node.parent?.data;
 
+<<<<<<< HEAD
+      this.left_collectionId = Number(collection!.id);
+      this.left_collectionItemId = item.id!;
+
+      this.loadLeftData();
+    }
+  }
+
+  loadLeftData(){
+    this.collectionService.getCollectionItemCards(this.left_collectionId, this.left_collectionItemId ).subscribe( (cards:CardModel[]) => {
+      this.left_cardsSelected = [];
+      this.left_cards = cards;
+      this.folderSelected = true;
+    });
+  }
+
+  moveLeft(){
+    let leftColItem = {collectionId: this.left_collectionId, collectionItemId: this.left_collectionItemId};
+    let rightColItem = { collectionId: this.collectionId, collectionItemId: this.collectionItemId };
+    this.right_cardsSelected.forEach( (card:CardModel) => {
+      this.collectionService.moveCollectionItemCard(card, rightColItem, leftColItem, () => {
+        // Reload Lists if call succeeded/failed
+        this.loadLeftData();
+        this.right_refresh$.next(2);
+      });
+
+    });
+  }
+
+  moveRight(){
+    let leftColItem = {collectionId: this.left_collectionId, collectionItemId: this.left_collectionItemId};
+    let rightColItem = { collectionId: this.collectionId, collectionItemId: this.collectionItemId };
+    this.right_cardsSelected.forEach( (card:CardModel) => {
+      this.collectionService.moveCollectionItemCard(card, leftColItem, rightColItem, () => {
+        // Reload Lists if call succeeded/failed
+        this.loadLeftData();
+        this.right_refresh$.next(2);
+      });
+
+    });
+=======
       this.collectionService.getCollectionItemCards(collection.id!, item.id!).subscribe( (cards:CardModel[]) => {
         this.left_cardsSelected = [];
         this.left_cards = cards;
       });
 
     }
+>>>>>>> preview
   }
 
 }

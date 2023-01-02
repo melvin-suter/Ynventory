@@ -11,11 +11,19 @@
     <div class="dialog-form">
         <div class="form-group">
             <label>Name</label>
-            <input type="text" pInputText readonly [(ngModel)]="modalData.name"/>
+            <input type="text" pInputText readonly value="{{ modalData.metadata?.name }}"/>
         </div>
         <div class="form-group">
-            <label>quantity</label>
+            <label>Quantity</label>
             <input type="text" pInputText [(ngModel)]="modalData.quantity"/>
+        </div>
+        <div class="form-group">
+            <label>Foil</label>
+            <p-dropdown [options]="['NonFoil','Foil','Edged']" [(ngModel)]="modalData.cardFinish" ></p-dropdown>
+        </div>
+        <div class="form-group checkbox">
+            <label>Is Commander</label>
+            <p-checkbox [binary]="true" [(ngModel)]="modalData.isCommander"></p-checkbox>
         </div>
         <div class="button-group">
             <button pButton label="Save" class="p-button-success" (click)="saveItem()"></button>

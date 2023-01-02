@@ -7,7 +7,10 @@
 
 
 <p-table [value]="collectionItems" 
-[(selection)]="selectedCollectionItems">
+    [(selection)]="selectedCollectionItems"
+    groupRowsBy="type"
+    rowGroupMode="subheader"
+>
     <ng-template pTemplate="header">
         <tr>
             <th style="width: 3rem">
@@ -16,6 +19,13 @@
             <th>Name</th>
             <th>Description</th>
             <th>Cards</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="groupheader" let-fol>
+        <tr pRowGroupHeader>
+            <td colspan="4" class="subheader">
+                <span class="font-bold ml-2">{{fol.type == "Deck" ? 'Decks' : 'Folders'}}</span>
+            </td>
         </tr>
     </ng-template>
     <ng-template pTemplate="body" let-fol>
@@ -37,6 +47,10 @@
             <input type="text" pInputText [(ngModel)]="modalData.name"/>
         </div>
         <div class="form-group">
+            <label>Foil</label>
+            <p-dropdown [options]="['Folder','Deck']" [(ngModel)]="modalData.type"></p-dropdown>
+        </div>
+        <div class="form-group">
             <label>Description</label>
             <input type="text" pInputText [(ngModel)]="modalData.description"/>
         </div>
@@ -54,6 +68,10 @@
             <input type="text" pInputText [(ngModel)]="modalData.name"/>
         </div>
         <div class="form-group">
+            <label>Foil</label>
+            <p-dropdown [options]="['Folder','Deck']" [(ngModel)]="modalData.type"></p-dropdown>
+        </div>
+        <div class="form-group">
             <label>Description</label>
             <input type="text" pInputText [(ngModel)]="modalData.description"/>
         </div>
@@ -66,8 +84,13 @@
 
 <p-dialog header="Delete Folder" [(visible)]="showDeleteModal">
     <div class="dialog-form">
+<<<<<<< HEAD
+        <div class="modal-text" *ngIf="selectedCollectionItems.length > 1">Delete {{ selectedCollectionItems.length }} Collection Items?</div>
+        <div class="modal-text" *ngIf="selectedCollectionItems.length == 1">Delete Collection Item "{{ selectedCollectionItems[0].name }}"?</div>
+=======
         <div class="modal-text" *ngIf="selectedCollectionItems.length > 1">Delete {{ selectedCollectionItems.length }} Folders?</div>
         <div class="modal-text" *ngIf="selectedCollectionItems.length == 1">Delete Folder "{{ selectedCollectionItems[0].name }}"?</div>
+>>>>>>> preview
         <div class="button-group">
             <button pButton label="Yes" class="p-button-danger" (click)="deleteItem()"></button>
             <button pButton label="No" class="p-button-outlined" (click)="showDeleteModal = false"></button>

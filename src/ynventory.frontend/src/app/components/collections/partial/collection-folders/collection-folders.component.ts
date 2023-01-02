@@ -31,6 +31,7 @@ export class CollectionFoldersComponent  {
   modalData:CollectionItemModel = {};
   modalDataDelete:CollectionItemModel[] = [];
 
+  
   constructor(private collectionService:CollectionService,private route: ActivatedRoute) { 
 
     this.route.params.subscribe(params => {

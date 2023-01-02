@@ -4,7 +4,7 @@ import { CardModel } from 'src/app/models/card.model';
 import { CollectionModel } from 'src/app/models/collection.model';
 import { CollectionItemModel } from 'src/app/models/collectionItem.model';
 import { FolderModel } from 'src/app/models/folder.model';
-import { CardService } from 'src/app/services/card.service';
+
 import { CollectionService } from 'src/app/services/collection.service';
 import { ScryfallService } from 'src/app/services/scryfall.service';
 
@@ -28,11 +28,12 @@ export class CollectionCardsComponent implements OnInit {
 
   modalData:CardModel = new CardModel();
   newFolder:FolderModel = new FolderModel();
+  modalDataDelete:CardModel[] = [];
 
   getImageUrl = CardModel.getImageUrl;
 
   
-  constructor(private collectionService: CollectionService, private cardService: CardService, private route: ActivatedRoute, private scryfallService:ScryfallService) { 
+  constructor(private collectionService: CollectionService,  private route: ActivatedRoute, private scryfallService:ScryfallService) { 
     this.route.params.subscribe(params => {
       this.collectionId = params['colid'];
 
@@ -40,43 +41,29 @@ export class CollectionCardsComponent implements OnInit {
         this.collection = data;
       });
 
-      collectionService.getCollectionItems(this.collectionId).subscribe( (colItems:CollectionItemModel[]) => {
-        this.cards = [];
+      this.loadData();      
+    });
+  }
 
-        colItems.forEach( (colItem:CollectionItemModel) => {
-          collectionService.getCollectionItemCards(this.collectionId, colItem.id!).subscribe( (colCards:CardModel[]) => {
-            this.cards = this.cards.concat(colCards);
-          });
+  loadData() {
+    this.collectionService.getCollectionItems(this.collectionId).subscribe( (colItems:CollectionItemModel[]) => {
+      this.cards = [];
+      this.selectedCards = [];
+
+      colItems.forEach( (colItem:CollectionItemModel) => {
+        this.collectionService.getCollectionItemCards(this.collectionId, colItem.id!).subscribe( (colCards:CardModel[]) => {
+          this.cards = this.cards.concat(colCards);
         });
       });
-
-       collectionService.getCollectionItems(this.collectionId).subscribe( (colItems:CollectionItemModel[]) => {
-        this.collectionItems = colItems;
-       });
     });
+
+     this.collectionService.getCollectionItems(this.collectionId).subscribe( (colItems:CollectionItemModel[]) => {
+      this.collectionItems = colItems;
+     });
   }
 
 
   ngOnInit(): void {
-  }
-
-  createItem(){
-    this.showAddModal = false;
-  }
-
-  openEditModal(){
-    this.modalData = this.selectedCards[0];
-    // TODO: Set FOlder name here 
-    //  this.newFolder = this.selectedCards[0].folderID;
-    this.showEditModal = true;
-  }
-
-  saveItem(){
-    this.showEditModal = false;
-  }
-
-  deleteItem(){
-    this.showDeleteModal = false;
   }
 
 

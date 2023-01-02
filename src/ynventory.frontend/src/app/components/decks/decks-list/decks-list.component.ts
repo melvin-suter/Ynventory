@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DeckModel } from 'src/app/models/deck.model';
-import { DeckService } from 'src/app/services/deck.service';
+
 
 
 @Component({
@@ -11,7 +11,7 @@ import { DeckService } from 'src/app/services/deck.service';
 export class DecksListComponent implements OnInit {
 
 
-  decks:DeckModel[];
+  decks:DeckModel[] = [];
   selectedDecks:DeckModel[] = [];
 
   showAddModal:boolean = false;
@@ -20,8 +20,8 @@ export class DecksListComponent implements OnInit {
 
   modalData:DeckModel = new DeckModel();
 
-  constructor(private deckService:DeckService) { 
-    this.decks = deckService.getDecks();
+  constructor() { 
+    //this.decks = deckService.getDecks();
   }
 
   ngOnInit(): void {

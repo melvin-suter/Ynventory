@@ -18,12 +18,12 @@ import { AppLayoutComponent } from './components/layout/app-layout/app-layout.co
 
 /******************
  *    Partials
-import { NavbarItemComponent } from './components/partials/navbar-item/navbar-item.component';
  ******************/
 import { NavbarComponent } from './components/partials/navbar/navbar.component';
 import { NavbarItemComponent } from './components/partials/navbar-item/navbar-item.component';
 import { ImageViewerComponent } from './components/partials/image-viewer/image-viewer.component';
 import { CardSearchComponent } from './components/partials/card-search/card-search.component';
+import { CardStatsComponent } from './components/partials/card-stats/card-stats.component';
 
 
 /******************
@@ -68,9 +68,14 @@ import { AccordionModule } from 'primeng/accordion';
 import { SliderModule } from 'primeng/slider';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { TreeModule } from 'primeng/tree';
-import { TreeNode } from 'primeng/api';
 import { LegalityIconComponent } from './components/partials/legality-icon/legality-icon.component';
+import { ToastModule } from 'primeng/toast';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { MultiSelectModule } from 'primeng/multiselect';
+
+// Pipes
 import { CardColorReplacePipe } from './pipes/card-color-replace.pipe';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -84,6 +89,13 @@ import { CardColorReplacePipe } from './pipes/card-color-replace.pipe';
     NavbarComponent,
     ImageViewerComponent,
     NavbarItemComponent,
+    LegalityIconComponent,
+    GridComponent,
+    CardStatsComponent,
+
+    // Pipes
+    CardColorReplacePipe,
+
     
     // Pages
     DashboardComponent,
@@ -99,7 +111,6 @@ import { CardColorReplacePipe } from './pipes/card-color-replace.pipe';
     CardsListComponent,
     CardsViewComponent,
     CardsTableComponent,
-    GridComponent,
     FoldersMigrationComponent,
     FoldersCardsListComponent,
     LegalityIconComponent,
@@ -132,9 +143,15 @@ import { CardColorReplacePipe } from './pipes/card-color-replace.pipe';
     SliderModule,
     OverlayPanelModule,
     TreeModule,
+    ToastModule,
+    InputTextareaModule,
+    MultiSelectModule,
+    
     
   ],
-  providers: [],
+  providers: [
+    MessageService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

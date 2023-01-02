@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CardModel } from 'src/app/models/card.model';
 import { DeckModel } from 'src/app/models/deck.model';
-import { CardService } from 'src/app/services/card.service';
-import { DeckService } from 'src/app/services/deck.service';
+
+
 import { ScryfallService } from 'src/app/services/scryfall.service';
 
 
@@ -33,7 +33,7 @@ export class DecksViewComponent implements OnInit {
       }
     }
   }
-  constructor(private deckService: DeckService, private cardService: CardService, private route: ActivatedRoute, private scryfallService:ScryfallService) { 
+  constructor(private route: ActivatedRoute, private scryfallService:ScryfallService) { 
     this.chartColorDistribution = {
       labels: ['White','Red','Green', 'Blue', 'Black'],
       datasets: [
@@ -73,7 +73,7 @@ export class DecksViewComponent implements OnInit {
     };
 
     this.route.params.subscribe(params => {
-      this.deck = deckService.getDeck(params['id']);
+      //this.deck = deckService.getDeck(params['id']);
       //this.cards = cardService.getCards(params['id']);
     });
 

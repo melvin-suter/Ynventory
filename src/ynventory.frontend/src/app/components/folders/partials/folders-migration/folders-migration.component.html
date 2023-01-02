@@ -11,8 +11,8 @@
         </div>
     </div>
     <div class="grid-tile tile-20 tile-sm-100">
-        <button pButton label="<"></button>
-        <button pButton label=">"></button>
+        <button pButton label="<" [disabled]="!folderSelected || right_cardsSelected.length == 0" (click)="moveLeft()"></button>
+        <button pButton label=">" [disabled]="!folderSelected || left_cardsSelected.length == 0" (click)="moveRight()"></button>
     </div>
     <div class="grid-tile tile-40">
         <div class="card-list">

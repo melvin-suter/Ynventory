@@ -102,6 +102,13 @@
                     }
                 }
             }
+
+            &.chart {
+                .dashboard-value {
+                    padding: 1rem;
+                    padding-bottom: 3rem;
+                }
+            }
         }
     }
 }
