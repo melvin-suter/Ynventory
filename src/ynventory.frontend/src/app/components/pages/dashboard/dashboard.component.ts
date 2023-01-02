@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { CardModel } from 'src/app/models/card.model';
 import { CollectionModel } from 'src/app/models/collection.model';
 import { CollectionItemModel } from 'src/app/models/collectionItem.model';
+import { DeckModel } from 'src/app/models/deck.model';
 import { CollectionService } from 'src/app/services/collection.service';
+import { DeckService } from 'src/app/services/deck.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,7 +16,7 @@ export class DashboardComponent implements OnInit {
   stats_totalDecks:number = 0;
   stats_totalCards:number = 0;
   stats_totalFolders:number = 0;
-  stats_totalVirtualDecks:number = 10;
+  stats_totalVirtualDecks:number = 0;
   stats_chartColorDistribution = {
     labels: ['White','Red','Green', 'Blue', 'Black', 'Neutral'],
     datasets: [
@@ -56,7 +58,12 @@ export class DashboardComponent implements OnInit {
     }
   };
 
-  constructor(private collectionService: CollectionService) {
+  constructor(private collectionService: CollectionService, private deckService: DeckService) {
+
+    this.deckService.getDecks().subscribe( (decks:DeckModel[]) => {
+      this.stats_totalVirtualDecks = decks.length;
+    });
+
     // Reset Chart
     this.stats_chartColorDistribution.datasets[0].data.forEach( (val:number, index:number) => this.stats_chartColorDistribution.datasets[0].data[index] = 0);
 
