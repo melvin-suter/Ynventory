@@ -60,7 +60,7 @@ namespace Ynventory.Backend.ServiceImplementations.Import
                 _ => throw new InvalidDataException(),
             };
 
-            await import.Run(task);
+            await import.Run(task.Id);
 
             return ToResponse(task);
         }
