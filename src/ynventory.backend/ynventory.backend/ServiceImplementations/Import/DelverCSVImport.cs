@@ -42,29 +42,34 @@ namespace Ynventory.Backend.ServiceImplementations.Import
                         quanity = Convert.ToInt32(csvReader.GetField<string>("QuantityX").ToLower().Replace("x",""));
                     }
 
+                    var finish = CardFinish.NonFoil;
+                    if(csvReader.GetField("Foil").Trim() != ""){
+                        finish = Enum.Parse<CardFinish>(csvReader.GetField("Foil")!);
+                    }
+                    
+
                     await collectionService.CreateCard(task.CollectionItem.CollectionId, task.CollectionItemId, new CardCreateRequest
                     {
                         CardMetadataId = csvReader.GetField<Guid>("Scryfall ID"),
                         Quantity = quanity,
-                        CardFinish = Enum.Parse<CardFinish>(csvReader.GetField("Foil")!),
+                        CardFinish = finish,
                         IsCommander = false
                     });
                 }
                 catch (Exception ex)
                 {
-                    var errorData = "";
                     var errorDataBuilder = new StringBuilder();
                     for (var i = 0; csvReader.TryGetField<string>(i, out var value); i++)
                     {
-                        errorData += value + ", ";
-                        //errorDataBuilder.Append(value);
-                        //errorDataBuilder.Append(", ");
+                        //errorData += value + ", ";
+                        errorDataBuilder.Append(value);
+                        errorDataBuilder.Append(", ");
                     }
 
                     context.ImportErrors.Add(new ImportError
                     {
                         Error = ex.Message,
-                        ErrorData = errorData, // errorDataBuilder.ToString(),
+                        ErrorData = errorDataBuilder.ToString(),
                         ImportTaskId = task.Id,
                     });
                     result = false;
@@ -73,8 +78,6 @@ namespace Ynventory.Backend.ServiceImplementations.Import
 
             task.TaskState = result ? ImportTaskState.Successfull : ImportTaskState.Failed;
             task.finishedAt = DateTime.UtcNow;
-
-            context.Attach<ImportTask>(task);
 
             await context.SaveChangesAsync();
         }
