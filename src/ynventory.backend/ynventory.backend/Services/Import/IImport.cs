@@ -5,6 +5,6 @@ namespace Ynventory.Backend.Services.Import
 {
     public interface IImport
     {
-        public Task Run(ImportTask task);
+        public Task Run(int taskId);
     }
 }
