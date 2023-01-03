@@ -52,18 +52,19 @@ namespace Ynventory.Backend.ServiceImplementations.Import
                 }
                 catch (Exception ex)
                 {
+                    var errorData = "";
                     var errorDataBuilder = new StringBuilder();
                     for (var i = 0; csvReader.TryGetField<string>(i, out var value); i++)
                     {
-                        //errorData += value + ", ";
-                        errorDataBuilder.Append(value);
-                        errorDataBuilder.Append(", ");
+                        errorData += value + ", ";
+                        //errorDataBuilder.Append(value);
+                        //errorDataBuilder.Append(", ");
                     }
 
                     context.ImportErrors.Add(new ImportError
                     {
                         Error = ex.Message,
-                        ErrorData = errorDataBuilder.ToString(),
+                        ErrorData = errorData, // errorDataBuilder.ToString(),
                         ImportTaskId = task.Id,
                     });
                     result = false;
@@ -72,6 +73,8 @@ namespace Ynventory.Backend.ServiceImplementations.Import
 
             task.TaskState = result ? ImportTaskState.Successfull : ImportTaskState.Failed;
             task.finishedAt = DateTime.UtcNow;
+
+            context.Attach<ImportTask>(task);
 
             await context.SaveChangesAsync();
         }
