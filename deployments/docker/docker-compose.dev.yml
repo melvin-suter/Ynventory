@@ -15,22 +15,24 @@ services:
     - ./ynventory-postgresql:/var/lib/postgresql/data
 
   ynventory-backend:
-    image: "suterdev/ynventory.backend"
+    image: "suterdev/ynventory.backend:preview"
     restart: always
+    expose:
+    - "5000"
     environment:
     - POSTGRES_HOST=ynventory-postgresql
     - POSTGRES_DB=ynventory
     - POSTGRES_USER=ynventory
     - POSTGRES_PASSWORD=YNVENTORYPASSWORD
     ports:
-    - "5192:80"
+    - "5192:5000"
     depends_on:
     - ynventory-postgresql
     links:
       - "ynventory-postgresql:ynventory-postgresql"
 
   ynventory-frontend:
-    image: "suterdev/ynventory.frontend"
+    image: "suterdev/ynventory.frontend:preview"
     restart: always
     depends_on:
     - ynventory-backend

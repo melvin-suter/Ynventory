@@ -36,10 +36,15 @@ namespace Ynventory.Backend.ServiceImplementations.Import
             {
                 try
                 {
+                    var quanity = 0;
+                    if(!csvReader.TryGetField<int>("Quantity",out quanity)){
+                        quanity = Convert.ToInt32(csvReader.GetField<string>("QuantityX").ToLower().Replace("x",""));
+                    }
+
                     await collectionService.CreateCard(task.CollectionItem.CollectionId, task.CollectionItemId, new CardCreateRequest
                     {
                         CardMetadataId = csvReader.GetField<Guid>("Scryfall ID"),
-                        Quantity = csvReader.GetField<int>("Quantity"),
+                        Quantity = quanity,
                         CardFinish = Enum.Parse<CardFinish>(csvReader.GetField("Foil")!),
                         IsCommander = false
                     });
