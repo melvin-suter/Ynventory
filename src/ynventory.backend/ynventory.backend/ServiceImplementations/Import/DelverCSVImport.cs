@@ -19,12 +19,13 @@ namespace Ynventory.Backend.ServiceImplementations.Import
             _provider = serviceProvider;
         }
 
-        public async Task Run(ImportTask task)
+        public async Task Run(int taskId)
         {
             using var scope = _provider.CreateScope();
             var collectionService = scope.ServiceProvider.GetRequiredService<ICollectionService>();
             var context = scope.ServiceProvider.GetRequiredService<YnventoryDbContext>();
 
+            var task = await context.ImportTasks.FindAsync(taskId);
             using var reader = new StringReader(Encoding.Default.GetString(task.FileData));
             using var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
             var result = true;
